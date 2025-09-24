@@ -1,4 +1,4 @@
-# Projeto: Locadora de Veículos
+# Projeto: Locadora de Veículos - (UrbanMove) 🚗
 
 Disciplina: **Tópicos Especiais em TI – TypeScript Fullstack (2025.02)**
 
@@ -44,3 +44,25 @@ Disciplina: **Tópicos Especiais em TI – TypeScript Fullstack (2025.02)**
 3. Banco de dados estruturado com PostgreSQL.
 
 ---
+
+## ⚙ Instalação de Dependências
+
+- Versão do NodeJS: *v22.20.0 (LTS)*
+
+
+### 1. Instalação do Typescript:
+```bash
+npm install -g typescript ts-node
+```
+### 2. Instalação do Express:
+```bash
+npm install express
+```
+### 3. Instalação das Dependências de Dev:
+```bash
+npm install --save-dev typescript @types/express @types/node ts-node nodemon
+```
+### 4. Instalação do Prisma:
+```bash
+npm install prisma
+```
