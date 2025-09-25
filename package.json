@@ -4,8 +4,11 @@
   "description": "Disciplina: **Tópicos Especiais em TI – TypeScript Fullstack (2025.02)**",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "build": "tsc",
+  "start": "node dist/index.js",
+  "dev": "nodemon src/index.ts"
   },
+
   "repository": {
     "type": "git",
     "url": "git+https://github.com/luccasena/Locadora-Veiculos.git"
