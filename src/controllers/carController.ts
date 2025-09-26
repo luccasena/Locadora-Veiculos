@@ -1,6 +1,6 @@
 import {Request, Response} from "express";
-import carsService from "../services/carsService";
-import { Cars } from "../generated/prisma";
+import carsService from "../services/carService";
+import { Car } from "../generated/prisma";
 
 // Para evitar repetição, podemos definir um tipo para os dados do carro
 type CarData = {
@@ -16,18 +16,18 @@ const carsController = {
 
     async createCar(req: Request, res: Response): Promise<void>{
         const carData: CarData = req.body;
-        const newCar: Cars = await carsService.createCar(carData);
+        const newCar: Car = await carsService.createCar(carData);
         res.status(201).json(newCar);
     },
 
     async getCars(req: Request, res: Response): Promise<void>{
-        const cars: Cars[] = await carsService.getCars();
+        const cars: Car[] = await carsService.getCar();
         res.status(200).json(cars);
     },
     async getCarsId(req: Request, res: Response): Promise<void>{
         const id: number = parseInt(req.params.id,10);
 
-        const car: Cars | null = await carsService.getCarId(id);
+        const car: Car | null = await carsService.getCarId(id);
         if (!car) {
             res.status(404).json({ message: "Carro não encontrado" });
             return;
