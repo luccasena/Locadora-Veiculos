@@ -1,10 +1,10 @@
-import express from "express";
+import { Router } from "express";
 import carsController from "../controllers/carController";
 
-const router = express.Router();
+const router = Router();
  
-router.get("/:id", carsController.getCarsId);
 router.get("/", carsController.getCars);
+router.get("/:id", carsController.getCarsId);
 router.post("/", carsController.createCar);
 router.delete("/:id", carsController.deleteCar);
 router.put("/:id", carsController.update);

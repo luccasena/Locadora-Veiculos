@@ -3,10 +3,10 @@ import contractController from "../controllers/contractController";
 
 const router = Router();
 
-router.get("/contracts", contractController.getContracts);
-router.get("/contracts/:id", contractController.getContractById);
-router.post("/contracts", contractController.createContract);
-router.delete("/contracts/:id", contractController.deleteContract);
-router.put("/contracts/:id", contractController.updateContract);
+router.get("/", contractController.getContracts);
+router.get("/:id", contractController.getContractById);
+router.post("/", contractController.createContract);
+router.delete("/:id", contractController.deleteContract);
+router.put("/:id", contractController.updateContract);
 
 export default router;

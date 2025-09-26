@@ -1,4 +1,4 @@
-import express from "express";
+import { Router } from "express";
 import { 
   GetAllClient, 
   GetClientByID, 
@@ -7,7 +7,7 @@ import {
   DeleteClient 
 } from "../controllers/clientController";
 
-const router = express.Router();
+const router = Router();
 
 router.get("/:id",GetClientByID );
 router.get("/",GetAllClient );
