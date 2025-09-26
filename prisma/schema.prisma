@@ -14,23 +14,37 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Client{
-  id Int @id @default(autoincrement())
-  name String
-  lastname String?
-  email String @unique
-  createdAt DateTime  @default(now()) 
-  updatedAt DateTime  @updatedAt
+model Client {
+  id        Int        @id @default(autoincrement())
+  name      String
+  lastname  String?
+  email     String     @unique
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  Contract  Contract[]
 }
 
-model Cars{
-  id Int @id @default(autoincrement())
-  carBrand String 
-  carName String
+model Car {
+  id          Int        @id @default(autoincrement())
+  carBrand    String
+  carName     String
   carCategory String
-  fuelType String
-  Year Int
-  Price Float
-  createdAt DateTime  @default(now()) 
-  updatedAt DateTime  @updatedAt
+  fuelType    String
+  Year        Int
+  Price       Float
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  Contract    Contract[]
+}
+
+model Contract {
+  id        Int      @id @default(autoincrement())
+  StartDate DateTime
+  EndDate   DateTime
+
+  idCar Int
+  car   Car @relation(fields: [idCar], references: [id])
+
+  idClient Int
+  client   Client @relation(fields: [idClient], references: [id])
 }
