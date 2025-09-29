@@ -17,7 +17,7 @@ const port = 3000;
 
 app.use(express.json());
 
-app.use("/clientes/", clienteRoutes);
+app.use("/clientes/",clienteRoutes);
 app.use("/carros/", carsRoutes);
 app.use("/contratos/", contractRouters)
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
