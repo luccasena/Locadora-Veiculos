@@ -56,8 +56,10 @@ const contractController = {
         try{
             await contractService.deleteContract(id);
             res.status(200).json({ message: "Contrato deletado com sucesso" });
+
         }catch(error){
             res.status(404).json({ message: "Contrato não encontrado", error });
+            
         }
 
     },

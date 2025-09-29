@@ -1,0 +1,261 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Locadora de Veículos API",
+    "version": "1.0.0",
+    "description": "API para gerenciamento de Clientes, Carros e Contratos"
+  },
+  "paths": {
+    "/carros": {
+      "get": {
+        "summary": "Listar todos os carros",
+        "tags": ["Car"],
+        "responses": {
+          "200": {
+            "description": "Lista de carros",
+            "content": {
+              "application/json": {
+                "schema": { "type": "array", "items": { "$ref": "#/components/schemas/Car" } }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Criar um novo carro",
+        "tags": ["Car"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/CarCreate" } }
+          }
+        },
+        "responses": { "201": { "description": "Carro criado com sucesso" } }
+      }
+    },
+    "/carros/{id}": {
+      "get": {
+        "summary": "Buscar carro por ID",
+        "tags": ["Car"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "Carro encontrado", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Car" } } } },
+          "404": { "description": "Carro não encontrado" }
+        }
+      },
+      "put": {
+        "summary": "Atualizar carro por ID",
+        "tags": ["Car"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/CarCreate" } } }
+        },
+        "responses": { "200": { "description": "Carro atualizado" } }
+      },
+      "delete": {
+        "summary": "Deletar carro por ID",
+        "tags": ["Car"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": { "204": { "description": "Carro deletado" } }
+      }
+    },
+    "/clientes": {
+      "get": {
+        "summary": "Listar todos os clientes",
+        "tags": ["Client"],
+        "responses": {
+          "200": {
+            "description": "Lista de clientes",
+            "content": {
+              "application/json": {
+                "schema": { "type": "array", "items": { "$ref": "#/components/schemas/ClientCreate" } }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Criar um novo cliente",
+        "tags": ["Client"],
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ClientCreate" } } }
+        },
+        "responses": { "201": { "description": "Cliente criado" } }
+      }
+    },
+    "/clientes/{id}": {
+      "get": {
+        "summary": "Buscar cliente por ID",
+        "tags": ["Client"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "Cliente encontrado", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Client" } } } },
+          "404": { "description": "Cliente não encontrado" }
+        }
+      },
+      "put": {
+        "summary": "Atualizar cliente",
+        "tags": ["Client"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ClientCreate" } } }
+        },
+        "responses": { "200": { "description": "Cliente atualizado" } }
+      },
+      "delete": {
+        "summary": "Deletar cliente",
+        "tags": ["Client"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": { "204": { "description": "Cliente deletado" } }
+      }
+    },
+    "/contratos": {
+      "get": {
+        "summary": "Listar todos os contratos",
+        "tags": ["Contract"],
+        "responses": {
+          "200": {
+            "description": "Lista de contratos",
+            "content": {
+              "application/json": {
+                "schema": { "type": "array", "items": { "$ref": "#/components/schemas/Contract" } }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Criar novo contrato",
+        "tags": ["Contract"],
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ContractCreate" } } }
+        },
+        "responses": { "201": { "description": "Contrato criado" } }
+      }
+    },
+    "/contratos/{id}": {
+      "get": {
+        "summary": "Buscar contrato por ID",
+        "tags": ["Contract"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "Contrato encontrado", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Contract" } } } },
+          "404": { "description": "Contrato não encontrado" }
+        }
+      },
+      "put": {
+        "summary": "Atualizar contrato",
+        "tags": ["Contract"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ContractCreate" } } }
+        },
+        "responses": { "200": { "description": "Contrato atualizado" } }
+      },
+      "delete": {
+        "summary": "Deletar contrato",
+        "tags": ["Contract"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": { "204": { "description": "Contrato deletado" } }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Client": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "name": { "type": "string" },
+          "lastname": { "type": "string", "nullable": true },
+          "email": { "type": "string", "format": "email" },
+          "createdAt": { "type": "string", "format": "date-time" },
+          "updatedAt": { "type": "string", "format": "date-time" }
+        }
+      },
+      "ClientCreate": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "name": { "type": "string" },
+          "lastname": { "type": "string", "nullable": true },
+          "email": { "type": "string", "format": "email" }
+        },
+        "required": ["name", "email"]
+      },
+      "Car": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "carBrand": { "type": "string" },
+          "carName": { "type": "string" },
+          "carCategory": { "type": "string" },
+          "fuelType": { "type": "string" },
+          "Year": { "type": "integer" },
+          "Price": { "type": "number", "format": "float" },
+          "createdAt": { "type": "string", "format": "date-time" },
+          "updatedAt": { "type": "string", "format": "date-time" }
+        }
+      },
+      "CarCreate":{
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "carBrand": { "type": "string" },
+          "carName": { "type": "string" },
+          "carCategory": { "type": "string" },
+          "fuelType": { "type": "string" },
+          "Year": { "type": "integer" },
+          "Price": { "type": "number", "format": "float" }
+        },
+        "required": ["carBrand", "carName", "carCategory", "fuelType", "Year", "Price"]
+      },
+      "Contract": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "StartDate": { "type": "string", "format": "date-time" },
+          "EndDate": { "type": "string", "format": "date-time" },
+          "idCar": { "type": "integer" },
+          "idClient": { "type": "integer" },
+          "createdAt": { "type": "string", "format": "date-time" },
+          "updatedAt": { "type": "string", "format": "date-time" }
+        }
+        
+      },
+      "ContractCreate": {
+          "type": "object",
+          "properties": {
+            "StartDate": { "type": "string", "format": "date-time" },
+            "EndDate": { "type": "string", "format": "date-time" },
+            "idCar": { "type": "integer" },
+            "idClient": { "type": "integer" }
+          },
+          "required": ["StartDate", "EndDate", "idCar", "idClient"]
+        }
+    }
+  }
+}

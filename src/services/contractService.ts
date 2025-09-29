@@ -7,7 +7,11 @@ const contractService = {
     },
 
     async getContractById(id: number): Promise<Contract | null>{
-            return prisma.contract.findUnique({where:{id}});
+            return prisma.contract.findUnique(
+                {where:{ id },
+                include: { client: true, car: true }}
+            );
+            
     },
 
     async createContract(data: { StartDate: Date; EndDate: Date; idClient: number; idCar: number}): Promise<Contract>{
