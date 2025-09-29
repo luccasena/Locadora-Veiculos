@@ -27,15 +27,15 @@ const contractController = {
     },
 
     async createContract(req: Request, res: Response): Promise<void>{
-        const { id, StartDate, EndDate, idClient, idCar } = req.body;
+        const {  StartDate, EndDate, idClient, idCar } = req.body;
 
-        if(!id || !StartDate || !EndDate || !idClient || !idCar){
+        if( !StartDate || !EndDate || !idClient || !idCar){
             res.status(400).json({ message: "Todos os campos são obrigatórios" });
             return;
         }
 
         try{
-            const newContract: Contract = await contractService.createContract({ id, StartDate: new Date(StartDate), EndDate: new Date(EndDate), idClient, idCar });
+            const newContract: Contract = await contractService.createContract({  StartDate: new Date(StartDate), EndDate: new Date(EndDate), idClient, idCar });
             res.status(201).json(newContract);
 
         }catch(error){

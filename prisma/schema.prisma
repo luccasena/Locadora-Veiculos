@@ -38,13 +38,16 @@ model Car {
 }
 
 model Contract {
-  id        Int      @id @default(autoincrement())
-  StartDate DateTime
-  EndDate   DateTime
+  id        Int         @id @default(autoincrement())
+  StartDate DateTime 
+  EndDate   DateTime 
 
-  idCar Int
-  car   Car @relation(fields: [idCar], references: [id])
+  idCar     Int
+  car       Car         @relation(fields: [idCar], references: [id])
 
-  idClient Int
-  client   Client @relation(fields: [idClient], references: [id])
+  idClient  Int
+  client    Client      @relation(fields: [idClient], references: [id])
+
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
 }
