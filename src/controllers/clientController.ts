@@ -1,6 +1,7 @@
 import prisma from "../db/prisma"
 import { Request, Response } from 'express';
 import clientService, { clientBodyData } from "../services/clientService"
+import { clientSchema } from "./zod-validation/schemaValidate"
 
 const clientController = {
 
@@ -22,29 +23,26 @@ const clientController = {
 
     async CreateClient(req:Request, res:Response):Promise<void>{
         const body: clientBodyData = req.body;
-        if(body.email == undefined){
-            res.status(400).json({ message: "Campo Email tem que ser inserido" })
+        clientSchema.parse(body)
+        try{
+           const client = await clientService.CreateClient(body)
+            res.status(201).json({message: "Cliente adicionado com sucesso!", cliente: client });
+
+        }catch(error){
+            res.status(400).json({ message: "Algo deu errado durante a criacao do cliente"});
         }
-        else if(body.name == undefined){
-            res.status(400).json({ message: "Campo name tem que ser inserido" })
-        }
-        const client = await clientService.CreateClient(body)
-        if(client){
-            res.status(201).json({ message: "Cliente adicionado com sucesso!", cliente: client });
-        }
-        res.status(400).json({ message: "Algo deu errado durante a criacao do cliente"});
     },
 
 
     async DeleteClient(req:Request, res:Response):Promise<void>{
         const  id:number = parseInt(req.params.id);
-        const deletedClient = await clientService.DeleteClient(id);
-        if(deletedClient){
+        try{
+            const deletedClient = await clientService.DeleteClient(id);
             res.status(200).json({ message: "Usuário excluído!" })
-        };
-        res.status(400).json({ message: "Usuário excluído!"})
+        }catch(error){
+            res.status(400).json({ message: "Algo deu errado!"})
+        }
     },
-
 
     async UpdateClient(req:Request, res:Response):Promise<void> {
         const id = parseInt(req.params.id);
@@ -59,7 +57,6 @@ const clientController = {
 
         res.status(400).json({ message: "Algo deu errado durante a atualizacao dos dados do cliente"});
     },
-
 
 }
 export default clientController;

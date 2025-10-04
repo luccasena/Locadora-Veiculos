@@ -1,6 +1,7 @@
 import {Request, Response} from "express";
 import carsService from "../services/carService";
 import { Car } from "../generated/prisma";
+import { carSchema } from "./zod-validation/schemaValidate"
 
 // Para evitar repetição, podemos definir um tipo para os dados do carro
 type CarData = {
@@ -16,6 +17,7 @@ const carsController = {
 
     async createCar(req: Request, res: Response): Promise<void>{
         const carData: CarData = req.body;
+        carSchema.parse(carData)
         const newCar: Car = await carsService.createCar(carData);
         res.status(201).json(newCar);
     },
