@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import contractService from "../services/contractService";
 import { Contract } from "../generated/prisma";
+import { contractSchema } from "./zod-validation/schemaValidate"
 
 const contractController = {
     async getContracts(req: Request, res: Response): Promise<void>{
@@ -27,6 +28,7 @@ const contractController = {
     },
 
     async createContract(req: Request, res: Response): Promise<void>{
+        contractSchema.parse(req.body)
         const {  StartDate, EndDate, idClient, idCar } = req.body;
 
         if( !StartDate || !EndDate || !idClient || !idCar){
