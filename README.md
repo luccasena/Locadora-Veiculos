@@ -39,9 +39,8 @@ Disciplina: **Tópicos Especiais em TI – TypeScript Fullstack (2025.02)**
 
 ## 🚀 Entregáveis
 
-1. API documentada (Swagger ou equivalente).
-2. Interface web funcional.
-3. Banco de dados estruturado com PostgreSQL.
+1. API documentada (Swagger).
+2. Banco de dados estruturado com PostgreSQL.
 
 ---
 
@@ -65,4 +64,12 @@ npm install --save-dev typescript @types/express @types/node ts-node nodemon
 ### 4. Instalação do Prisma:
 ```bash
 npm install prisma
+```
+### 5. Instalação do Swagger (Documentações):
+```bash
+npm install swagger-ui-express
+```
+### 5. Instalação do Zod (Validações):
+```bash
+npm install zod
 ```
