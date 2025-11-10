@@ -9,6 +9,7 @@ Disciplina: **Tópicos Especiais em TI – TypeScript Fullstack (2025.02)**
  - [Leonardo Lucas de Brito Silva](https://github.com/leonardolucasbs)
  - [Lucca de Sena Barbosa](https://github.com/luccasena)
  - [Maximus Feitoza Lira Cunha](https://github.com/MaxFeitoza)
+ - [Cauã Augusto Machado de Negreiros](https://github.com/cauaaugustow)
 
 ---
 
