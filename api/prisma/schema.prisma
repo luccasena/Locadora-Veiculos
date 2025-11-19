@@ -53,6 +53,7 @@ model Admin {
 model Client {
   id        Int        @id @default(autoincrement())
   cpf       String     @unique
+  email     String     @unique
   name      String
   lastname  String?
   phone     String 
