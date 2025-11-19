@@ -4,6 +4,9 @@ import { Client } from '../generated/prisma/';
 
 export type clientBodyData = {
     name: string;
+    cpf: string;
+    password: string;
+    phone: string;
     lastname?: string
     email: string;
 }
