@@ -1,7 +1,7 @@
 import express from "express";
 
 import clienteRoutes from "./routes/clientRoutes";
-
+import loginRoutes from "./routes/loginRoutes";
 import carsRoutes from "./routes/carRoutes";
 import contractRouters from "./routes/contractRoutes";
 
@@ -19,7 +19,9 @@ app.use(express.json());
 
 app.use("/clientes/",clienteRoutes);
 app.use("/carros/", carsRoutes);
-app.use("/contratos/", contractRouters)
+app.use("/contratos/", contractRouters);
+app.use("/login/", loginRoutes)
+
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.listen(port, () => {
