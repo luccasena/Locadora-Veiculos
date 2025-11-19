@@ -1,11 +1,11 @@
 import React from "react";
 import "./globals.css";
-import {Login} from "../components/Login";
+import { HomePage } from "@/components/HomePage";
 
 export default function Home() {
   return (
     <>
-      <Login />
+      <HomePage />
     </>
   );
 }
