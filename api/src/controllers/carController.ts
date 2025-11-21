@@ -2,7 +2,8 @@ import {Request, Response} from "express";
 import carsService from "../services/carService";
 import { Car } from "../generated/prisma";
 import { carSchema } from "./zod-validation/schemaValidate"
-
+import { supabase } from "../supabase";
+import { IsClient,ReturnUserByCookie} from '../utils/cookies';
 // Para evitar repetição, podemos definir um tipo para os dados do carro
 type CarData = {
     carBrand: string;
@@ -16,6 +17,10 @@ type CarData = {
 const carsController = {
 
     async createCar(req: Request, res: Response): Promise<void>{
+        const is_client = await IsClient(req.cookies['sb-access-token'],req);
+        if (is_client){
+            res.status(400).json({ message: "Voce nao tem permissao para acessar essa pagina" });
+        }
         const carData: CarData = req.body;
         carSchema.parse(carData)
         const newCar: Car = await carsService.createCar(carData);
@@ -38,6 +43,10 @@ const carsController = {
     },
 
     async update(req: Request, res: Response): Promise<void>{
+        const is_client = await IsClient(req.cookies['sb-access-token'],req);
+        if (is_client){
+            res.status(400).json({ message: "Voce nao tem permissao para acessar essa pagina" });
+        }
         const id : number = parseInt(req.params.id, 10);
         const carData: Partial<CarData> = req.body;
 
@@ -52,6 +61,10 @@ const carsController = {
     },
 
     async deleteCar(req: Request, res: Response): Promise<void>{
+        const is_client = await IsClient(req.cookies['sb-access-token'],req);
+        if (is_client){
+            res.status(400).json({ message: "Voce nao tem permissao para acessar essa pagina" });
+        }
         const id: number = parseInt(req.params.id, 10);
 
         const carExists = await carsService.getCarId(id);
