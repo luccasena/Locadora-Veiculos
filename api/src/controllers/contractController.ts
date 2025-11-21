@@ -2,14 +2,23 @@ import { Request, Response } from "express";
 import contractService from "../services/contractService";
 import { Contract } from "../generated/prisma";
 import { contractSchema } from "./zod-validation/schemaValidate"
-
+import { supabase } from "../supabase";
+import { IsClient,ReturnUserByCookie} from '../utils/cookies';
 const contractController = {
     async getContracts(req: Request, res: Response): Promise<void>{
+        const is_client = await IsClient(req.cookies['sb-access-token'],req);
+        if (is_client){
+            res.status(400).json({ message: "Voce nao tem permissao para acessar essa pagina" });
+        }
         const contracts: Contract[] = await contractService.getContracts();
         res.status(200).json(contracts);
     },
 
     async getContractById(req: Request, res: Response): Promise<void>{
+                const is_client = await IsClient(req.cookies['sb-access-token'],req);
+        if (is_client){
+            res.status(400).json({ message: "Voce nao tem permissao para acessar essa pagina" });
+        }
         const id: number = parseInt(req.params.id);
 
         if(isNaN(id) || id <= 0){
@@ -26,8 +35,11 @@ const contractController = {
         res.status(200).json(contract)
 
     },
-
     async createContract(req: Request, res: Response): Promise<void>{
+        if (!req.cookies['sb-access-token']){
+            res.status(401).json({ message: "Usuário não autenticado" });
+
+        }
         contractSchema.parse(req.body)
         const {  StartDate, EndDate, idClient, idCar } = req.body;
 
@@ -48,6 +60,10 @@ const contractController = {
     },
 
     async deleteContract(req: Request, res: Response): Promise<void>{
+        const is_client = await IsClient(req.cookies['sb-access-token'],req);
+        if (is_client){
+            res.status(400).json({ message: "Voce nao tem permissao para acessar essa pagina" });
+        }
         const id: number = parseInt(req.params.id);
 
         if(isNaN(id) || id <= 0){
@@ -67,6 +83,11 @@ const contractController = {
     },
 
     async updateContract(req: Request, res: Response): Promise<void>{
+        const is_client = await IsClient(req.cookies['sb-access-token'],req);
+        if (is_client){
+            res.status(400).json({ message: "Voce nao tem permissao para acessar essa pagina" });
+        }
+
         const id: number = parseInt(req.params.id);
         
         if(isNaN(id) || id <= 0){

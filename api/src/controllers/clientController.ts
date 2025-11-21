@@ -2,22 +2,41 @@ import prisma from "../db/prisma"
 import { Request, Response } from 'express';
 import clientService, { clientBodyData } from "../services/clientService"
 import { clientSchema } from "./zod-validation/schemaValidate"
-
+import { supabase } from "../supabase";
+import { IsClient,ReturnUserByCookie,IsAdmin} from '../utils/cookies';
 const clientController = {
 
-
     async getClientById(req: Request, res: Response): Promise<void>{
+        if (!req.cookies['sb-access-token']){
+            res.status(401).json({ message: "Usuário não autenticado" });
+        }
+        const is_admin = await IsAdmin(req.cookies['sb-access-token'],req);
+        const user = await ReturnUserByCookie(req.cookies['sb-access-token']);
+        if (is_admin){
+            const client = await clientService.getClientById(parseInt(req.params.id));
+            if (!client){ 
+                res.status(404).json({ message: "Cliente não encontrado" });
+            }
+            res.status(200).json(client);
+        }
+        else{
+            const is_client = await IsClient(req.cookies['sb-access-token'],req);
+            if(is_client && user.id.toString() != req.params.id){
+                res.status(400).json({ message: "Voce nao tem permissao para acessar essa pagina" });
+            }
         const client = await clientService.getClientById(parseInt(req.params.id));
-
         if (!client){ 
             res.status(404).json({ message: "Cliente não encontrado" });
         }
-        
         res.status(200).json(client);
+        }
     },
 
-
     async GetAllClient(req:Request, res:Response): Promise<void>{
+        const is_client = await IsClient(req.cookies['sb-access-token'],req);
+        if (is_client){
+            res.status(400).json({ message: "Voce nao tem permissao para acessar essa pagina" });
+        }
         const client = await clientService.getAllClients();
         res.status(200).json(client);
     },
@@ -38,6 +57,10 @@ const clientController = {
 
 
     async DeleteClient(req:Request, res:Response):Promise<void>{
+        const is_client = await IsClient(req.cookies['sb-access-token'],req);
+        if (is_client){
+            res.status(400).json({ message: "Voce nao tem permissao para acessar essa pagina" });
+        }
         const  id:number = parseInt(req.params.id);
         const client = await clientService.getClientById(parseInt(req.params.id));
 
@@ -54,6 +77,10 @@ const clientController = {
     },
 
     async UpdateClient(req:Request, res:Response):Promise<void> {
+        const user = await ReturnUserByCookie(req.cookies['sb-access-token']);
+        if(user && req.params.id != user.id.toString()){
+            res.status(400).json({ message: "Voce nao tem permissao para acessar essa pagina" });
+        }
         const id = parseInt(req.params.id);
         const client = await prisma.client.findUnique({ where: { id:id } });
 
