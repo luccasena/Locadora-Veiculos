@@ -1,7 +1,7 @@
 import express from "express";
 
 import aiRoute from "./routes/aiRoute";
-import { ENV } from "../config/env";
+import { ENV } from "../api/config/env";
 import ragRoute from "./routes/ragRoute";
 
 const app = express();
