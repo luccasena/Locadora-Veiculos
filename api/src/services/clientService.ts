@@ -1,9 +1,13 @@
 
 import prisma from "../db/prisma"
 import { Client } from '../generated/prisma/';
+import { supabase } from "../supabase";
 
 export type clientBodyData = {
     name: string;
+    cpf: string;
+    password: string;
+    phone: string;
     lastname?: string
     email: string;
 }
@@ -19,6 +23,17 @@ const clientService = {
 
     async CreateClient(data:clientBodyData): Promise<Client>{
         const body: clientBodyData = data; 
+        
+        const { data: authData, error: authError } = await supabase.auth.admin.createUser({
+            email: body.email,
+            password: body.password,
+            email_confirm: true,
+        });
+
+        if (authError) {
+            throw new Error(`Erro ao criar usuário no Supabase: ${authError.message}`);
+        }
+
         const novocliente = await prisma.client.create({data: body});
         if(novocliente){
             return novocliente
@@ -28,7 +43,15 @@ const clientService = {
     async DeleteClient(id: number):Promise<boolean>{
         const cliente = await prisma.client.findUnique({ where: { id:id } });
         if (!cliente){return false };
-        const deleteClient = await prisma.client.delete({ where: { id } });
+        
+        const { data } = await supabase.auth.admin.listUsers();
+        const user = data?.users.find(u => u.email === cliente.email);
+        
+        if (user) {
+            await supabase.auth.admin.deleteUser(user.id);
+        }
+        
+        await prisma.client.delete({ where: { id } });
         return true
     },
 

@@ -1,7 +1,16 @@
 import {z} from 'zod'
 
+
+export const loginSchema = z.object({
+  email: z.string().email(),
+  password: z.string().min(6,"Minimo 6 caracteres"),
+});
+
 export const clientSchema = z.object({
   id: z.number().int().positive().optional(),
+  cpf: z.string().min(11,"Minimo 11 caracteres").max(14,"Maximo 14 caracteres"),
+  password: z.string().min(6,"Minimo 6 caracteres"),
+  phone: z.string().min(10,"Minimo 10 caracteres").max(15,"Maximo 15 caracteres"),
   name: z.string().min(3,"Minimo 3 caracteres"),
 	lastname: z.string(),
   email: z.string().email(),
