@@ -3,7 +3,6 @@ import { aiService } from '../services/aiService';
 
 export const aiController = {
     async responseAi(req: Request, res: Response) {
-        return aiService.responseAi(req.body.prompt, res);
-        
+        return aiService.responseAi(req.body, res);
     }
 };

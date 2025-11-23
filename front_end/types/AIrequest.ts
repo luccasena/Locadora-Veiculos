@@ -1,6 +1,6 @@
 
 
-export interface AiRequest {
+export interface Airequest {
     prompt: string;
     context?: string[];
 }

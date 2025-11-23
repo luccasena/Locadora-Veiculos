@@ -1,5 +1,5 @@
 import { embed }        from "ai";
-import { ENV }          from "../api/config/env";
+import { ENV }          from "../config/env";
 import { google }       from "@ai-sdk/google";
 import { createClient } from "@supabase/supabase-js";
 
