@@ -1,0 +1,29 @@
+
+
+.botao-chat-flutuante{
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: #000000;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.modal-chat {
+    position: fixed;
+    bottom: 100px;
+    right: 24px;
+    width: 320px;
+    height: 420px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden
+}
