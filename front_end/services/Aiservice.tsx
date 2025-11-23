@@ -1,12 +1,12 @@
-import { airequest } from "@/types/Airequest";
+import { airequest } from "../types/AIrequest";
 import { ENV } from "@/config/env";
 import axios from "axios";
 
-const API_URL = ENV.NEXT_PUBLIC_API_URL || 'http://localhost:3000/api';
+const API_URL = ENV.API_URL_AI;
 
-export const aiResponse = async (prompt: airequest) : Promise<airequest> => {
+export const aiResponse = async (prompt: airequest) => {
 
-    const response = await axios.post<airequest>(`${API_URL}/ai-route/`, prompt);
+    const response = await axios.post(API_URL, prompt);
 
-    return response.data;
+    return response;
 }
