@@ -67,6 +67,46 @@ next-env.d.ts # This file ensures Next.js types are picked up by the compiler an
 
 # TypeScript
 *.tsbuildinfo
+next-env.d.ts
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Node.js
+node_modules/
+.pnp/
+.pnp.cjs
+.yarn/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+# pnpm
+.pnpm-store
+
+# Next.js
+.next/
+out/
+.swc/
+next-env.d.ts # This file ensures Next.js types are picked up by the compiler and should not be edited or deleted.
+
+# TypeScript
+*.tsbuildinfo
 
 # Environment variables
 .env

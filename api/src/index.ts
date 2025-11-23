@@ -1,9 +1,12 @@
+import "dotenv/config";
 import express from "express";
 
 import clienteRoutes from "./routes/clientRoutes";
-
+import loginRoutes from "./routes/loginRoutes";
 import carsRoutes from "./routes/carRoutes";
 import contractRouters from "./routes/contractRoutes";
+import { supabase } from "./supabase";
+import cookieParser from "cookie-parser";
 
 import YAML from "yaml";
 import { readFileSync } from "fs";
@@ -16,10 +19,13 @@ const app = express();
 const port = 3000;
 
 app.use(express.json());
+app.use(cookieParser());
 
 app.use("/clientes/",clienteRoutes);
 app.use("/carros/", carsRoutes);
-app.use("/contratos/", contractRouters)
+app.use("/contratos/", contractRouters);
+app.use("/login/", loginRoutes)
+
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.listen(port, () => {
