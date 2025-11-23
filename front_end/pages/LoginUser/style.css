@@ -1,0 +1,222 @@
+/* ===== LOGIN PAGE ===== */
+
+/* Mobile first */
+.login-page {
+  min-height: 100vh;
+  padding: 3rem 6%;
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+}
+
+/* Card principal */
+.form-card {
+  background-color: black;
+  color: #fff;
+  padding: 32px 20px;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 100%;
+  transition: 0.3s ease;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.form-card:hover {
+  transform: scale(1.01);
+}
+
+/* Título */
+.title-login {
+  font-size: 2.2rem;
+  margin-bottom: 1.5rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Alerts */
+.alert {
+  width: 100%;
+  max-width: 360px;
+  padding: 0.8rem 1rem;
+  border-radius: 10px;
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  text-align: left;
+}
+
+.alert-success {
+  background-color: rgba(0, 128, 0, 0.25);
+  border-left: 4px solid #00ff00;
+}
+
+.alert-error {
+  background-color: rgba(255, 0, 0, 0.25);
+  border-left: 4px solid #ff4d4d;
+}
+
+/* FORM CENTRALIZADO */
+.form-card form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* INPUT-GROUP */
+.input-group {
+  width: 100%;
+  max-width: 360px;
+  margin: 0 auto 1.2rem;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Inputs */
+.input-field {
+  width: 100%;
+  padding: 0.9rem 1.1rem;
+  border-radius: 999px;
+  border: 1px solid #444;
+  background-color: #1b1b1b;
+  color: #fff;
+  font-size: 1.4rem;
+  outline: none;
+  transition: 0.3s ease;
+}
+
+.input-field::placeholder {
+  color: #aaa;
+}
+
+.input-field:focus {
+  transform: scale(1.02);
+  border-color: #fff;
+  box-shadow: 0px 0px 6px #fff;
+}
+
+/* Texto do erro */
+.error-text {
+  margin-top: 0.4rem;
+  font-size: 1.2rem;
+  color: #ff6b6b;
+  text-align: left;
+}
+
+/* ===== BOTÕES ===== */
+.box-btn {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  margin-top: 1.8rem;
+  width: 100%;
+  max-width: 360px;
+  margin-inline: auto;
+  align-items: center;
+}
+
+.btn-login {
+  width: 150px;
+  padding: 0.8rem 1rem;
+  border-radius: 999px;
+  border: none;
+  font-size: 1.2rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: 0.3s ease;
+  text-align: center;
+  text-decoration: none;
+  display: block;
+}
+
+/* Botão principal */
+.btn-login:not(.btn-secondary) {
+  background-color: #fff;
+  color: black;
+}
+
+.btn-login:not(.btn-secondary):hover:not(:disabled) {
+  transform: scale(1.05);
+  background-color: black;
+  color: #fff;
+  border: 1px solid #fff;
+}
+
+/* Botão secundário */
+.btn-secondary {
+  background-color: transparent;
+  border: 1px solid #fff;
+  color: #fff;
+}
+
+.btn-secondary:hover {
+  transform: scale(1.05);
+  background-color: #fff;
+  color: black;
+}
+
+/* Loading/desabilitado */
+.btn-login:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ========= BREAKPOINT 1 – TABLET (>= 600px) ========= */
+
+@media (min-width: 600px) {
+  .login-page {
+    padding: 4rem 8%;
+  }
+
+  .form-card {
+    max-width: 420px;
+    padding: 40px 30px;
+  }
+
+  .title-login {
+    font-size: 2.6rem;
+  }
+
+  .btn-login {
+    width: 160px;
+    font-size: 1.25rem;
+  }
+}
+
+/* ========= BREAKPOINT 2 – DESKTOP (>= 1024px) ========= */
+
+@media (min-width: 1024px) {
+  .login-page {
+    padding: 6rem 2%;
+  }
+
+  .form-card {
+    max-width: 500px;
+    padding: 50px 40px;
+  }
+
+  .title-login {
+    font-size: 3rem;
+  }
+
+  .input-group {
+    max-width: 380px;
+  }
+
+  .box-btn {
+    max-width: 380px;
+  }
+
+  .btn-login {
+    width: 170px;
+    font-size: 1.3rem;
+  }
+}

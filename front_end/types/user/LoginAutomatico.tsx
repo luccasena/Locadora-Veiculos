@@ -1,4 +1,5 @@
 export interface LoginAutomatico {
-    email: string;
-    senha: string;
+  nome?: string;
+  email: string;
+  senha: string;
 }
