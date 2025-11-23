@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import "./style.css";
 import { aiResponse } from "@/services/Aiservice";
+import { Airequest } from "@/types/AIrequest";
 
 interface Message {
   role: "user" | "bot";
@@ -25,7 +26,13 @@ export default function ChatWidget() {
 
     setIsLoading(true);
 
-    const res = await aiResponse({ prompt: input });
+    const airequest: Airequest = 
+                    { 
+                      prompt: input,
+                      context: messages.filter(m => m.role === "user" || m.role === "bot").map(m => m.content) 
+                    };
+
+    const res = await aiResponse(airequest);
 
     console.log("AI Response:", res.data.response);
 

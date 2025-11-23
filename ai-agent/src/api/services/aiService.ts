@@ -1,14 +1,17 @@
 import { google } from '@ai-sdk/google';
 import { Response } from 'express';
 import { generateText } from "ai";
+import { AiRequest } from '../types/aiRequest';
 import { queryDocuments } from "../../rag/queryVectorStore";
 
 export const aiService = {
 
-    async responseAi(prompt: string, res: Response) : Promise<Response> {
+    async responseAi(airequest: AiRequest, res: Response) : Promise<Response> {
 
-        console.log("AI Request Prompt:", prompt);
-        const relatedDocs = await queryDocuments(prompt);
+        console.log("Received AI request:", airequest);
+
+        console.log("AI Request Prompt:", airequest.prompt);
+        const relatedDocs = await queryDocuments(airequest.prompt);
         const context = JSON.stringify(relatedDocs);
 
         try {
@@ -25,11 +28,14 @@ export const aiService = {
                     4. O formato das respostas deve ser em texto simples, sem formatação. Você está conversando
                     por chat.
 
+                    Histórico da Conversa, caso exista:
+                    ${airequest.context ? airequest.context.join("\n") : "Nenhum histórico de conversa."}
+
                     Contexto:
                     ${context}
 
                     Pergunta:
-                    ${prompt}`,
+                    ${airequest.prompt}`,
                 
             });
 
