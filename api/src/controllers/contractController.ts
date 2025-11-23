@@ -3,9 +3,13 @@ import contractService from "../services/contractService";
 import { Contract } from "../generated/prisma";
 import { contractSchema } from "./zod-validation/schemaValidate"
 import { supabase } from "../supabase";
-import { IsClient,ReturnUserByCookie} from '../utils/cookies';
+import { IsClient,ReturnUserByCookie,IsAuthenticated} from '../utils/cookies';
 const contractController = {
     async getContracts(req: Request, res: Response): Promise<void>{
+        if (!IsAuthenticated(req)){
+            res.status(401).json({ message: "Usuário não autenticado" });
+            return;
+        }
         const is_client = await IsClient(req.cookies['sb-access-token'],req);
         if (is_client){
             res.status(400).json({ message: "Voce nao tem permissao para acessar essa pagina" });
@@ -15,7 +19,11 @@ const contractController = {
     },
 
     async getContractById(req: Request, res: Response): Promise<void>{
-                const is_client = await IsClient(req.cookies['sb-access-token'],req);
+        if (!IsAuthenticated(req)){
+            res.status(401).json({ message: "Usuário não autenticado" });
+            return;
+        }
+        const is_client = await IsClient(req.cookies['sb-access-token'],req);
         if (is_client){
             res.status(400).json({ message: "Voce nao tem permissao para acessar essa pagina" });
         }
@@ -36,9 +44,13 @@ const contractController = {
 
     },
     async createContract(req: Request, res: Response): Promise<void>{
-        if (!req.cookies['sb-access-token']){
+        if (!IsAuthenticated(req)){
             res.status(401).json({ message: "Usuário não autenticado" });
-
+            return;
+        }
+        const is_client = await IsClient(req.cookies['sb-access-token'],req);
+        if (is_client){
+            res.status(400).json({ message: "Voce nao tem permissao para acessar essa pagina" });
         }
         contractSchema.parse(req.body)
         const {  StartDate, EndDate, idClient, idCar } = req.body;
@@ -60,6 +72,10 @@ const contractController = {
     },
 
     async deleteContract(req: Request, res: Response): Promise<void>{
+        if (!IsAuthenticated(req)){
+            res.status(401).json({ message: "Usuário não autenticado" });
+            return;
+        }
         const is_client = await IsClient(req.cookies['sb-access-token'],req);
         if (is_client){
             res.status(400).json({ message: "Voce nao tem permissao para acessar essa pagina" });
@@ -83,6 +99,10 @@ const contractController = {
     },
 
     async updateContract(req: Request, res: Response): Promise<void>{
+        if (!IsAuthenticated(req)){
+            res.status(401).json({ message: "Usuário não autenticado" });
+            return;
+        }
         const is_client = await IsClient(req.cookies['sb-access-token'],req);
         if (is_client){
             res.status(400).json({ message: "Voce nao tem permissao para acessar essa pagina" });

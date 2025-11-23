@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import loginServices, {loginBodyData} from "../services/loginServices";
 import { loginSchema } from "./zod-validation/schemaValidate"
 import { supabase } from "../supabase";
+import { IsAuthenticated } from "../utils/cookies";
 
 const loginControllers = {
     async login(req: Request, res: Response): Promise<void>{  
@@ -58,6 +59,10 @@ const loginControllers = {
     },
 
     async logout(req: Request, res: Response): Promise<void> { 
+        if (!IsAuthenticated(req)){
+            res.status(401).json({ message: "Usuário não autenticado" });
+            return;
+        }
         const refreshToken = req.cookies["sb-refresh-token"];
         await loginServices.Logout(refreshToken);
         
