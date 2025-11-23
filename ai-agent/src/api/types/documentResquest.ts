@@ -1,7 +1,7 @@
 
 export type documentRequest = {
-  file: Express.Multer.File;       // arquivo enviado no body
+  file: Express.Multer.File;      
   body: {
-    collectionName: string;        // nome da coleção no Chroma
+    collectionName: string;        
   };
 } & Request;
