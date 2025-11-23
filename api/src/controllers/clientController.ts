@@ -3,12 +3,13 @@ import { Request, Response } from 'express';
 import clientService, { clientBodyData } from "../services/clientService"
 import { clientSchema } from "./zod-validation/schemaValidate"
 import { supabase } from "../supabase";
-import { IsClient,ReturnUserByCookie,IsAdmin} from '../utils/cookies';
+import { IsClient,ReturnUserByCookie,IsAdmin,IsAuthenticated} from '../utils/cookies';
 const clientController = {
 
     async getClientById(req: Request, res: Response): Promise<void>{
-        if (!req.cookies['sb-access-token']){
+        if (!IsAuthenticated(req)){
             res.status(401).json({ message: "Usuário não autenticado" });
+            return;
         }
         const is_admin = await IsAdmin(req.cookies['sb-access-token'],req);
         const user = await ReturnUserByCookie(req.cookies['sb-access-token']);
@@ -33,6 +34,10 @@ const clientController = {
     },
 
     async GetAllClient(req:Request, res:Response): Promise<void>{
+        if (!IsAuthenticated(req)){
+            res.status(401).json({ message: "Usuário não autenticado" });
+            return;
+        }
         const is_client = await IsClient(req.cookies['sb-access-token'],req);
         if (is_client){
             res.status(400).json({ message: "Voce nao tem permissao para acessar essa pagina" });
@@ -43,6 +48,10 @@ const clientController = {
 
 
     async CreateClient(req:Request, res:Response):Promise<void>{
+        if (!IsAuthenticated(req)){
+            res.status(401).json({ message: "Usuário não autenticado" });
+            return;
+        }
         const body: clientBodyData = req.body;
         clientSchema.parse(body)
 
@@ -57,6 +66,10 @@ const clientController = {
 
 
     async DeleteClient(req:Request, res:Response):Promise<void>{
+        if (!IsAuthenticated(req)){
+            res.status(401).json({ message: "Usuário não autenticado" });
+            return;
+        }
         const is_client = await IsClient(req.cookies['sb-access-token'],req);
         if (is_client){
             res.status(400).json({ message: "Voce nao tem permissao para acessar essa pagina" });
@@ -77,6 +90,10 @@ const clientController = {
     },
 
     async UpdateClient(req:Request, res:Response):Promise<void> {
+        if (!IsAuthenticated(req)){
+            res.status(401).json({ message: "Usuário não autenticado" });
+            return;
+        }
         const user = await ReturnUserByCookie(req.cookies['sb-access-token']);
         if(user && req.params.id != user.id.toString()){
             res.status(400).json({ message: "Voce nao tem permissao para acessar essa pagina" });
