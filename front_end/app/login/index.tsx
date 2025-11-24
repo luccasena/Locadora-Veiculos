@@ -7,7 +7,7 @@ import { Login } from "@/services/usuarioService";
 import "./style.css";
 import { LoginRequest } from "@/types/user/LoginRequest";
 
-const REDIRECT_DELAY = 2000;
+const REDIRECT_DELAY = 10000;
 // useEffect
 const LoginUser = () => {
   
@@ -58,15 +58,17 @@ const LoginUser = () => {
           };
 
           const usuario = await Login(login);
+
+          console.log(usuario);
           
           localStorage.setItem("auth", "true");
           localStorage.setItem("user", JSON.stringify(usuario.data.user));
           localStorage.setItem("userType", usuario.data.type);
 
           
-
           if (usuario.data.type === "admin") {
               setMsgSucesso(`Bem-vindo(a) Administrador!`);
+
           } else {
               setMsgSucesso(`Bem-vindo(a), ${usuario.data.user.name}!`);
           }
@@ -87,7 +89,6 @@ const LoginUser = () => {
       },
       [formData, router]
     );
-
 
     return (
       <main className="login-page">

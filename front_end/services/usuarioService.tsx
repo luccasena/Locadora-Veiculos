@@ -14,7 +14,9 @@ export const Login = async (login: LoginRequest) => {
 
 export const updateUser = async (user: UserUpdate, id: number) => {
 
-  const response = await axios.put(`${API_URL}clientes/${id}/`, user);
+  const response = await axios.put(`${API_URL}clientes/${id}/`, user, {
+    withCredentials: true,
+  });
 
   return response;
 }

@@ -6,6 +6,7 @@ import clienteRoutes from "./routes/clientRoutes";
 import loginRoutes from "./routes/loginRoutes";
 import carsRoutes from "./routes/carRoutes";
 import contractRouters from "./routes/contractRoutes";
+import DashboardRoutes from "./routes/dashBoardRoutes";
 import { supabase } from "./supabase";
 import cookieParser from "cookie-parser";
 
@@ -22,6 +23,7 @@ const port = 8080;
 app.use(
   cors({
     origin: "http://localhost:3001",
+    credentials: true
   })
 );
 
@@ -32,6 +34,7 @@ app.use("/clientes/", clienteRoutes);
 app.use("/carros/", carsRoutes);
 app.use("/contratos/", contractRouters);
 app.use("/login/", loginRoutes);
+app.use("/dashboard/", DashboardRoutes);
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
