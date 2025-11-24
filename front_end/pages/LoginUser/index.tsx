@@ -5,11 +5,10 @@ import React, { useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { Login } from "../../services/userService";
 import "./style.css";
-import { User } from "@/types/user/User";
+import Link from "next/link";
 import { LoginRequest } from "@/types/user/LoginRequest";
 
 const REDIRECT_DELAY = 2000;
-// useEffect
 const LoginUser = () => {
   const router = useRouter();
   const [formData, setFormData] = useState({
@@ -39,7 +38,6 @@ const LoginUser = () => {
         const zodErrors: Record<string, string> = {};
         validation.error.issues.forEach((err: ZodIssue) => {
           const key = err.path[0] ? String(err.path[0]) : "form";
-          // keep first error message per field
           if (!zodErrors[key]) zodErrors[key] = err.message;
         });
         setErrors(zodErrors);
@@ -56,12 +54,14 @@ const LoginUser = () => {
           password: formData.senha,
         };
 
-        const usuario = await Login(login);
-        setMsgSucesso(`Bem-vindo(a), ${usuario.data}!`);
-
-        setTimeout(() => {
-          router.push("/homepage");
-        }, REDIRECT_DELAY);
+        const response = await Login(login);
+        if (
+          (response && response.data && response.status === 200) ||
+          response.status === 201
+        ) {
+          setMsgSucesso(`Bem-vindo(a)!`);
+          setTimeout(() => router.push("/"), REDIRECT_DELAY);
+        }
       } catch (error) {
         console.error("Erro no login:", error);
         setMsgErro("Erro ao realizar login. Verifique suas credenciais.");
@@ -111,10 +111,9 @@ const LoginUser = () => {
             <button type="submit" className="btn-login" disabled={isLoading}>
               {isLoading ? "Carregando..." : "Entrar"}
             </button>
-
-            <a href="#" className="btn-login btn-secondary">
+            <Link href="/Register" className="btn-login btn-secondary">
               Cadastrar
-            </a>
+            </Link>
           </div>
         </form>
       </div>

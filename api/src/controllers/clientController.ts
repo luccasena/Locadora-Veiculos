@@ -9,7 +9,6 @@ const clientController = {
     async getClientById(req: Request, res: Response): Promise<void>{
         if (!IsAuthenticated(req)){
             res.status(401).json({ message: "Usuário não autenticado" });
-            return;
         }
         const is_admin = await IsAdmin(req.cookies['sb-access-token'],req);
         const user = await ReturnUserByCookie(req.cookies['sb-access-token']);
@@ -39,6 +38,9 @@ const clientController = {
             return;
         }
         const is_client = await IsClient(req.cookies['sb-access-token'],req);
+        if (!req.cookies['sb-access-token']){
+            res.status(401).json({ message: "Usuário não autenticado" });
+        }
         if (is_client){
             res.status(400).json({ message: "Voce nao tem permissao para acessar essa pagina" });
         }
@@ -48,13 +50,8 @@ const clientController = {
 
 
     async CreateClient(req:Request, res:Response):Promise<void>{
-        if (!IsAuthenticated(req)){
-            res.status(401).json({ message: "Usuário não autenticado" });
-            return;
-        }
         const body: clientBodyData = req.body;
         clientSchema.parse(body)
-
         try{
            const client = await clientService.CreateClient(body)
             res.status(201).json({message: "Cliente adicionado com sucesso!", cliente: client });

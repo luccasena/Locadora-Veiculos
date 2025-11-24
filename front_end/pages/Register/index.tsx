@@ -9,7 +9,7 @@ import axios from "axios";
 import "./style.css";
 import type { RegisterUser } from "@/types/user/RegisterUser";
 
-const REDIRECT_DELAY = 1500;
+const REDIRECT_DELAY = 2000;
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -56,12 +56,16 @@ export default function RegisterPage() {
       setMsgSucesso("");
 
       try {
-        const res = await Register(formData);
-        if (res && res.data && (res.status === 201 || res.status === 200)) {
-          setMsgSucesso(res.data.message || "Usuário cadastrado com sucesso");
+        const response = await Register(formData);
+        if (
+          response &&
+          response.data &&
+          (response.status === 201 || response.status === 200)
+        ) {
+          setMsgSucesso(response.data.message || "cadastrado com sucesso!");
           setTimeout(() => router.push("/LoginUser"), REDIRECT_DELAY);
         } else {
-          setMsgErro(res?.data?.message || "Erro ao cadastrar usuário");
+          setMsgErro(response?.data?.message || "Erro ao cadastrar usuário");
         }
       } catch (error: unknown) {
         console.error("Erro no cadastro:", error);
