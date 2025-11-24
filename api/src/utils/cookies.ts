@@ -25,6 +25,15 @@ async function IsClient(cookie:string,req:Request): Promise<boolean>{
     }
     return false;
 }
+async function IsClientByUser(user:any): Promise<boolean>{
+    if (user){
+        const foundUser = await prisma.client.findUnique({ where: { email: user.email } })
+        if(foundUser){
+            return true;
+        }
+    }
+    return false;
+}
 
 async function ReturnUserByCookie(cookie:string): Promise<any>{
     const cookie_user = await supabase.auth.getUser(cookie)
@@ -47,4 +56,4 @@ function IsAuthenticated(request: Request): boolean {
 
 
 
-export { IsClient, ReturnUserByCookie, IsAdmin ,IsAuthenticated};
+export { IsClient, ReturnUserByCookie, IsAdmin ,IsAuthenticated, IsClientByUser};
