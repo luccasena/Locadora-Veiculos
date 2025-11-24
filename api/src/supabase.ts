@@ -4,12 +4,12 @@ import dotenv from "dotenv";
 dotenv.config();
 
 export const supabase = createClient(
-  process.env.SUPABASE_URL_AUTH!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!,
+  ENV.SUPABASE_URL,
+  ENV.SUPABASE_SERVICE_ROLE_KEY,
   {
     auth: {
       autoRefreshToken: false,
       persistSession: false,
-    }
+    },
   }
 );
