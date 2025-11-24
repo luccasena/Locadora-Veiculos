@@ -1,10 +1,7 @@
-import '../../app/page';
+import '../page';
 import "./style.css";
 
-
-
-
-export function HomePage() {
+export default function HomePage() {
     return(
         <>
         <header>

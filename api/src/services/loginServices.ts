@@ -3,6 +3,7 @@ import prisma from "../db/prisma";
 import { Admin, Client } from '../generated/prisma/';
 import { createClient } from "@supabase/supabase-js";
 import { supabase } from "../supabase";
+
 export type loginBodyData = {
     email: string;
     password: string;

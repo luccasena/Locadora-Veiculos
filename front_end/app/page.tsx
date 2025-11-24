@@ -1,14 +1,10 @@
-import React from "react";
 import "./globals.css";
-import { HomePage } from "../components/homepage";
-import ChatWidget from "../components/chatwidget";
+import LoginUser from "./login";
 
-
-export default function Home() {
+export default function Login() {
   return (
     <>
-      <HomePage />
-      <ChatWidget />
+      <LoginUser />
     </>
   );
 }

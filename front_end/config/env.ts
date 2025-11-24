@@ -1,6 +1,6 @@
 
 
 export const ENV = {
-    API_URL_DATABASE: "http://localhost:4000",
-    API_URL_AI: "http://localhost:8080/ai-route/",
+    NEXT_PUBLIC_API_URL:    "http://localhost:8080/",
+    NEXT_PUBLIC_API_URL_AI: "http://localhost:8082/ai-route/",
 };

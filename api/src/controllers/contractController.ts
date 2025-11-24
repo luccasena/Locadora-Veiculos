@@ -4,6 +4,7 @@ import { Contract } from "../generated/prisma";
 import { contractSchema } from "./zod-validation/schemaValidate"
 import { supabase } from "../supabase";
 import { IsClient,ReturnUserByCookie,IsAuthenticated} from '../utils/cookies';
+
 const contractController = {
     async getContracts(req: Request, res: Response): Promise<void>{
         if (!IsAuthenticated(req)){

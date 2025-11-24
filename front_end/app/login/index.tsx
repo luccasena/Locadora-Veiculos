@@ -1,7 +1,7 @@
 "use client";
 import { loginSchema } from "../../schemas/validations";
 import type { ZodIssue } from "zod";
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Login } from "@/services/usuarioService";
 import "./style.css";
@@ -11,11 +11,12 @@ import { LoginRequest } from "@/types/user/LoginRequest";
 const REDIRECT_DELAY = 2000;
 // useEffect
 const LoginUser = () => {
+  
   const router = useRouter();
   const [formData, setFormData] = useState({
     email: "",
     senha: "",
-  });
+});
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [msgSucesso, setMsgSucesso] = useState<string>("");
   const [msgErro, setMsgErro] = useState<string>("");
@@ -30,6 +31,7 @@ const LoginUser = () => {
     },
     []
   );
+
   const handleSubmit = useCallback(
     async (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
@@ -57,20 +59,31 @@ const LoginUser = () => {
         };
 
         const usuario = await Login(login);
-        setMsgSucesso(`Bem-vindo(a), ${usuario.data}!`);
+        
+        localStorage.setItem("auth", "true");
+        localStorage.setItem("user", JSON.stringify(usuario.data.user));
+        localStorage.setItem("userType", usuario.data.type);
+        
+        setMsgSucesso(`Bem-vindo(a), ${usuario.data.user.name}!`);
 
-        setTimeout(() => {
-          router.push("/HomePage");
-        }, REDIRECT_DELAY);
+        if (localStorage.getItem("auth") === "true"){
+            setTimeout(() => {
+                router.push("/home");
+            },REDIRECT_DELAY);
+
+        }
+
       } catch (error) {
-        console.error("Erro no login:", error);
-        setMsgErro("Erro ao realizar login. Verifique suas credenciais.");
+          console.error("Erro no login:", error);
+          setMsgErro("Erro ao realizar login. Verifique suas credenciais.");
       } finally {
-        setIsLoading(false);
+          setIsLoading(false);
       }
     },
     [formData, router]
   );
+
+
   return (
     <main className="login-page">
       <div className="form-card">
@@ -120,5 +133,6 @@ const LoginUser = () => {
       </div>
     </main>
   );
+
 };
 export default LoginUser;
