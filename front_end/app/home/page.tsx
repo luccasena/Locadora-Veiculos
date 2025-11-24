@@ -1,7 +1,60 @@
+"use client";
+import { use, useEffect, useState } from 'react';
 import '../page';
 import "./style.css";
 
+import { updateUser } from '@/services/usuarioService';
+import { UserUpdate } from '@/types/user/UserUpdate';
+
 export default function HomePage() {
+
+    const [user, setUser] =  useState({
+        id: null,
+        name: "",
+        lastname: "", 
+        cpf: "",
+        email: "",
+        phone: "",
+        password: ""
+    });
+
+    // Atualiza valores conforme digitação
+    const handleChange = (e: any) => {
+        const { name, value } = e.target;
+        setUser((prevUser) => ({
+            ...prevUser,
+            [name]: value,
+        }));
+    };
+
+    const handleSave = async () => {
+        localStorage.setItem("user", JSON.stringify(user));
+        alert("Dados atualizados!");
+
+        const userUpdate: UserUpdate = {
+            name: user.name,
+            lastname: user.lastname,
+            cpf: user.cpf,
+            email: user.email,
+            phone: user.phone,
+            password: user.password
+        }
+
+        if (user.id !== null) {
+            await updateUser(userUpdate, user.id);
+        }
+    };
+
+    useEffect(() => {
+        const storedUser = localStorage.getItem("user");
+        if (storedUser) {
+            setUser(JSON.parse(storedUser));
+        }
+    }, []);
+
+    console.log(user);
+
+
     return(
         <>
         <header>
@@ -17,20 +70,46 @@ export default function HomePage() {
         
         <main>
             <section className="hero-section">
-                <h1 className="hero-title">Bem-vindo à UrbanMove,! </h1>
+                <h1 className="hero-title">Bem-vindo à UrbanMove, {user.name}! </h1>
                 <p className="hero-subtitle">Sua locadora de veículos confiável e acessível.</p>
             </section>
 
             <section className="features-section">
                 <div className="feature-card"></div>
-                    <h2>Informações</h2>
+                     <section className="features-section">
+
+                        <h2>Informações da conta</h2>
+
+                        <div className="user-form">
+
+                                <label>Nome</label>
+                                <input name="name" value={user.name} onChange={handleChange} />
+
+                                <label>Sobrenome</label>
+                                <input name="lastname" value={user.lastname} onChange={handleChange} />
+
+                                <label>CPF</label>
+                                <input name="cpf" value={user.cpf} onChange={handleChange} />
+
+                                <label>Email</label>
+                                <input name="email" value={user.email} onChange={handleChange} />
+
+                                <label>Telefone</label>
+                                <input name="phone" value={user.phone} onChange={handleChange} />
+
+                                <label>Senha</label>
+                                <input type="password" name="password" value={user.password} onChange={handleChange} />
+
+                                <button onClick={handleSave}>Salvar alterações</button>
+                        </div>
+
+                    </section>
 
             </section>
 
             <section className="contratos-section">
                 
             </section>
-
 
         </main>
         </>
