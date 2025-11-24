@@ -22,6 +22,7 @@ const port = 8080;
 app.use(
   cors({
     origin: "http://localhost:3001",
+    credentials: true,
   })
 );
 
