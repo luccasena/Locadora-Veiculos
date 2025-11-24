@@ -1,14 +1,14 @@
 import axios from "axios";
-import type {LoginAutomatico} from "../types/User/LoginAutomatico";
-import type {NomeUsuario} from "../types/User/NomeUsuario";
+import type { LoginRequest } from "../types/user/LoginRequest";
+import type { NomeUsuario } from "../types/user/NomeUsuario";
+import { ENV } from "../config/env";
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
+const API_URL = ENV.NEXT_PUBLIC_API_URL;
 
+export const Login = async (login: LoginRequest) => {
+  console.log("login service called with:", login);
+  console.log("API_URL:", API_URL);
+  const response = await axios.post(`${API_URL}login/`, login);
 
-export const realizarLogin = async (loginautomatico: LoginAutomatico) : Promise<NomeUsuario> => {
-
-    const response = await axios.post<NomeUsuario>(`${API_URL}/automatico/login`, loginautomatico);
-
-
-    return response.data;
-}
+  return response;
+};

@@ -1,11 +1,7 @@
 import React from "react";
 import "./globals.css";
-import { HomePage } from "@/components/HomePage";
+import LoginUser from "../pages/LoginUser";
 
 export default function Home() {
-  return (
-    <>
-      <HomePage />
-    </>
-  );
+  return <LoginUser />;
 }
