@@ -42,6 +42,8 @@ const loginControllers = {
                 path: "/",
                 maxAge: 60 * 60 * 24 * 7 * 1000 
             });
+
+            console.log(res.cookie)
             
             res.status(200).json({ 
                 message: "Login realizado com sucesso",

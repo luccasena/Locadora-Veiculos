@@ -32,10 +32,10 @@ export default function HomePage() {
         alert("Dados atualizados!");
 
         const userUpdate: UserUpdate = {
-            name: user.name,
-            lastname: user.lastname,
             cpf: user.cpf,
             email: user.email,
+            name: user.name,
+            lastname: user.lastname,
             phone: user.phone,
             password: user.password
         }
@@ -51,8 +51,6 @@ export default function HomePage() {
             setUser(JSON.parse(storedUser));
         }
     }, []);
-
-    console.log(user);
 
 
     return(
