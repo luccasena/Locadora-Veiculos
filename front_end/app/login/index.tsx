@@ -7,7 +7,7 @@ import { Login } from "@/services/usuarioService";
 import "./style.css";
 import { LoginRequest } from "@/types/user/LoginRequest";
 
-const REDIRECT_DELAY = 10000;
+const REDIRECT_DELAY = 2000;
 // useEffect
 const LoginUser = () => {
   
@@ -66,11 +66,13 @@ const LoginUser = () => {
           localStorage.setItem("userType", usuario.data.type);
 
           
-          if (usuario.data.type === "admin") {
+          if (usuario.data.type === "administrador") {
               setMsgSucesso(`Bem-vindo(a) Administrador!`);
+              localStorage.setItem("userType", "administrador");
 
           } else {
               setMsgSucesso(`Bem-vindo(a), ${usuario.data.user.name}!`);
+              localStorage.setItem("userType", "cliente");
           }
 
           if (localStorage.getItem("auth") === "true"){
