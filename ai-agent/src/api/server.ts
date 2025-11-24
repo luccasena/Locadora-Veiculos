@@ -1,10 +1,15 @@
 import express from "express";
+import  cors  from "cors";
 
 import aiRoute from "./routes/aiRoute";
-import { ENV } from "../api/config/env";
+import { ENV } from "../config/env";
 import ragRoute from "./routes/ragRoute";
 
 const app = express();
+
+app.use(cors({
+    origin: "http://localhost:3000"
+}));
 
 app.use(express.json());
 

@@ -25,7 +25,7 @@ export const ragService = {
         return res.status(400).json({ error: "Nenhum texto válido encontrado no PDF." });
       }
 
-      // 4. Enviar chunks ao banco vetorial
+      // 4. Envia chunks ao banco vetorial
       await addDocuments(chunks);
 
       return res.json({
