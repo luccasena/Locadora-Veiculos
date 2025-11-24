@@ -3,7 +3,7 @@ import { loginSchema } from "../../schemas/validations";
 import type { ZodIssue } from "zod";
 import React, { useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { Login } from "@/services/usuarioService";
+import { Login } from "../../services/userService";
 import "./style.css";
 import { User } from "@/types/user/User";
 import { LoginRequest } from "@/types/user/LoginRequest";
@@ -60,7 +60,7 @@ const LoginUser = () => {
         setMsgSucesso(`Bem-vindo(a), ${usuario.data}!`);
 
         setTimeout(() => {
-          router.push("/HomePage");
+          router.push("/homepage");
         }, REDIRECT_DELAY);
       } catch (error) {
         console.error("Erro no login:", error);
