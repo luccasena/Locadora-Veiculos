@@ -57,4 +57,4 @@ function IsAuthenticated(request: Request): boolean {
 
 
 
-export { IsClient, ReturnUserByCookie, IsAdmin ,IsAuthenticated};
+export { IsClient, ReturnUserByCookie, IsAdmin ,IsAuthenticated, IsClientByUser};

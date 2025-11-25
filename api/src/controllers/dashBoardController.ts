@@ -1,9 +1,10 @@
 import { Request, Response } from "express";
 import dashBoardService from "../services/dashBoardService";
 import { Contract } from "../generated/prisma";
-import { supabase } from "../supabase";
-import { IsClient,ReturnUserByCookie,IsAuthenticated,IsClientByUser} from '../utils/cookies';
+import { ReturnUserByCookie, IsAuthenticated, IsClientByUser} from '../utils/cookies';
+
 const dashBoardControllers = {
+
    async getDashboardData(req: Request, res: Response): Promise<void>{
         if (!IsAuthenticated(req)){
             res.status(401).json({ message: "Usuário não autenticado" });
@@ -18,6 +19,7 @@ const dashBoardControllers = {
             res.status(200).json(dashboardData);
         }
     }
+
 };
 
 export default dashBoardControllers;
