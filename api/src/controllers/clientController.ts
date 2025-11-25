@@ -49,6 +49,7 @@ const clientController = {
         res.status(200).json(client);
     },
 
+
     async CreateClient(req:Request, res:Response):Promise<void>{
         const body: clientBodyData = req.body;
         clientSchema.parse(body)
@@ -60,6 +61,7 @@ const clientController = {
             res.status(400).json({ message: "Algo deu errado durante a criacao do cliente"});
         }
     },
+
 
     async DeleteClient(req:Request, res:Response):Promise<void>{
         if (!IsAuthenticated(req)){
@@ -86,10 +88,8 @@ const clientController = {
     },
 
     async UpdateClient(req:Request, res:Response):Promise<void> {
-        console.log(req.cookies['sb-access-token'])
         if (!IsAuthenticated(req)){
-            res.status(401).json({ message: "Usuário não autenticado",
-             });
+            res.status(401).json({ message: "Usuário não autenticado" });
             return;
         }
         const user = await ReturnUserByCookie(req.cookies['sb-access-token']);

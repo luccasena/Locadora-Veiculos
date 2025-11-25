@@ -19,7 +19,7 @@ export default function HomePage() {
     });
 
     // Atualiza valores conforme digitação
-    const handleChange = (e: any) => {
+    const handleChange = async (e: any) => {
         const { name, value } = e.target;
         setUser((prevUser) => ({
             ...prevUser,
