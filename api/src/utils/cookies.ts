@@ -25,7 +25,6 @@ async function IsClient(cookie:string,req:Request): Promise<boolean>{
     }
     return false;
 }
-
 async function IsClientByUser(user:any): Promise<boolean>{
     if (user){
         const foundUser = await prisma.client.findUnique({ where: { email: user.email } })
@@ -56,4 +55,6 @@ function IsAuthenticated(request: Request): boolean {
     return false;
 }
 
-export { IsClient, ReturnUserByCookie, IsAdmin ,IsAuthenticated, IsClientByUser};
+
+
+export { IsClient, ReturnUserByCookie, IsAdmin ,IsAuthenticated};
