@@ -4,6 +4,7 @@ import clientService, { clientBodyData } from "../services/clientService"
 import { clientSchema } from "./zod-validation/schemaValidate"
 import { supabase } from "../supabase";
 import { IsClient,ReturnUserByCookie,IsAdmin,IsAuthenticated} from '../utils/cookies';
+
 const clientController = {
 
     async getClientById(req: Request, res: Response): Promise<void>{

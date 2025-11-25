@@ -18,11 +18,12 @@ const file = readFileSync("swagger.json", "utf8");
 const swaggerDocument = YAML.parse(file);
 
 const app = express();
-const port = 3000;
+const port = 8080;
 
 app.use(
   cors({
-    origin: "http://localhost:3001",
+    origin: "http://localhost:3000",
+    credentials: true
   })
 );
 

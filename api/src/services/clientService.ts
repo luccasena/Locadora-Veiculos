@@ -40,6 +40,7 @@ const clientService = {
         }
         return novocliente
     },
+    
     async DeleteClient(id: number):Promise<boolean>{
         const cliente = await prisma.client.findUnique({ where: { id:id } });
         if (!cliente){return false };
@@ -56,11 +57,6 @@ const clientService = {
     },
 
     async UpdateClient(id:number,data:clientBodyData):Promise<Client>{
-        type clientBodyData = {
-            name?: string;
-            lastname?: string
-            email?: string;
-        }
 
         const body: clientBodyData = data;
 

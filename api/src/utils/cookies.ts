@@ -47,12 +47,13 @@ async function ReturnUserByCookie(cookie:string): Promise<any>{
     }
     return null;
 }
+
 function IsAuthenticated(request: Request): boolean {
     if(request.cookies['sb-access-token']){
         return true;
     }
     return false;
-    }
+}
 
 
 
