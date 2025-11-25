@@ -1,5 +1,5 @@
 "use client";
-import { use, useEffect, useState } from 'react';
+import { FormEventHandler, use, useEffect, useState } from 'react';
 import '../page';
 import "./style.css";
 
@@ -17,15 +17,18 @@ export default function HomePage() {
         phone: "",
         password: ""
     });
+    const [userType, setUserType] = useState<string | null>(null);
+    const [savedName, setSavedName] = useState("");
 
     // Atualiza valores conforme digitação
-    const handleChange = async (e: any) => {
+    const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setUser((prevUser) => ({
             ...prevUser,
             [name]: value,
         }));
-    };
+    }
+        
 
     const handleSave = async () => {
         localStorage.setItem("user", JSON.stringify(user));
@@ -47,77 +50,85 @@ export default function HomePage() {
 
     useEffect(() => {
         const storedUser = localStorage.getItem("user");
+        const type = localStorage.getItem("userType");
+
+        setUserType(type);
         if (storedUser) {
             setUser(JSON.parse(storedUser));
+            setSavedName(JSON.parse(storedUser).name); 
         }
     }, []);
 
 
     return(
         <>
-        <header>
-            <div className="logo">UrbanMove</div>
-            <nav className="nav-menu">
-                <ul>
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">Carros ativos</a></li>
-                    <li><a href="#">Visualizar carros</a></li>
-                </ul>
-            </nav>
-        </header>
         
-        <main>
-
-            {localStorage.getItem("userType") === "administrador" && (
-            <section className="hero-section">
-                <h2>Área do Administrador</h2>
-                <p>Gerencie usuários, veículos e contratos aqui.</p>
-            </section>
+            {userType === "administrador" && (
+            <>
+                <header>
+                    <div className="logo">UrbanMove</div>
+                    <nav className="nav-menu">
+                        <ul>
+                            <li><a href="#">Home</a></li>
+                            <li><a href="#">Clientes</a></li>
+                            <li><a href="#">Visualizar carros</a></li>
+                        </ul>
+                    </nav>
+                </header>
+                <main>
+                    <section className="hero-section">
+                        <h1 className="hero-title">Área do Administrador</h1>
+                        <p  className="hero-subtitle">Gerencie usuários, veículos e contratos aqui.</p>
+                    </section>
+                </main>
+                
+            </>
             )}
 
-            {localStorage.getItem("userType") === "cliente" && (
+            {userType === "cliente" && (
                 <>
+                <header>
+                    <div className="logo">UrbanMove</div>
+                    <nav className="nav-menu">
+                        <ul>
+                            <li><a href="#">Home</a></li>
+                            <li><a href="#">Carros ativos</a></li>
+                            <li><a href="#">Visualizar carros</a></li>
+                        </ul>
+                    </nav>
+                </header>
+
+                <main>
                     <section className="hero-section">
-                        <h1 className="hero-title">Bem-vindo à UrbanMove, {user.name}! </h1>
+                        <h1 className="hero-title">Bem-vindo à UrbanMove, {savedName}! </h1>
                         <p className="hero-subtitle">Sua locadora de veículos confiável e acessível.</p>
                     </section>
-                    
                     <section className="features-section">
                         <div className="feature-card"></div>
                             <section className="features-section">
                                 <h2>Informações da conta</h2>
                                 <div className="user-form">
                                     <label>Nome</label>
-                                    <input name="name" value={user.name} onChange={handleChange} />
-
+                                        <input name="name" value={user.name} onChange={handleChange} />
                                     <label>Sobrenome</label>
-                                    <input name="lastname" value={user.lastname} onChange={handleChange} />
-
+                                        <input name="lastname" value={user.lastname} onChange={handleChange} />
                                     <label>CPF</label>
-                                    <input name="cpf" value={user.cpf} onChange={handleChange} />
-
+                                        <input name="cpf" value={user.cpf} onChange={handleChange} />
                                     <label>Email</label>
-                                    <input name="email" value={user.email} onChange={handleChange} />
-
+                                        <input name="email" value={user.email} onChange={handleChange} />
                                     <label>Telefone</label>
-                                    <input name="phone" value={user.phone} onChange={handleChange} />
-
+                                        <input name="phone" value={user.phone} onChange={handleChange} />
                                     <label>Senha</label>
-                                    <input type="password" name="password" value={user.password} onChange={handleChange} />
-
+                                        <input type="password" name="password" value={user.password} onChange={handleChange} />
                                     <button onClick={handleSave}>Salvar alterações</button>
                                 </div>
                             </section>
                     </section>
+                </main>
                 </>
 
             )}
 
-            <section className="contratos-section">
-                
-            </section>
-
-        </main>
         </>
     )
 }

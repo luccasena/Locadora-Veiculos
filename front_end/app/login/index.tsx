@@ -8,26 +8,25 @@ import "./style.css";
 import { LoginRequest } from "@/types/user/LoginRequest";
 
 const REDIRECT_DELAY = 2000;
-// useEffect
 const LoginUser = () => {
   
     const router = useRouter();
-    const [formData, setFormData] = useState({
+    const [formData,    setFormData]    = useState({
       email: "",
       senha: "",
     });
-    const [errors, setErrors] = useState<Record<string, string>>({});
-    const [msgSucesso, setMsgSucesso] = useState<string>("");
-    const [msgErro, setMsgErro] = useState<string>("");
-    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [errors,      setErrors]      = useState<Record<string, string>>({});
+    const [msgSucesso,  setMsgSucesso]  = useState<string>("");
+    const [msgErro,     setMsgErro]     = useState<string>("");
+    const [isLoading,   setIsLoading]   = useState<boolean>(false);
 
     const handleInputChange = useCallback(
-      (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
-        setFormData((prev) => ({ ...prev, [name]: value }));
-        setErrors((prev) => ({ ...prev, [name]: "" }));
-        setMsgErro("");
-      },
+        (e: React.ChangeEvent<HTMLInputElement>) => {
+          const { name, value } = e.target;
+          setFormData((prev) => ({ ...prev, [name]: value }));
+          setErrors((prev) => ({ ...prev, [name]: "" }));
+          setMsgErro("");
+        },
       []
     );
 
@@ -40,7 +39,7 @@ const LoginUser = () => {
           const zodErrors: Record<string, string> = {};
           validation.error.issues.forEach((err: ZodIssue) => {
             const key = err.path[0] ? String(err.path[0]) : "form";
-            // keep first error message per field
+
             if (!zodErrors[key]) zodErrors[key] = err.message;
           });
           setErrors(zodErrors);
@@ -58,8 +57,6 @@ const LoginUser = () => {
           };
 
           const usuario = await Login(login);
-
-          console.log(usuario);
           
           localStorage.setItem("auth", "true");
           localStorage.setItem("user", JSON.stringify(usuario.data.user));
