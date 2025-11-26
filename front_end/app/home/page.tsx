@@ -5,6 +5,7 @@ import "./style.css";
 
 import { updateUser } from '@/services/userService';
 import { UserUpdate } from '@/types/user/UserUpdate';
+import { FooterPage } from '@/components/FooterPage';
 
 export default function HomePage() {
 
@@ -127,10 +128,11 @@ export default function HomePage() {
                             </section>
                     </section>
                 </main>
+
                 </>
 
             )}
-
+            <FooterPage/>
         </>
     )
 }
