@@ -3,7 +3,7 @@ import { FormEventHandler, use, useEffect, useState } from 'react';
 import '../page';
 import "./style.css";
 
-import { updateUser } from '@/services/usuarioService';
+import { updateUser } from '@/services/userService';
 import { UserUpdate } from '@/types/user/UserUpdate';
 
 export default function HomePage() {

@@ -3,7 +3,7 @@ import { loginSchema } from "../../schemas/validations";
 import type { ZodIssue } from "zod";
 import React, { useState, useCallback, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Login } from "@/services/usuarioService";
+import { Login } from "@/services/userService";
 import "./style.css";
 import { LoginRequest } from "@/types/user/LoginRequest";
 
@@ -88,6 +88,8 @@ const LoginUser = () => {
       },
       [formData, router]
     );
+
+    console.log("Form Data:", formData)
 
     return (
       <main className="login-page">
