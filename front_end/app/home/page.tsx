@@ -49,16 +49,18 @@ export default function HomePage() {
     };
 
     useEffect(() => {
-        const storedUser = localStorage.getItem("user");
-        const type = localStorage.getItem("userType");
+        const fetchUserData = async () => {
+            const storedUser = localStorage.getItem("user");
+            const type = localStorage.getItem("userType");
 
-        setUserType(type);
-        if (storedUser) {
-            setUser(JSON.parse(storedUser));
-            setSavedName(JSON.parse(storedUser).name); 
-        }
+            setUserType(type);
+            if (storedUser) {
+                setUser(JSON.parse(storedUser));
+                setSavedName(JSON.parse(storedUser).name); 
+            }
+        };
+        fetchUserData();
     }, []);
-
 
     return(
         <>
