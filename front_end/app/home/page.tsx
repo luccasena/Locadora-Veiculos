@@ -1,12 +1,16 @@
 "use client";
 import { FormEventHandler, use, useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import '../page';
 import "./style.css";
 
 import { updateUser } from '@/services/userService';
 import { UserUpdate } from '@/types/user/UserUpdate';
 
+
+
 export default function HomePage() {
+    const router = useRouter();
 
     const [user, setUser] =  useState({
         id: null,
@@ -19,6 +23,7 @@ export default function HomePage() {
     });
     const [userType, setUserType] = useState<string | null>(null);
     const [savedName, setSavedName] = useState("");
+    const [manageType, setManageType] = useState("");
 
     // Atualiza valores conforme digitação
     const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,8 +32,7 @@ export default function HomePage() {
             ...prevUser,
             [name]: value,
         }));
-    }
-        
+    };
 
     const handleSave = async () => {
         localStorage.setItem("user", JSON.stringify(user));
@@ -48,6 +52,27 @@ export default function HomePage() {
         }
     };
 
+    const handleManager = (type: string) => {
+        setManageType(type);
+        localStorage.setItem("manageType", type);
+
+        if (manageType === "ai-agent") {
+            router.push("/admin/ai-agent");
+        }
+
+        if (manageType === "cars") {
+            router.push("/admin/manage-cars");
+        }
+
+        if (manageType === "clients") {
+            router.push("/admin/manage-clients");
+        }
+
+        if (manageType === "contracts") {
+            router.push("/admin/manage-contracts");
+        }
+    };
+
     useEffect(() => {
         const fetchUserData = async () => {
             const storedUser = localStorage.getItem("user");
@@ -59,6 +84,8 @@ export default function HomePage() {
                 setSavedName(JSON.parse(storedUser).name); 
             }
         };
+
+
         fetchUserData();
     }, []);
 
@@ -69,21 +96,38 @@ export default function HomePage() {
             <>
                 <header>
                     <div className="logo">UrbanMove</div>
-                    <nav className="nav-menu">
-                        <ul>
-                            <li><a href="#">Home</a></li>
-                            <li><a href="#">Clientes</a></li>
-                            <li><a href="#">Visualizar carros</a></li>
-                        </ul>
-                    </nav>
+
                 </header>
                 <main>
                     <section className="hero-section">
                         <h1 className="hero-title">Área do Administrador</h1>
                         <p  className="hero-subtitle">Gerencie usuários, veículos e contratos aqui.</p>
                     </section>
+                    <section>
+                        <div className="features-section">
+                            <div className="grid-admin">
+                                    <div className="feature-card-admin">
+                                        <h3>Contratos</h3>
+                                        <button type="button" style={{cursor: "pointer"}} onClick={() => handleManager("contracts")}>Gerenciar</button>
+                                    </div>
+                                    <div className="feature-card-admin">
+                                        <h3>Carros</h3>
+                                        <button type="button" style={{cursor: "pointer"}} onClick={() => handleManager("cars")}>Gerenciar</button>
+                                    </div>
+                                </div>
+                                <div className="grid-admin">
+                                    <div className="feature-card-admin">
+                                        <h3>Clientes</h3>
+                                        <button type="button" style={{cursor: "pointer"}} onClick={() => handleManager("clients")}>Gerenciar</button>
+                                    </div>
+                                    <div className="feature-card-admin">
+                                        <h3>Assistente 24hrs</h3>
+                                        <button type="button" style={{cursor: "pointer"}} onClick={() => handleManager("ai-agent")}>Gerenciar</button>
+                                    </div>     
+                            </div>
+                        </div>
+                    </section>
                 </main>
-                
             </>
             )}
 

@@ -3,21 +3,33 @@ import type { LoginRequest } from "../types/user/LoginRequest";
 import { ENV } from "../config/env";
 import { RegisterUser } from "@/types/user/RegisterUser";
 import { UserUpdate } from "@/types/user/UserUpdate";
+import axiosInstance from "@/config/axios";
 
 const API_URL = ENV.NEXT_PUBLIC_API_URL
 
 export const Login = async (login: LoginRequest) => {
-  const response = await axios.post(`${API_URL}login/`, login);
+  const response = await axiosInstance.post(`${API_URL}login/`, login);
   return response;
 };
 
 export const Register = async (usuario: RegisterUser) => {
-  const response = await axios.post(`${API_URL}clientes/`, usuario);
-
+  const response = await axiosInstance.post(`${API_URL}clientes/`, usuario);
   return response;
 };
 
 export const updateUser = async (user: UserUpdate, id: number) => {
-  const response = await axios.put(`${API_URL}clientes/${id}/`, user);
+  const response = await axiosInstance.put(`${API_URL}clientes/${id}/`, user);
+  return response;
+}
+
+export const getUsers = async () => {
+  const response = await axiosInstance.get(`${API_URL}clientes/`, 
+    { withCredentials: true }
+  );
+  return response;
+}
+
+export const deleteUser = async (id: number) => {
+  const response = await axiosInstance.delete(`${API_URL}clientes/${id}/`);
   return response;
 }

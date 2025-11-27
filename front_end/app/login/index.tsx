@@ -3,9 +3,10 @@ import { loginSchema } from "../../schemas/validations";
 import type { ZodIssue } from "zod";
 import React, { useState, useCallback, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Login } from "@/services/userService";
+import { getUsers, Login } from "@/services/userService";
 import "./style.css";
 import { LoginRequest } from "@/types/user/LoginRequest";
+import { parseSetCookie } from "next/dist/compiled/@edge-runtime/cookies";
 
 const REDIRECT_DELAY = 2000;
 const LoginUser = () => {
@@ -61,7 +62,6 @@ const LoginUser = () => {
           localStorage.setItem("auth", "true");
           localStorage.setItem("user", JSON.stringify(usuario.data.user));
           localStorage.setItem("userType", usuario.data.type);
-
           
           if (usuario.data.type === "administrador") {
               setMsgSucesso(`Bem-vindo(a) Administrador!`);
@@ -88,8 +88,6 @@ const LoginUser = () => {
       },
       [formData, router]
     );
-
-    console.log("Form Data:", formData)
 
     return (
       <main className="login-page">
