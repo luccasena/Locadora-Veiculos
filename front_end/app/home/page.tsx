@@ -95,7 +95,7 @@ export default function HomePage() {
                     <nav className="nav-menu">
                         <ul>
                             <li><a href="#">Home</a></li>
-                            <li><a href="#">Carros ativos</a></li>
+                            <li><a href="/front_end/app/contracts">Meus Contratos</a></li>
                             <li><a href="#">Visualizar carros</a></li>
                         </ul>
                     </nav>
@@ -132,6 +132,7 @@ export default function HomePage() {
                 </>
 
             )}
+            
             <FooterPage/>
         </>
     )

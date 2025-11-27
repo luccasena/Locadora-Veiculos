@@ -1,7 +1,7 @@
 export interface Contract {
     id: number;
-    StartDate: Date;
-    EndDate: Date;
+    StartDate: string;
+    EndDate: string;
     idClient: number;
     idCar: number;
 }
