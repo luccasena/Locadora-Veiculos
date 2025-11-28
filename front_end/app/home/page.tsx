@@ -6,6 +6,8 @@ import "./style.css";
 import { updateUser } from '@/services/userService';
 import { UserUpdate } from '@/types/user/UserUpdate';
 import { FooterPage } from '@/components/FooterPage';
+import { useRouter } from 'next/router';
+
 
 export default function HomePage() {
 
@@ -20,6 +22,10 @@ export default function HomePage() {
     });
     const [userType, setUserType] = useState<string | null>(null);
     const [savedName, setSavedName] = useState("");
+    const [clientType, setClientType] = useState<string | null>(null);
+    const router = useRouter();
+
+   
 
     // Atualiza valores conforme digitação
     const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -62,6 +68,22 @@ export default function HomePage() {
         };
         fetchUserData();
     }, []);
+        const handleClient = (type: string) => {
+        setClientType(type);
+        localStorage.setItem("clientType", type);
+
+        if (clientType === "ai-agent") {
+            router.push("/admin/ai-agent");
+        }
+
+        if (clientType === "cars") {
+            router.push("/admin/manage-cars");
+        }
+
+        if (clientType === "clients") {
+            router.push("/admin/manage-clients");
+        }
+    };
 
     return(
         <>
@@ -94,9 +116,9 @@ export default function HomePage() {
                     <div className="logo">UrbanMove</div>
                     <nav className="nav-menu">
                         <ul>
-                            <li><a href="#">Home</a></li>
-                            <li><a href="/front_end/app/contracts">Meus Contratos</a></li>
-                            <li><a href="#">Visualizar carros</a></li>
+                            <li><button type="button" style={{cursor: "pointer"}} onClick={() => handleManager("contracts")}>Gerenciar</button></li>
+                            <li><button type="button" style={{cursor: "pointer"}} onClick={() => handleManager("contracts")}>Gerenciar</button></li>
+                            <li><button type="button" style={{cursor: "pointer"}} onClick={() => handleManager("contracts")}>Gerenciar</button></li>
                         </ul>
                     </nav>
                 </header>
