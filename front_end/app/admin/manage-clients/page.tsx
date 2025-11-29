@@ -1,9 +1,9 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { DataGrid, GridColDef  } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridValueFormatter } from '@mui/x-data-grid';
 import { Box } from "@mui/material";
 import Modal from '@mui/material/Modal';
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { getUsers } from "@/services/userService";
 import { Edit, Delete } from "@mui/icons-material";
 import { IconButton } from "@mui/material";
@@ -18,23 +18,38 @@ import { updateUser } from '@/services/userService';
 import { deleteUser } from '@/services/userService';
 
 export default function ManageClientsPage() {
+    
     const router = useRouter();
     const [users, setUsers] = useState<User[]>([]);
     const [userEdit, setUserEdit] = useState<User>();
     const [selectedRow, setSelectedRow] = useState<User | null>(null);
     const [openEditModal, setOpenEditModal] = useState(false);
 
+    // added: ref to track mounted state across async calls
+    const isMountedRef = useRef(true);
+
+    useEffect(() => {
+        isMountedRef.current = true;
+        return () => {
+            isMountedRef.current = false;
+        };
+    }, []);
+
     const handleEdit = (user: User) => {
         setSelectedRow(user);
-        setUserEdit(user); // aqui !
+        setUserEdit({ ...user });
         setOpenEditModal(true);
     };
 
     const handleDelete = async (userId: number) => {
+        
+
         if (selectedRow) {
             const confirmDelete = window.confirm(`Tem certeza que deseja deletar o usuário ${selectedRow.name} ${selectedRow.lastname}?`);
             if (confirmDelete) {
                 await deleteUser(userId);
+                // guard against updating state after unmount
+                if (!isMountedRef.current) return;
                 alert("Usuário deletado com sucesso!");
                 setOpenEditModal(false);
             }
@@ -53,19 +68,20 @@ export default function ManageClientsPage() {
     }  
 
     const handleSave =  async (user: User) => {
-        alert("Dados atualizados!");
-
+        // perform update
         const userUpdate: UserUpdate = {
-            cpf: user.cpf,
-            email: user.email,
             name: user.name,
-            lastname: user.lastname,
+            cpf: user.cpf,
+            password: user.password,
             phone: user.phone,
-            password: user.password
+            lastname: user.lastname,
+            email: user.email,
         }
 
         if (user.id !== null) {
             await updateUser(userUpdate, user.id);
+            if (!isMountedRef.current) return;
+            alert("Dados atualizados!");
         }
     };
 
@@ -98,64 +114,41 @@ export default function ManageClientsPage() {
             )
         },
         { field: 'id', headerName: 'ID', width: 90 },
-        {
-            field: 'cpf',
-            headerName: 'CPF',
-            width: 150,
-        },
-        {
-            field: 'email',
-            headerName: 'E-mail',
-            width: 150,
-        },
-        {
-            field: 'name',
-            headerName: 'Nome',
-            type: 'string',
-            width: 110,
-        },
-        {
-            field: 'lastname',
-            headerName: 'Sobrenome',
-            description: 'This column has a value getter and is not sortable.',
-            width: 160,
-        },
-        {
-            field: 'phone',
-            headerName: 'Telefone',
-            description: 'This column has a value getter and is not sortable.',
-            width: 160,
-        },
-        {
-            field: 'password',
-            headerName: 'Senha',
-            description: 'This column has a value getter and is not sortable.',
-            width: 160,
-        },
+        { field: 'cpf', headerName: 'CPF', width: 150},
+        { field: 'email', headerName: 'E-mail', width: 150},
+        { field: 'name', headerName: 'Nome', type: 'string', width: 110},
+        { field: 'lastname', headerName: 'Sobrenome', description: 'This column has a value getter and is not sortable.', width: 160},
+        { field: 'phone', headerName: 'Telefone', description: 'This column has a value getter and is not sortable.', width: 160},  
+        { field: 'password', headerName: 'Senha', description: 'This column has a value getter and is not sortable.', width: 160},
         {
             field: 'createdAt',
             headerName: 'Criado em',
-            valueGetter: (params) =>
-                new Date(params).toLocaleDateString("pt-BR"),
             width: 160,
+            valueFormatter: (value: string) =>
+                new Date(value).toLocaleDateString("pt-BR"),
         },
         {
             field: 'updatedAt',
             headerName: 'Atualizado em',
-            valueGetter: (params) =>
-                new Date(params).toLocaleDateString("pt-BR"),
             width: 160,
+            valueFormatter: (value: string) =>
+                new Date(value).toLocaleDateString("pt-BR"),
         }
-        ];
-    
+    ];
+ 
     useEffect(() => {
-        const fetchClients = async () => {
-            const response = await getUsers();
-            setUsers(response.data);
-        }
-        fetchClients();
+        // use the mounted ref here instead of a local variable
+        getUsers()
+            .then((res) => {
+            if (isMountedRef.current) {
+                setUsers(res.data);
+            }
+            })
+            .catch(console.error);
+
+        // no local mounted flag cleanup needed (isMountedRef handles it)
     }, []);
-    
+        
     return (
     <>
         <header>
@@ -207,12 +200,11 @@ export default function ManageClientsPage() {
                             columns={columns}
                             initialState={{
                                 pagination: {
-                                paginationModel: { pageSize: 10, page: 0 }
+                                    paginationModel: { pageSize: 10, page: 0 }
                                 }
                             }}
                             pageSizeOptions={[5, 10, 20]}
                             disableRowSelectionOnClick
-                            
                         />
                     </Box>
                 </div>

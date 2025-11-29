@@ -25,7 +25,6 @@ export default function HomePage() {
     const [savedName, setSavedName] = useState("");
     const [manageType, setManageType] = useState("");
 
-    // Atualiza valores conforme digitação
     const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setUser((prevUser) => ({
@@ -52,27 +51,6 @@ export default function HomePage() {
         }
     };
 
-    const handleManager = (type: string) => {
-        setManageType(type);
-        localStorage.setItem("manageType", type);
-
-        if (manageType === "ai-agent") {
-            router.push("/admin/ai-agent");
-        }
-
-        if (manageType === "cars") {
-            router.push("/admin/manage-cars");
-        }
-
-        if (manageType === "clients") {
-            router.push("/admin/manage-clients");
-        }
-
-        if (manageType === "contracts") {
-            router.push("/admin/manage-contracts");
-        }
-    };
-
     useEffect(() => {
         const fetchUserData = async () => {
             const storedUser = localStorage.getItem("user");
@@ -96,7 +74,6 @@ export default function HomePage() {
             <>
                 <header>
                     <div className="logo">UrbanMove</div>
-
                 </header>
                 <main>
                     <section className="hero-section">
@@ -108,21 +85,21 @@ export default function HomePage() {
                             <div className="grid-admin">
                                     <div className="feature-card-admin">
                                         <h3>Contratos</h3>
-                                        <button type="button" style={{cursor: "pointer"}} onClick={() => handleManager("contracts")}>Gerenciar</button>
+                                        <button type="button" style={{cursor: "pointer"}} onClick={() => router.push("/admin/manage-contracts")}>Gerenciar</button>
                                     </div>
                                     <div className="feature-card-admin">
                                         <h3>Carros</h3>
-                                        <button type="button" style={{cursor: "pointer"}} onClick={() => handleManager("cars")}>Gerenciar</button>
+                                        <button type="button" style={{cursor: "pointer"}} onClick={() => router.push("/admin/manage-cars")}>Gerenciar</button>
                                     </div>
                                 </div>
                                 <div className="grid-admin">
                                     <div className="feature-card-admin">
                                         <h3>Clientes</h3>
-                                        <button type="button" style={{cursor: "pointer"}} onClick={() => handleManager("clients")}>Gerenciar</button>
+                                        <button type="button" style={{cursor: "pointer"}} onClick={() => router.push("/admin/manage-clients")}>Gerenciar</button>
                                     </div>
                                     <div className="feature-card-admin">
                                         <h3>Assistente 24hrs</h3>
-                                        <button type="button" style={{cursor: "pointer"}} onClick={() => handleManager("ai-agent")}>Gerenciar</button>
+                                        <button type="button" style={{cursor: "pointer"}} onClick={() => router.push("/admin/ai-agent")}>Gerenciar</button>
                                     </div>     
                             </div>
                         </div>

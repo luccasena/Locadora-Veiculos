@@ -58,12 +58,17 @@ const LoginUser = () => {
           };
 
           const usuario = await Login(login);
+
+          console.log("User data after login:", usuario);
           
-          localStorage.setItem("auth", "true");
-          localStorage.setItem("user", JSON.stringify(usuario.data.user));
-          localStorage.setItem("userType", usuario.data.type);
+          localStorage.setItem("auth", JSON.stringify({
+            token: usuario,
+            user: usuario.data.user,
+          }));
+
+          let userType = usuario.data.type;
           
-          if (usuario.data.type === "administrador") {
+          if (userType === "administrador") {
               setMsgSucesso(`Bem-vindo(a) Administrador!`);
               localStorage.setItem("userType", "administrador");
 
@@ -72,7 +77,7 @@ const LoginUser = () => {
               localStorage.setItem("userType", "cliente");
           }
 
-          if (localStorage.getItem("auth") === "true"){
+          if (localStorage.getItem("auth")){
               setTimeout(() => {
                   router.push("/home", );
               },REDIRECT_DELAY);

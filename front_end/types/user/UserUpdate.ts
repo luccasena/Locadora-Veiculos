@@ -1,9 +1,10 @@
 
 export interface UserUpdate  {
-    cpf: string;
-    email: string;
     name: string;
-    lastname?: string
-    phone: string;
+    cpf: string;
     password: string;
+    phone: string;
+    lastname?: string
+    email: string;
 }
+

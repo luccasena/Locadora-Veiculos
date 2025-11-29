@@ -18,6 +18,7 @@ export const Register = async (usuario: RegisterUser) => {
 };
 
 export const updateUser = async (user: UserUpdate, id: number) => {
+  console.log("Updating user with ID:", id, "and data:", user);
   const response = await axiosInstance.put(`${API_URL}clientes/${id}/`, user);
   return response;
 }
