@@ -1,4 +1,4 @@
-export interface RegisterUser {
+export interface RegisterUserData {
   cpf: string;
   email: string;
   name: string;

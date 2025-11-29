@@ -4,16 +4,16 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { registerSchema } from "../../schemas/validations";
 import type { ZodIssue } from "zod";
-import { Register } from "../../services/userService";
+import { RegisterUser } from "../../services/userService";
 import axios from "axios";
 import "./style.css";
-import type { RegisterUser } from "@/types/user/RegisterUser";
+import type { RegisterUserData } from "@/types/user/RegisterUser";
 
 const REDIRECT_DELAY = 2000;
 
-export default function RegisterPage() {
+export default function Register() {
   const router = useRouter();
-  const [formData, setFormData] = useState<RegisterUser>({
+  const [formData, setFormData] = useState<RegisterUserData>({
     cpf: "",
     email: "",
     name: "",
@@ -56,7 +56,7 @@ export default function RegisterPage() {
       setMsgSucesso("");
 
       try {
-        const response = await Register(formData);
+        const response = await RegisterUser(formData);
         if (
           response &&
           response.data &&
@@ -176,7 +176,7 @@ export default function RegisterPage() {
               {isLoading ? "Cadastrando..." : "Cadastrar"}
             </button>
 
-            <Link href="/LoginUser" className="btn-login btn-secondary">
+            <Link href="/" className="btn-login btn-secondary">
               Fazer login
             </Link>
           </div>

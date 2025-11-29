@@ -1,18 +1,18 @@
 import axios from "axios";
 import type { LoginRequest } from "../types/user/LoginRequest";
 import { ENV } from "../config/env";
-import { RegisterUser } from "@/types/user/RegisterUser";
+import { RegisterUserData } from "@/types/user/RegisterUser";
 import { UserUpdate } from "@/types/user/UserUpdate";
 import axiosInstance from "@/config/axios";
 
-const API_URL = ENV.NEXT_PUBLIC_API_URL
+const API_URL = ENV.NEXT_PUBLIC_API_URL;
 
 export const Login = async (login: LoginRequest) => {
   const response = await axiosInstance.post(`${API_URL}login/`, login);
   return response;
 };
 
-export const Register = async (usuario: RegisterUser) => {
+export const Register = async (usuario: RegisterUserData) => {
   const response = await axiosInstance.post(`${API_URL}clientes/`, usuario);
   return response;
 };
@@ -33,4 +33,4 @@ export const getUsers = async () => {
 export const deleteUser = async (id: number) => {
   const response = await axiosInstance.delete(`${API_URL}clientes/${id}/`);
   return response;
-}
+};

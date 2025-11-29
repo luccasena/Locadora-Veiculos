@@ -1,8 +1,9 @@
 "use client";
-import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import { createContext, useContext, useState, ReactNode } from "react";
+import type { UserUpdate } from "@/types/user/UserUpdate";
 
 interface AuthContextType {
-  user: any;
+  user: UserUpdate | null;
   userType: string | null;
   logout: () => void;
 }
@@ -10,16 +11,20 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | null>(null);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState(null);
-  const [userType, setUserType] = useState<string | null>(null);
+  const [user, setUser] = useState<UserUpdate | null>(() => {
+    if (typeof window !== "undefined") {
+      const storedUser = localStorage.getItem("user");
+      return storedUser ? JSON.parse(storedUser) : null;
+    }
+    return null;
+  });
 
-  useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    const storedType = localStorage.getItem("userType");
-
-    if (storedUser) setUser(JSON.parse(storedUser));
-    if (storedType) setUserType(storedType);
-  }, []);
+  const [userType, setUserType] = useState<string | null>(() => {
+    if (typeof window !== "undefined") {
+      return localStorage.getItem("userType");
+    }
+    return null;
+  });
 
   const logout = () => {
     localStorage.removeItem("auth");
