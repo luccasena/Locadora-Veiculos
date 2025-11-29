@@ -14,9 +14,11 @@ const contractController = {
         const is_client = await IsClient(req.cookies['sb-access-token'],req);
         if (is_client){
             res.status(400).json({ message: "Voce nao tem permissao para acessar essa pagina" });
+            return;
         }
         const contracts: Contract[] = await contractService.getContracts();
         res.status(200).json(contracts);
+        return;
     },
 
     async getContractById(req: Request, res: Response): Promise<void>{
@@ -27,6 +29,7 @@ const contractController = {
         const is_client = await IsClient(req.cookies['sb-access-token'],req);
         if (is_client){
             res.status(400).json({ message: "Voce nao tem permissao para acessar essa pagina" });
+            return;
         }
         const id: number = parseInt(req.params.id);
 
@@ -42,6 +45,7 @@ const contractController = {
         }
 
         res.status(200).json(contract)
+        return;
 
     },
     async createContract(req: Request, res: Response): Promise<void>{
@@ -52,6 +56,7 @@ const contractController = {
         const is_client = await IsClient(req.cookies['sb-access-token'],req);
         if (is_client){
             res.status(400).json({ message: "Voce nao tem permissao para acessar essa pagina" });
+            return;
         }
         contractSchema.parse(req.body)
         const {  StartDate, EndDate, idClient, idCar } = req.body;
@@ -67,6 +72,7 @@ const contractController = {
 
         }catch(error){
             res.status(409).json({ message: "Erro ao criar contrato", error });
+            return;
 
         }
 
@@ -80,6 +86,7 @@ const contractController = {
         const is_client = await IsClient(req.cookies['sb-access-token'],req);
         if (is_client){
             res.status(400).json({ message: "Voce nao tem permissao para acessar essa pagina" });
+            return;
         }
         const id: number = parseInt(req.params.id);
 
@@ -91,10 +98,11 @@ const contractController = {
         try{
             await contractService.deleteContract(id);
             res.status(200).json({ message: "Contrato deletado com sucesso" });
+            return;
 
         }catch(error){
             res.status(404).json({ message: "Contrato não encontrado", error });
-            
+            return;
         }
 
     },
@@ -107,6 +115,7 @@ const contractController = {
         const is_client = await IsClient(req.cookies['sb-access-token'],req);
         if (is_client){
             res.status(400).json({ message: "Voce nao tem permissao para acessar essa pagina" });
+            return;
         }
 
         const id: number = parseInt(req.params.id);
@@ -165,7 +174,7 @@ const contractController = {
             res
         }catch(error){
             res.status(404).json({ message: "Contrato não encontrado", error });
-
+            return;
         }
 
     }
