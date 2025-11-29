@@ -90,19 +90,16 @@ const clientController = {
     async UpdateClient(req:Request, res:Response):Promise<void> {
         if (!IsAuthenticated(req)){
             res.status(401).json({ message: "Usuário não autenticado" });
+            return
+        }
+        
+        const user = await ReturnUserByCookie(req.cookies['sb-access-token']);
+        const is_admin: boolean = await IsAdmin(req.cookies['sb-access-token'],req);;
+        if (!is_admin && user.id.toString() != req.params.id){
+            res.status(400).json({ message: "Voce nao tem permissao para acessar essa pagina" });
             return;
         }
-        const user = await ReturnUserByCookie(req.cookies['sb-access-token']);
-        if(user && req.params.id != user.id.toString()){
-            res.status(400).json({ message: "Voce nao tem permissao para acessar essa pagina" });
-        }
         const id = parseInt(req.params.id);
-        const client = await prisma.client.findUnique({ where: { id:id } });
-
-        if (!client){
-            res.status(404).json({ message: "Id  inválido ou não existe!" })
-        };
-
         const body: clientBodyData = req.body;
 
         const updatedClient = await clientService.UpdateClient(id,body)
