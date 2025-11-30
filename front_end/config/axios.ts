@@ -13,8 +13,6 @@ axiosInstance.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
     const auth = localStorage.getItem("auth");
 
-    console.log("Auth token from localStorage:", auth);
-
     if (auth) {
       const token = JSON.parse(auth)?.token;
 

@@ -7,12 +7,14 @@ import axiosInstance from "@/config/axios";
 
 const API_URL = ENV.NEXT_PUBLIC_API_URL;
 
-export const Login = async (login: LoginRequest) => {
+export const loginUser = async (login: LoginRequest) => {
   const response = await axiosInstance.post(`${API_URL}login/`, login);
   return response;
 };
 
-export const Register = async (usuario: RegisterUserData) => {
+export const registerUser = async (usuario: RegisterUserData) => {
+  console.log("Registering user with data:", usuario);
+  
   const response = await axiosInstance.post(`${API_URL}clientes/`, usuario);
   return response;
 };

@@ -49,7 +49,6 @@ const clientController = {
         res.status(200).json(client);
     },
 
-
     async CreateClient(req:Request, res:Response):Promise<void>{
         const body: clientBodyData = req.body;
         clientSchema.parse(body)
@@ -58,7 +57,7 @@ const clientController = {
             res.status(201).json({message: "Cliente adicionado com sucesso!", cliente: client });
 
         }catch(error){
-            res.status(400).json({ message: "Algo deu errado durante a criacao do cliente"});
+            res.status(400).json({ message: `Algo deu errado durante a criacao do cliente ${error}`});
         }
     },
 

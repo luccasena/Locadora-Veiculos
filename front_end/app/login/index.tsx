@@ -3,7 +3,7 @@ import { loginSchema } from "../../schemas/validations";
 import type { ZodIssue } from "zod";
 import React, { useState, useCallback, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { getUsers, Login } from "@/services/userService";
+import { getUsers, loginUser } from "@/services/userService";
 import "./style.css";
 import Link from "next/link";
 import { LoginRequest } from "@/types/user/LoginRequest";
@@ -52,12 +52,13 @@ const LoginUser = () => {
       setMsgSucesso("");
 
       try {
+
         const login: LoginRequest = {
           email: formData.email,
           password: formData.senha,
         };
 
-        const usuario = await Login(login);
+        const usuario = await loginUser(login);
 
         localStorage.setItem("auth", "true");
         localStorage.setItem("user", JSON.stringify(usuario.data.user));
@@ -80,8 +81,6 @@ const LoginUser = () => {
             email: formData.email,
             password: formData.senha,
           };
-
-          const usuario = await Login(login);
 
           console.log("User data after login:", usuario);
           

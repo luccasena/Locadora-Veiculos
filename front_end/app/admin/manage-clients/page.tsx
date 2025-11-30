@@ -7,26 +7,33 @@ import { useEffect, useState, useRef } from "react";
 import { getUsers } from "@/services/userService";
 import { Edit, Delete } from "@mui/icons-material";
 import { IconButton } from "@mui/material";
+import Fab from '@mui/material/Fab';
+import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
+import { ZodIssue } from "zod";
 
 import "./style.css";
 import "../../home/style.css"
 
-import { User } from "../../../types/user/User";
+import { User } from "../../../types/user/user";
+import { registerSchema } from "../../../schemas/validations";
+import { RegisterUserData } from "../../../types/user/RegisterUser";
 import { UserUpdate } from "../../../types/user/UserUpdate";
+import { registerUser }  from '@/services/userService';
 import { updateUser } from '@/services/userService';
 import { deleteUser } from '@/services/userService';
 
 export default function ManageClientsPage() {
     
-    const router = useRouter();
-    const [users, setUsers] = useState<User[]>([]);
-    const [userEdit, setUserEdit] = useState<User>();
+    const router        = useRouter();
+    const isMountedRef  = useRef(true);
+    const [users, setUsers]             = useState<User[]>([]);
+    const [userEdit, setUserEdit]       = useState<User>();
+    const [userCreate, setUserCreate]   = useState<User>({} as User); // initialize create state
     const [selectedRow, setSelectedRow] = useState<User | null>(null);
-    const [openEditModal, setOpenEditModal] = useState(false);
-
-    // added: ref to track mounted state across async calls
-    const isMountedRef = useRef(true);
+    const [openModal, setOpenModal]     = useState(false);
+    const [modalType,   setModalType]   = useState("");
+    const [errors, setErrors]           = useState<Record<string, string[]>>({});
 
     useEffect(() => {
         isMountedRef.current = true;
@@ -35,15 +42,24 @@ export default function ManageClientsPage() {
         };
     }, []);
 
+    const handleCreate = () => {
+      // limpa erros e estado antes de abrir
+      setErrors({});
+      setUserCreate({} as User);
+      setModalType("create");
+      setOpenModal(true);
+    };
+
     const handleEdit = (user: User) => {
+        setErrors({});
         setSelectedRow(user);
         setUserEdit({ ...user });
-        setOpenEditModal(true);
+        setModalType("edit");
+        setOpenModal(true);
     };
 
     const handleDelete = async (userId: number) => {
         
-
         if (selectedRow) {
             const confirmDelete = window.confirm(`Tem certeza que deseja deletar o usuário ${selectedRow.name} ${selectedRow.lastname}?`);
             if (confirmDelete) {
@@ -51,39 +67,98 @@ export default function ManageClientsPage() {
                 // guard against updating state after unmount
                 if (!isMountedRef.current) return;
                 alert("Usuário deletado com sucesso!");
-                setOpenEditModal(false);
+                setOpenModal(false);
             }
         }
     };
 
     const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
+      const { name, value } = e.target;
+
+      if (modalType === "edit") {
         setUserEdit((prevUser) => {
-            if (!prevUser) return prevUser;
-            return {
-                ...prevUser,
-                [name]: value,
-            };
+          if (!prevUser) return prevUser;
+          return {
+            ...prevUser,
+            [name]: value,
+          };
         });
+      }
+
+      if (modalType === "create") {
+        setUserCreate((prevUser) => {
+          const base = prevUser ?? ({} as User);
+          return {
+            ...base,
+            [name]: value,
+          };
+        });
+      }
     }  
 
-    const handleSave =  async (user: User) => {
-        // perform update
-        const userUpdate: UserUpdate = {
-            name: user.name,
-            cpf: user.cpf,
-            password: user.password,
-            phone: user.phone,
-            lastname: user.lastname,
-            email: user.email,
-        }
+    const handleSaveUpdate = async (user: User) => {
+  const result = registerSchema.safeParse({
+    name: user.name,
+    lastname: user.lastname,
+    cpf: user.cpf,
+    email: user.email,
+    phone: user.phone,
+    password: user.password,
+  });
 
-        if (user.id !== null) {
-            await updateUser(userUpdate, user.id);
-            if (!isMountedRef.current) return;
-            alert("Dados atualizados!");
-        }
-    };
+  if (!result.success) {
+    setErrors(result.error.flatten().fieldErrors);
+    return;
+  }
+
+  setErrors({});
+  const userUpdate: UserUpdate = {
+    name: user.name,
+    cpf: user.cpf,
+    password: user.password,
+    phone: user.phone,
+    lastname: user.lastname,
+    email: user.email,
+  };
+
+  if (user.id != null) {
+    await updateUser(userUpdate, user.id);
+    if (!isMountedRef.current) return;
+    alert("Dados atualizados!");
+  }
+};
+
+const handleSaveCreate = async (user: User) => {
+  const validation = registerSchema.safeParse({
+    name: user.name,
+    lastname: user.lastname,
+    cpf: user.cpf,
+    email: user.email,
+    phone: user.phone,
+    password: user.password,
+  });
+
+  if (!validation.success) {
+    // usa flatten para mapear diretamente por campo
+    setErrors(validation.error.flatten().fieldErrors);
+    return;
+  }
+
+  setErrors({});
+  const userCreatePayload: RegisterUserData = {
+    name: user.name,
+    cpf: user.cpf,
+    password: user.password,
+    phone: user.phone,
+    lastname: user.lastname,
+    email: user.email,
+  };
+
+  await registerUser(userCreatePayload);
+  if (!isMountedRef.current) return;
+  alert("Usuário criado com sucesso!");
+  setOpenModal(false);
+};
 
     const columns: GridColDef<User>[] = [
         
@@ -167,6 +242,9 @@ export default function ManageClientsPage() {
 
                 }}>
                 <div>
+                    <Fab color="primary" aria-label="add" sx={{ margin: "10px"}} onClick={handleCreate}>
+                        <AddIcon />
+                    </Fab>
                     <Box
                         sx={{
                             height: 750,
@@ -211,16 +289,16 @@ export default function ManageClientsPage() {
             </section>
         </main>
         <Modal
-            open={openEditModal}
-            onClose={() => setOpenEditModal(false)}
+            open={openModal}
+            onClose={() => setOpenModal(false)}
         >
             <div className="modal-overlay">
-                {selectedRow && (
+                {modalType === "edit" && selectedRow && (
                     <div className="modal-container">
 
                         <IconButton
                             aria-label="close"
-                            onClick={() => setOpenEditModal(false)}
+                            onClick={() => setOpenModal(false)}
                             className="modal-close-btn"
                         >
                             <CloseIcon />
@@ -233,29 +311,78 @@ export default function ManageClientsPage() {
                         <div className="form-edit-user-admin">
                             <label>Nome</label>
                             <input name="name" value={userEdit?.name || ""} onChange={handleChange}></input> 
+                            {errors.name && <p className="error-text">{errors.name.join(", ")}</p>}
 
                             <label>Sobrenome</label>
-                            <input name="lastname" value={userEdit?.lastname || ""} onChange={handleChange}></input> 
+                            <input name="lastname" value={userEdit?.lastname || ""} onChange={handleChange}></input>
+                            {errors.lastname && <p className="error-text">{errors.lastname.join(", ")}</p>}
 
                             <label>CPF</label>
                             <input name="cpf" value={userEdit?.cpf || ""} onChange={handleChange}></input> 
+                            {errors.cpf && <p className="error-text">{errors.cpf.join(", ")}</p>}
 
                             <label>Email</label>
                             <input name="email" value={userEdit?.email || ""} onChange={handleChange}></input> 
+                            {errors.email && <p className="error-text">{errors.email.join(", ")}</p>}
 
                             <label>Telefone</label>
                             <input name="phone" value={userEdit?.phone || ""} onChange={handleChange}></input> 
+                            {errors.phone && <p className="error-text">{errors.phone.join(", ")}</p>}
 
                             <label>Senha</label>
                             <input type="password" name="password" value={userEdit?.password || ""} onChange={handleChange}></input> 
+                            {errors.password && <p className="error-text">{errors.password.join(", ")}</p>}
 
-                            <button onClick={() => userEdit && handleSave(userEdit)}>
+                            <button onClick={() => userEdit && handleSaveUpdate(userEdit)}>
                                 Salvar alterações
                             </button>
                         </div>
 
                     </div>
                 )}
+                {modalType === "create" && (
+                    <div className="modal-container">
+                        <IconButton
+                            aria-label="close"
+                            onClick={() => setOpenModal(false)}
+                            className="modal-close-btn"
+                        >
+                            <CloseIcon />
+                        </IconButton>
+
+                        <h2>Criando Usuário</h2>
+
+                        <div className="form-edit-user-admin">
+                          <label>Nome</label>
+                          <input name="name" value={userCreate?.name || ""} onChange={handleChange} />
+                          {errors.name && <p className="error-text">{errors.name.join(", ")}</p>}
+
+                          <label>Sobrenome</label>
+                          <input name="lastname" value={userCreate?.lastname || ""} onChange={handleChange} />
+                          {errors.lastname && <p className="error-text">{errors.lastname.join(", ")}</p>}
+
+                          <label>CPF</label>
+                          <input name="cpf" value={userCreate?.cpf || ""} onChange={handleChange} />
+                          {errors.cpf && <p className="error-text">{errors.cpf.join(", ")}</p>}
+
+                          <label>Email</label>
+                          <input name="email" value={userCreate?.email || ""} onChange={handleChange} />
+                          {errors.email && <p className="error-text">{errors.email.join(", ")}</p>}
+
+                          <label>Telefone</label>
+                          <input name="phone" value={userCreate?.phone || ""} onChange={handleChange} />
+                          {errors.phone && <p className="error-text">{errors.phone.join(", ")}</p>}
+
+                          <label>Senha</label>
+                          <input type="password" name="password" value={userCreate?.password || ""} onChange={handleChange} />
+                          {errors.password && <p className="error-text">{errors.password.join(", ")}</p>}
+
+                          <button onClick={() => userCreate && handleSaveCreate(userCreate)}>
+                            Salvar alterações
+                          </button>
+                        </div>
+                    </div>
+                )};
             </div>
         </Modal>
     </>
