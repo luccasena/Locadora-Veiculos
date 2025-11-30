@@ -23,10 +23,10 @@ export default function RootLayout({children}: Readonly<{children: React.ReactNo
   return (
     <html lang="pt-br">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-      <AuthProvider>
-        <ChatWidget />
-        {children}
-      </AuthProvider>
+        <AuthProvider>
+          <ChatWidget/>
+          {children}
+        </AuthProvider>
       </body>
     </html>
   );

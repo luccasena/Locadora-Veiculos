@@ -1,8 +1,9 @@
-export interface RegisterUser {
-  cpf: string;
-  email: string;
-  name: string;
-  lastname?: string;
-  phone: string;
-  password: string;
+export interface RegisterUserData {
+    name: string;
+    cpf: string;
+    password: string;
+    phone: string;
+    lastname?: string
+    email: string;
 }
+
