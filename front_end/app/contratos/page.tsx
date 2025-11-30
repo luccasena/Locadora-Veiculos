@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { FooterPage } from "@/components/FooterPage";
-import { HeaderPage } from "@/components/headerPage";
+import { HeaderPageClients } from "@/components/headerPageClient";
 import "./style.css";
 import type { Contract } from "@/types/Contract";
 import { getContracts } from "../../services/ContractService";
@@ -28,7 +28,7 @@ export default function ContractsPage() {
 
   return (
     <>
-      <HeaderPage />
+      <HeaderPageClients />
 
       <h1>Contratos de Carros</h1>
 

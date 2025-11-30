@@ -1,12 +1,15 @@
 "use client";
-import { FormEventHandler, use, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import '../page';
 import "./style.css";
 
 import { updateUser } from '@/services/userService';
 import { UserUpdate } from '@/types/user/UserUpdate';
 import { FooterPage } from '@/components/FooterPage';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
+
+import { HeaderPageClients } from "@/components/headerPageClient";
+import { HeaderPageAdmin } from "@/components/headerPageAdmin";
 
 
 export default function HomePage() {
@@ -23,10 +26,9 @@ export default function HomePage() {
     const [userType, setUserType] = useState<string | null>(null);
     const [savedName, setSavedName] = useState("");
     const [clientType, setClientType] = useState<string | null>(null);
+
     const router = useRouter();
-
    
-
     // Atualiza valores conforme digitação
     const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -68,38 +70,30 @@ export default function HomePage() {
         };
         fetchUserData();
     }, []);
-        const handleClient = (type: string) => {
-        setClientType(type);
-        localStorage.setItem("clientType", type);
 
-        if (clientType === "ai-agent") {
-            router.push("/admin/ai-agent");
-        }
+    const handleClient = (type: string) => {
+    setClientType(type);
+    localStorage.setItem("clientType", type);
 
-        if (clientType === "cars") {
-            router.push("/admin/manage-cars");
-        }
+    if (clientType === "ai-agent") {
+        router.push("/admin/ai-agent");
+    }
 
-        if (clientType === "clients") {
-            router.push("/admin/manage-clients");
-        }
-    };
+    if (clientType === "cars") {
+        router.push("/admin/manage-cars");
+    }
+
+    if (clientType === "clients") {
+        router.push("/admin/manage-clients");
+    }
+};
 
     return(
         <>
         
             {userType === "administrador" && (
             <>
-                <header>
-                    <div className="logo">UrbanMove</div>
-                    <nav className="nav-menu">
-                        <ul>
-                            <li><a href="#">Home</a></li>
-                            <li><a href="#">Clientes</a></li>
-                            <li><a href="#">Visualizar carros</a></li>
-                        </ul>
-                    </nav>
-                </header>
+                <HeaderPageAdmin />
                 <main>
                     <section className="hero-section">
                         <h1 className="hero-title">Área do Administrador</h1>
@@ -112,16 +106,7 @@ export default function HomePage() {
 
             {userType === "cliente" && (
                 <>
-                <header>
-                    <div className="logo">UrbanMove</div>
-                    <nav className="nav-menu">
-                        <ul>
-                            <li><button type="button" style={{cursor: "pointer"}} onClick={() => handleManager("contracts")}>Gerenciar</button></li>
-                            <li><button type="button" style={{cursor: "pointer"}} onClick={() => handleManager("contracts")}>Gerenciar</button></li>
-                            <li><button type="button" style={{cursor: "pointer"}} onClick={() => handleManager("contracts")}>Gerenciar</button></li>
-                        </ul>
-                    </nav>
-                </header>
+                <HeaderPageClients />
 
                 <main>
                     <section className="hero-section">
