@@ -50,6 +50,7 @@ const loginControllers = {
                 user: loginResult.user,
                 type: loginResult.type
             });
+            return;
         } catch (error) {
             console.error("Erro ao definir cookies:", error);
             res.status(500).json({ 
@@ -84,6 +85,7 @@ const loginControllers = {
         });
         
         res.status(200).json({ message: "Usuario desconectado" });
+        return;
     }
 }
 

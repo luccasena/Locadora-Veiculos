@@ -1,18 +1,18 @@
 "use client";
-import {  useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import '../page';
+import { FormEventHandler, use, useEffect, useState } from "react";
+import "../page";
 import "./style.css";
 
-import { updateUser } from '@/services/userService';
-import { UserUpdate } from '@/types/user/UserUpdate';
 import { FooterPage } from '@/components/FooterPage';
-
 import { HeaderPageClients } from "@/components/headerPageClient";
 import { HeaderPageAdmin } from "@/components/headerPageAdmin";
 import { AdminCard } from '@/components/adminCard';
 import { FileText, Car, Users } from 'lucide-react';
 
+import { updateUser } from "@/services/userService";
+import { UserUpdate } from "@/types/user/UserUpdate";
 
 export default function HomePage() {
 
@@ -27,9 +27,11 @@ export default function HomePage() {
     });
     const [userType, setUserType] = useState<string | null>(null);
     const [savedName, setSavedName] = useState("");
+    const [clientType, setClientType] = useState<string | null>(null);
 
     const router = useRouter();
-
+   
+    // Atualiza valores conforme digitação
     const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setUser((prevUser) => ({
@@ -67,8 +69,6 @@ export default function HomePage() {
                 setSavedName(JSON.parse(storedUser).name); 
             }
         };
-
-
         fetchUserData();
     }, []);
 
@@ -85,7 +85,7 @@ export default function HomePage() {
                     </section>
                     <section>
                         <div className="features-section">
-                            <div className="grid-admin">
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
                                 
                                 <AdminCard 
                                 title="Contratos" 
