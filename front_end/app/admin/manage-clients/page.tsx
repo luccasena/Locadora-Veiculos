@@ -26,7 +26,6 @@ import { FooterPage } from '@/components/FooterPage';
 
 export default function ManageClientsPage() {
     
-    const router        = useRouter();
     const isMountedRef  = useRef(true);
     const [users, setUsers]             = useState<User[]>([]);
     const [userEdit, setUserEdit]       = useState<User>();
@@ -47,10 +46,17 @@ export default function ManageClientsPage() {
 
     const handleCreate = () => {
       // limpa erros e estado antes de abrir
-      setErrors({});
-      setUserCreate({} as User);
-      setModalType("create");
-      setOpenModal(true);
+        setModalType("create");
+        setErrors({});
+        setUserCreate({
+            name: "",
+            cpf: "",
+            password: "",
+            phone: "",
+            lastname:  "", 
+            email: "",
+        } as User);
+        setOpenModal(true);
     };
 
     const handleEdit = (user: User) => {
@@ -241,7 +247,7 @@ export default function ManageClientsPage() {
     }, []);
         
     return (
-    <>
+    <div className="home-scope">
         <HeaderPageAdmin />
         <main>
             <section className="hero-section">
@@ -400,6 +406,6 @@ export default function ManageClientsPage() {
             </div>
         </Modal>
         <FooterPage />
-    </>
+    </div>
 );
 }

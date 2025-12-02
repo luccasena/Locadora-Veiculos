@@ -3,8 +3,9 @@ import React, { useEffect, useState, useCallback } from "react";
 import { getAllCars } from "../../services/CarService";
 import { Car } from "@/types/car/Car";
 import { HeaderPageClients } from "@/components/headerPageClient";
-import "./style.css";
 import { HeaderPageAdmin } from "@/components/headerPageAdmin";
+
+import "./style.css";
 
 export default function CarsPage() {
   const [userType, setUserType] = useState<string | null>(null);

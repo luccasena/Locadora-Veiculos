@@ -24,7 +24,6 @@ export default function ManageContractsPage() {;
     const [selectedRow, setSelectedRow] = useState<ContractAdminView | null>(null);
     const [openModal, setOpenModal]     = useState(false);
     const [modalType,   setModalType]   = useState("");
-    const [errors, setErrors]           = useState<Record<string, string[]>>({});
 
     const handleDelete = async (contractId: number) => {
         if (selectedRow) {
@@ -111,7 +110,7 @@ export default function ManageContractsPage() {;
     }, []);
         
     return (
-    <>
+    <div className="home-scope">
         <HeaderPageAdmin />
         <main>
             <section className="hero-section">
@@ -197,6 +196,6 @@ export default function ManageContractsPage() {;
             </div>
         </Modal>
         <FooterPage />
-        </>
+        </div>
     );
 }

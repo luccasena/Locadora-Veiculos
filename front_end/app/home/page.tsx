@@ -1,8 +1,6 @@
 "use client";
 import { useRouter } from 'next/navigation';
-import '../page';
 import {  useEffect, useState } from "react";
-import "../page";
 import "./style.css";
 
 import { FooterPage } from '@/components/FooterPage';
@@ -72,7 +70,7 @@ export default function HomePage() {
     }, []);
 
     return(
-        <>
+        <div className='home-scope'>
         
             {userType === "administrador" && (
             <>
@@ -148,6 +146,6 @@ export default function HomePage() {
             )}
             
             <FooterPage/>
-        </>
+        </div>
     )
 }

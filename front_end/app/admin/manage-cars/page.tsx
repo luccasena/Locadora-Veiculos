@@ -1,15 +1,18 @@
 "use client";
-import { useRouter } from "next/navigation";
+import { useEffect, useState, useRef, useCallback } from "react";
+
+import { getAllCars } from "../../../services/CarService";
+
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { Box } from "@mui/material";
 import Modal from '@mui/material/Modal';
-import { useEffect, useState, useRef } from "react";
-import { getAllCars } from "../../../services/CarService";
 import { Edit, Delete } from "@mui/icons-material";
 import { IconButton } from "@mui/material";
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
+import { carSchema } from "@/schemas/validations";
+
 import { HeaderPageAdmin } from "@/components/headerPageAdmin";
 import { FooterPage } from '@/components/FooterPage';
 
@@ -24,7 +27,6 @@ import { deleteCar } from "../../../services/CarService";
 import { createCar } from "../../../services/CarService";
 
 export default function ManageCarsPage() {
-    const router        = useRouter();
     const isMountedRef  = useRef(true);
     const [cars,        setCars]        = useState<Car[]>([]);
     const [carEdit,     setCarEdit]     = useState<Car>();
@@ -32,6 +34,8 @@ export default function ManageCarsPage() {
     const [selectedRow, setSelectedRow] = useState<Car | null>(null);
     const [openModal,   setOpenModal]   = useState(false);
     const [modalType,   setModalType]   = useState("");
+
+    const [carErrors, setCarErrors] = useState<Record<string, string[]>>({});
 
     const refetchCars = async () => {
         try {
@@ -51,23 +55,34 @@ export default function ManageCarsPage() {
 
     const handleDelete = async (carId: number) => {
         if (selectedRow) {
-            const confirmDelete = window.confirm(`Tem certeza que deseja deletar o carro ${selectedRow.carName} ${selectedRow.carBrand}?`);
+            const confirmDelete = window.confirm(`Tem certeza que deseja deletar esse carro?`);
             if (confirmDelete) {
                 await deleteCar(carId);
                 if (!isMountedRef.current) return;
                 alert("Carro deletado com sucesso!");
                 setOpenModal(false);
-                await refetchCars(); // refresh list
+                await refetchCars();
             }
         }
     };
 
     const handleCreate = () => {
         setModalType("create");
+        setCarErrors({});
+        
+        setCarCreate({
+            carName: "",
+            carBrand: "",
+            carCategory: "",
+            fuelType: "",
+            Year: undefined as unknown as number, 
+            Price: undefined as unknown as number,
+        } as Car);
+        
         setOpenModal(true);
     };
 
-    const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
 
         if (modalType === "edit") {
@@ -87,46 +102,52 @@ export default function ManageCarsPage() {
             }));
         }
 
-    }  
+    }, [modalType]);
 
     const handleSaveUpdate =  async (car: Car) => {
-        // perform update
+        const parsedCar = carSchema.safeParse(car);
+        if (!parsedCar.success) {
+            setCarErrors(parsedCar.error.flatten().fieldErrors);
+            return;
+        }
+        setCarErrors({});
         const carUpdate: CarUpdate = {
-            carBrand: car.carBrand,
-            carName: car.carName,
-            carCategory: car.carCategory,
-            fuelType: car.fuelType,
-            Year: parseInt(car.Year.toString(), 10),
-            Price: parseFloat(car.Price.toString())
+            carBrand: parsedCar.data.carBrand,
+            carName: parsedCar.data.carName,
+            carCategory: parsedCar.data.carCategory,
+            fuelType: parsedCar.data.fuelType,
+            Year: parsedCar.data.Year,
+            Price: parsedCar.data.Price
         };
-
         if (car.id != null) {
             await updateCar(carUpdate, car.id);
             if (!isMountedRef.current) return;
             alert("Dados atualizados!");
             setOpenModal(false);
-            await refetchCars(); // refresh list
+            await refetchCars();
         }
     };
 
     const handleSaveCreate =  async (car: Car) => {
-
-        const carCreate: RegisterCarData = {
-            carBrand: car.carBrand,
-            carName: car.carName,
-            carCategory: car.carCategory,
-            fuelType: car.fuelType,
-            Year: parseInt(car.Year.toString(), 10),
-            Price: parseFloat(car.Price.toString())
-        };
-
-        if (car.id !== null) {
-            await createCar(carCreate);
-            if (!isMountedRef.current) return;
-            alert("Carro criado com sucesso!");
-            setOpenModal(false);
-            await refetchCars(); // refresh list
+        const parsedCar = carSchema.safeParse(car);
+        if (!parsedCar.success) {
+            setCarErrors(parsedCar.error.flatten().fieldErrors);
+            return;
         }
+        setCarErrors({});
+        const payload: RegisterCarData = {
+            carBrand: parsedCar.data.carBrand,
+            carName: parsedCar.data.carName,
+            carCategory: parsedCar.data.carCategory,
+            fuelType: parsedCar.data.fuelType,
+            Year: parsedCar.data.Year,
+            Price: parsedCar.data.Price
+        };
+        await createCar(payload);
+        if (!isMountedRef.current) return;
+        alert("Carro criado com sucesso!");
+        setOpenModal(false);
+        await refetchCars();
     };
 
     const columns: GridColDef<Car>[] = [
@@ -202,7 +223,7 @@ export default function ManageCarsPage() {
     }, []);
         
     return (
-    <>
+    <div className="home-scope">
         <HeaderPageAdmin />
         <main>
             <section className="hero-section">
@@ -283,22 +304,28 @@ export default function ManageCarsPage() {
 
                         <div className="form-edit-car-admin">
                             <label>Nome do Carro</label>
-                            <input name="carName" value={carEdit?.carName || ""} onChange={handleChange}></input> 
+                            <input name="carName" value={carEdit?.carName || ""} onChange={handleChange} />
+                            {carErrors.carName && <p className="error-text">{carErrors.carName.join(", ")}</p>}
 
                             <label>Marca</label>
-                            <input name="carBrand" value={carEdit?.carBrand || ""} onChange={handleChange}></input> 
+                            <input name="carBrand" value={carEdit?.carBrand || ""} onChange={handleChange} />
+                            {carErrors.carBrand && <p className="error-text">{carErrors.carBrand.join(", ")}</p>}
 
                             <label>Categoria</label>
-                            <input name="carCategory" value={carEdit?.carCategory || ""} onChange={handleChange}></input> 
+                            <input name="carCategory" value={carEdit?.carCategory || ""} onChange={handleChange} />
+                            {carErrors.carCategory && <p className="error-text">{carErrors.carCategory.join(", ")}</p>}
 
                             <label>Ano</label>
-                            <input type="number" name="Year" value={carEdit?.Year || ""} onChange={handleChange}></input> 
+                            <input type="number" name="Year" value={carEdit?.Year ?? ""} onChange={handleChange} />
+                            {carErrors.Year && <p className="error-text">{carErrors.Year.join(", ")}</p>}
 
                             <label>Preço Diária (R$)</label>
-                            <input type="number" name="Price" value={carEdit?.Price || ""} onChange={handleChange}></input> 
+                            <input type="number" name="Price" value={carEdit?.Price ?? ""} onChange={handleChange} />
+                            {carErrors.Price && <p className="error-text">{carErrors.Price.join(", ")}</p>}
 
                             <label>Combustível</label>
-                            <input name="fuelType" value={carEdit?.fuelType || ""} onChange={handleChange}></input> 
+                            <input name="fuelType" value={carEdit?.fuelType || ""} onChange={handleChange} />
+                            {carErrors.fuelType && <p className="error-text">{carErrors.fuelType.join(", ")}</p>}
 
                             <button onClick={() => carEdit && handleSaveUpdate(carEdit)}>
                                 Salvar alterações
@@ -322,22 +349,28 @@ export default function ManageCarsPage() {
 
                         <div className="form-edit-car-admin">
                             <label>Nome do Carro</label>
-                            <input name="carName" onChange={handleChange}></input> 
+                            <input name="carName" value={carCreate?.carName || ""} onChange={handleChange} />
+                            {carErrors.carName && <p className="error-text">{carErrors.carName.join(", ")}</p>}
 
                             <label>Marca</label>
-                            <input name="carBrand" onChange={handleChange}></input> 
+                            <input name="carBrand" value={carCreate?.carBrand || ""} onChange={handleChange} />
+                            {carErrors.carBrand && <p className="error-text">{carErrors.carBrand.join(", ")}</p>}
 
                             <label>Categoria</label>
-                            <input name="carCategory" onChange={handleChange}></input> 
+                            <input name="carCategory" value={carCreate?.carCategory || ""} onChange={handleChange} />
+                            {carErrors.carCategory && <p className="error-text">{carErrors.carCategory.join(", ")}</p>}
 
                             <label>Ano</label>
-                            <input type="number" name="Year" onChange={handleChange}></input> 
+                            <input type="number" name="Year" value={carCreate?.Year ?? ""} onChange={handleChange} />
+                            {carErrors.Year && <p className="error-text">{carErrors.Year.join(", ")}</p>}
 
                             <label>Preço Diária (R$)</label>
-                            <input type="number" name="Price" onChange={handleChange}></input> 
+                            <input type="number" name="Price" value={carCreate?.Price ?? ""} onChange={handleChange} />
+                            {carErrors.Price && <p className="error-text">{carErrors.Price.join(", ")}</p>}
 
                             <label>Combustível</label>
-                            <input name="fuelType" onChange={handleChange}></input> 
+                            <input name="fuelType" value={carCreate?.fuelType || ""} onChange={handleChange} />
+                            {carErrors.fuelType && <p className="error-text">{carErrors.fuelType.join(", ")}</p>}
 
                             <button onClick={() => carCreate && handleSaveCreate(carCreate)}>
                                 Criar Carro
@@ -349,6 +382,6 @@ export default function ManageCarsPage() {
             </div>
         </Modal>
         <FooterPage />
-    </>
+    </div>
 );
 }
