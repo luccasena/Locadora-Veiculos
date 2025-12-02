@@ -1,10 +1,9 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { DataGrid, GridColDef, GridValueFormatter } from '@mui/x-data-grid';
+import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { Box } from "@mui/material";
 import Modal from '@mui/material/Modal';
 import { useEffect, useState, useRef } from "react";
-import { getUsers } from "@/services/userService";
 import { Edit, Delete } from "@mui/icons-material";
 import { IconButton } from "@mui/material";
 import Fab from '@mui/material/Fab';
@@ -18,6 +17,7 @@ import { User } from "../../../types/user/user";
 import { registerSchema } from "../../../schemas/validations";
 import { RegisterUserData } from "../../../types/user/RegisterUser";
 import { UserUpdate } from "../../../types/user/UserUpdate";
+import { getUsers } from "@/services/userService";
 import { registerUser }  from '@/services/userService';
 import { updateUser } from '@/services/userService';
 import { deleteUser } from '@/services/userService';
@@ -36,12 +36,14 @@ export default function ManageClientsPage() {
     const [modalType,   setModalType]   = useState("");
     const [errors, setErrors]           = useState<Record<string, string[]>>({});
 
-    useEffect(() => {
-        isMountedRef.current = true;
-        return () => {
-            isMountedRef.current = false;
-        };
-    }, []);
+    const refetchUsers = async () => {
+        try {
+            const res = await getUsers();
+            if (isMountedRef.current) setUsers(res.data);
+        } catch (e) {
+            console.error(e);
+        }
+    };
 
     const handleCreate = () => {
       // limpa erros e estado antes de abrir
@@ -64,6 +66,7 @@ export default function ManageClientsPage() {
     if (selectedRow) {
         const confirmDelete = window.confirm(`Tem certeza que deseja deletar o usuário ${selectedRow.name} ${selectedRow.lastname}?`);
         if (confirmDelete) {
+            console.log("Deleting user with ID:", userId);
             await deleteUser(userId);
             // guard against updating state after unmount
             if (!isMountedRef.current) return;
@@ -125,11 +128,14 @@ export default function ManageClientsPage() {
             await updateUser(userUpdate, user.id);
             if (!isMountedRef.current) return;
             alert("Dados atualizados!");
+            await refetchUsers();
         }
         setOpenModal(false);
     };
 
     const handleSaveCreate = async (user: User) => {
+
+
         const validation = registerSchema.safeParse({
             name: user.name,
             lastname: user.lastname,
@@ -140,7 +146,6 @@ export default function ManageClientsPage() {
         });
 
         if (!validation.success) {
-            // usa flatten para mapear diretamente por campo
             setErrors(validation.error.flatten().fieldErrors);
             return;
         }
@@ -159,6 +164,7 @@ export default function ManageClientsPage() {
         if (!isMountedRef.current) return;
         alert("Usuário criado com sucesso!");
         setOpenModal(false);
+        await refetchUsers(); 
     };
 
     const columns: GridColDef<User>[] = [
@@ -213,7 +219,18 @@ export default function ManageClientsPage() {
     ];
  
     useEffect(() => {
-        // use the mounted ref here instead of a local variable
+        refetchUsers();
+        return () => { isMountedRef.current = false; };
+    }, []);
+
+    useEffect(() => {
+        isMountedRef.current = true;
+        return () => {
+            isMountedRef.current = false;
+        };
+    }, []);
+
+    useEffect(() => {
         getUsers()
             .then((res) => {
             if (isMountedRef.current) {
@@ -221,8 +238,6 @@ export default function ManageClientsPage() {
             }
             })
             .catch(console.error);
-
-        // no local mounted flag cleanup needed (isMountedRef handles it)
     }, []);
         
     return (

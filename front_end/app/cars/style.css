@@ -9,8 +9,15 @@
     sans-serif;
 }
 
+.page-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; 
+}
+
 /* Header */
 .cars-header {
+  background-color: #ffffff;
   text-align: center;
   margin-bottom: 3rem;
   padding: 2rem 0;

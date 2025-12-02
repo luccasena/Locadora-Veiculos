@@ -4,7 +4,7 @@ import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { Box } from "@mui/material";
 import Modal from '@mui/material/Modal';
 import { useEffect, useState, useRef } from "react";
-import { getCars } from "../../../services/CarService";
+import { getAllCars } from "../../../services/CarService";
 import { Edit, Delete } from "@mui/icons-material";
 import { IconButton } from "@mui/material";
 import Fab from '@mui/material/Fab';
@@ -24,7 +24,6 @@ import { deleteCar } from "../../../services/CarService";
 import { createCar } from "../../../services/CarService";
 
 export default function ManageCarsPage() {
-    
     const router        = useRouter();
     const isMountedRef  = useRef(true);
     const [cars,        setCars]        = useState<Car[]>([]);
@@ -34,12 +33,14 @@ export default function ManageCarsPage() {
     const [openModal,   setOpenModal]   = useState(false);
     const [modalType,   setModalType]   = useState("");
 
-    useEffect(() => {
-        isMountedRef.current = true;
-        return () => {
-            isMountedRef.current = false;
-        };
-    }, []);
+    const refetchCars = async () => {
+        try {
+            const res = await getAllCars();
+            if (isMountedRef.current) setCars(res.data);
+        } catch (e) {
+            console.error(e);
+        }
+    };
 
     const handleEdit = (car: Car) => {
         setSelectedRow(car);
@@ -49,16 +50,14 @@ export default function ManageCarsPage() {
     };
 
     const handleDelete = async (carId: number) => {
-        
-
         if (selectedRow) {
             const confirmDelete = window.confirm(`Tem certeza que deseja deletar o carro ${selectedRow.carName} ${selectedRow.carBrand}?`);
             if (confirmDelete) {
                 await deleteCar(carId);
-                // guard against updating state after unmount
                 if (!isMountedRef.current) return;
                 alert("Carro deletado com sucesso!");
                 setOpenModal(false);
+                await refetchCars(); // refresh list
             }
         }
     };
@@ -99,19 +98,18 @@ export default function ManageCarsPage() {
             fuelType: car.fuelType,
             Year: parseInt(car.Year.toString(), 10),
             Price: parseFloat(car.Price.toString())
-        }
+        };
 
-        if (car.id !== null) {
+        if (car.id != null) {
             await updateCar(carUpdate, car.id);
             if (!isMountedRef.current) return;
             alert("Dados atualizados!");
+            setOpenModal(false);
+            await refetchCars(); // refresh list
         }
     };
 
     const handleSaveCreate =  async (car: Car) => {
-        // perform update
-
-        console.log("Creating car:", car);
 
         const carCreate: RegisterCarData = {
             carBrand: car.carBrand,
@@ -120,12 +118,14 @@ export default function ManageCarsPage() {
             fuelType: car.fuelType,
             Year: parseInt(car.Year.toString(), 10),
             Price: parseFloat(car.Price.toString())
-        }
+        };
 
         if (car.id !== null) {
             await createCar(carCreate);
             if (!isMountedRef.current) return;
             alert("Carro criado com sucesso!");
+            setOpenModal(false);
+            await refetchCars(); // refresh list
         }
     };
 
@@ -178,18 +178,27 @@ export default function ManageCarsPage() {
                 new Date(value).toLocaleDateString("pt-BR"),
         }
     ];
+
+    useEffect(() => {
+        isMountedRef.current = true;
+        return () => {
+            isMountedRef.current = false;
+        };
+    }, []);
+
+    useEffect(() => {
+        refetchCars();
+        return () => { isMountedRef.current = false; };
+    }, []);
  
     useEffect(() => {
-        // use the mounted ref here instead of a local variable
-        getCars()
+        getAllCars()
             .then((res) => {
             if (isMountedRef.current) {
                 setCars(res.data);
             }
             })
             .catch(console.error);
-
-        // no local mounted flag cleanup needed (isMountedRef handles it)
     }, []);
         
     return (

@@ -1,6 +1,7 @@
 import axios from "axios";
 import { ENV } from "../config/env";
 import { RegisterCarData } from "../types/car/RegisterCarData";
+import { Car } from "@/types/car/Car";
 import { CarUpdate } from "@/types/car/CarUpdate";
 import axiosInstance from "@/config/axios";
 
@@ -17,8 +18,15 @@ export const updateCar = async (car: CarUpdate, id: number) => {
   return response;
 }
 
-export const getCars = async () => {
+export const getAllCars  = async () => {
   const response = await axiosInstance.get(`${API_URL}carros/`, 
+    { withCredentials: true }
+  );
+  return response;
+}
+
+export const getCarById  = async (id: number) => {
+  const response = await axiosInstance.get(`${API_URL}carros/${id}/`, 
     { withCredentials: true }
   );
   return response;

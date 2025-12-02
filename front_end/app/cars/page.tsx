@@ -1,10 +1,13 @@
 "use client";
 import React, { useEffect, useState, useCallback } from "react";
-import { GetAllCars } from "../../services/CarService";
-import { Car } from "@/types/Car";
+import { getAllCars } from "../../services/CarService";
+import { Car } from "@/types/car/Car";
+import { HeaderPageClients } from "@/components/headerPageClient";
 import "./style.css";
+import { HeaderPageAdmin } from "@/components/headerPageAdmin";
 
 export default function CarsPage() {
+  const [userType, setUserType] = useState<string | null>(null);
   const [cars, setCars] = useState<Car[]>([]);
   const [filteredCars, setFilteredCars] = useState<Car[]>([]);
   const [loading, setLoading] = useState(true);
@@ -15,27 +18,26 @@ export default function CarsPage() {
     maxPrice: "",
   });
 
-  // Fetch all cars on mount
   useEffect(() => {
+    setUserType(localStorage.getItem("userType"));
     const loadCars = async () => {
-      try {
-        setLoading(true);
-        setError("");
-        const data = await GetAllCars();
-        setCars(data);
-        setFilteredCars(data);
-      } catch (err) {
-        console.error("Erro ao buscar carros:", err);
-        setError("Erro ao carregar carros. Tente novamente mais tarde.");
-      } finally {
-        setLoading(false);
-      }
-    };
+        try {
+          setLoading(true);
+          setError("");
+          const data = await getAllCars();
 
+          setCars(data.data as Car[]);
+          setFilteredCars(data.data as Car[]);
+        } catch (err) {
+          console.error("Erro ao buscar carros:", err);
+          setError("Erro ao carregar carros. Tente novamente mais tarde.");
+        } finally {
+          setLoading(false);
+        }
+    };
     loadCars();
   }, []);
 
-  // Filter cars when filters change
   useEffect(() => {
     let filtered = cars;
 
@@ -74,6 +76,8 @@ export default function CarsPage() {
   }, []);
 
   return (
+    <>
+    {userType === "administrador" ? <HeaderPageAdmin /> : <HeaderPageClients/>}
     <div className="cars-container">
       <header className="cars-header">
         <h1>Carros Disponíveis</h1>
@@ -82,7 +86,6 @@ export default function CarsPage() {
 
       {error && <div className="alert alert-error">{error}</div>}
 
-      {/* Filters Section */}
       <section className="filters-section">
         <h2>Filtros</h2>
         <div className="filters-grid">
@@ -189,5 +192,6 @@ export default function CarsPage() {
         </div>
       )}
     </div>
+    </>
   );
 }

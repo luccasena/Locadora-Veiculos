@@ -91,11 +91,11 @@ const clientController = {
         }
 
         try{
-            const deletedClient = await clientService.DeleteClient(id);
+            await clientService.DeleteClient(id);
             res.status(200).json({ message: "Usuário excluído!" })
             return;
         }catch(error){
-            res.status(400).json({ message: "Algo deu errado!"})
+            res.status(400).json({ message: `Algo deu errado! ${error}`});
             return
         }
     },

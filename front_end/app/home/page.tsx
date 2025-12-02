@@ -1,7 +1,7 @@
 "use client";
 import { useRouter } from 'next/navigation';
 import '../page';
-import { FormEventHandler, use, useEffect, useState } from "react";
+import {  useEffect, useState } from "react";
 import "../page";
 import "./style.css";
 
@@ -27,7 +27,6 @@ export default function HomePage() {
     });
     const [userType, setUserType] = useState<string | null>(null);
     const [savedName, setSavedName] = useState("");
-    const [clientType, setClientType] = useState<string | null>(null);
 
     const router = useRouter();
    
@@ -85,7 +84,7 @@ export default function HomePage() {
                     </section>
                     <section>
                         <div className="features-section">
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
+                            <div className="grid-admin">
                                 
                                 <AdminCard 
                                 title="Contratos" 

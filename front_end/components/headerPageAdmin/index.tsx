@@ -10,7 +10,7 @@ export function HeaderPageAdmin() {
                 <nav className="nav-menu">
                     <ul>
                         <li style={{cursor: "pointer"}}><a onClick={() => router.push("/home")}>Home</a></li>
-                        <li style={{cursor: "pointer"}}><a onClick={() => router.push("/home")}>Visualizar carros</a></li>
+                        <li style={{cursor: "pointer"}}><a onClick={() => router.push("/cars")}>Visualizar carros</a></li>
                     </ul>
                 </nav>
             </header>

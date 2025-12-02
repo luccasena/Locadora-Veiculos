@@ -36,3 +36,8 @@ export const deleteUser = async (id: number) => {
   const response = await axiosInstance.delete(`${API_URL}clientes/${id}/`);
   return response;
 };
+
+export const getUserById = async (id: number) => {
+  const response = await axiosInstance.get(`${API_URL}clientes/${id}/`);
+  return response;
+};
