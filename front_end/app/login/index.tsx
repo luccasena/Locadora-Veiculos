@@ -89,7 +89,7 @@ const LoginUser = () => {
               user: usuario.data.user,
             }));
 
-            let userType = usuario.data.type;
+            const userType = usuario.data.type;
             
             if (userType === "administrador") {
                 setMsgSucesso(`Bem-vindo(a) Administrador!`);

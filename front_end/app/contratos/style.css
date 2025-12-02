@@ -1,3 +1,36 @@
-.sla{
+.h1contratos{
+    text-align: center;
+    padding: 3rem 1.2rem;
+    color: #020202;
     font-size: 3rem;
+    border: 1px solid #e0e0e0;
+}
+
+.no-contratos{
+    text-align: center;
+    padding: 2rem 1.2rem;
+    color: #555555;
+    font-size: 2rem;
+}
+
+.loading-contratos{
+    text-align: center;
+    padding: 3rem 1rem;
+    font-size: 2rem;
+    color: #666;
+}
+
+.ul-contratos{
+    list-style: none;
+    padding: 2rem 1.2rem;
+    margin: 9rem auto;
+    max-width: 600px;
+    background-color: #000000;
+    border-radius: 20px;
+    color: #e0e0e0;
+}
+
+.li-contratos{
+    align-items: center;
+    justify-content: space-between;
 }
