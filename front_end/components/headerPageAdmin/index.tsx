@@ -9,8 +9,8 @@ export function HeaderPageAdmin() {
                 <div className="logo">UrbanMove</div>
                 <nav className="nav-menu">
                     <ul>
-                        <li><button onClick={() => router.push("/home")}>Home</button></li>
-                        <li><button onClick={() => router.push("/home")}>Visualizar carros</button></li>
+                        <li style={{cursor: "pointer"}}><a onClick={() => router.push("/home")}>Home</a></li>
+                        <li style={{cursor: "pointer"}}><a onClick={() => router.push("/home")}>Visualizar carros</a></li>
                     </ul>
                 </nav>
             </header>

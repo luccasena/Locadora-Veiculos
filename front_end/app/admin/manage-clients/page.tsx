@@ -10,7 +10,6 @@ import { IconButton } from "@mui/material";
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
-import { ZodIssue } from "zod";
 
 import "./style.css";
 import "../../home/style.css"
@@ -22,6 +21,8 @@ import { UserUpdate } from "../../../types/user/UserUpdate";
 import { registerUser }  from '@/services/userService';
 import { updateUser } from '@/services/userService';
 import { deleteUser } from '@/services/userService';
+import { HeaderPageAdmin } from "@/components/headerPageAdmin";
+import { FooterPage } from '@/components/FooterPage';
 
 export default function ManageClientsPage() {
     
@@ -60,105 +61,105 @@ export default function ManageClientsPage() {
 
     const handleDelete = async (userId: number) => {
         
-        if (selectedRow) {
-            const confirmDelete = window.confirm(`Tem certeza que deseja deletar o usuário ${selectedRow.name} ${selectedRow.lastname}?`);
-            if (confirmDelete) {
-                await deleteUser(userId);
-                // guard against updating state after unmount
-                if (!isMountedRef.current) return;
-                alert("Usuário deletado com sucesso!");
-                setOpenModal(false);
-            }
+    if (selectedRow) {
+        const confirmDelete = window.confirm(`Tem certeza que deseja deletar o usuário ${selectedRow.name} ${selectedRow.lastname}?`);
+        if (confirmDelete) {
+            await deleteUser(userId);
+            // guard against updating state after unmount
+            if (!isMountedRef.current) return;
+            alert("Usuário deletado com sucesso!");
+            setOpenModal(false);
         }
-    };
+    }
+};
 
     const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-      const { name, value } = e.target;
+        const { name, value } = e.target;
 
-      if (modalType === "edit") {
+        if (modalType === "edit") {
         setUserEdit((prevUser) => {
-          if (!prevUser) return prevUser;
-          return {
+            if (!prevUser) return prevUser;
+            return {
             ...prevUser,
             [name]: value,
-          };
+            };
         });
-      }
+        }
 
-      if (modalType === "create") {
+        if (modalType === "create") {
         setUserCreate((prevUser) => {
-          const base = prevUser ?? ({} as User);
-          return {
+            const base = prevUser ?? ({} as User);
+            return {
             ...base,
             [name]: value,
-          };
-        });
-      }
-    }  
+            };
+            });
+        }}  
 
     const handleSaveUpdate = async (user: User) => {
-  const result = registerSchema.safeParse({
-    name: user.name,
-    lastname: user.lastname,
-    cpf: user.cpf,
-    email: user.email,
-    phone: user.phone,
-    password: user.password,
-  });
+        const result = registerSchema.safeParse({
+            name: user.name,
+            lastname: user.lastname,
+            cpf: user.cpf,
+            email: user.email,
+            phone: user.phone,
+            password: user.password,
+        });
 
-  if (!result.success) {
-    setErrors(result.error.flatten().fieldErrors);
-    return;
-  }
+        if (!result.success) {
+            setErrors(result.error.flatten().fieldErrors);
+            return;
+        }
 
-  setErrors({});
-  const userUpdate: UserUpdate = {
-    name: user.name,
-    cpf: user.cpf,
-    password: user.password,
-    phone: user.phone,
-    lastname: user.lastname,
-    email: user.email,
-  };
+        setErrors({});
+        const userUpdate: UserUpdate = {
+            name: user.name,
+            cpf: user.cpf,
+            password: user.password,
+            phone: user.phone,
+            lastname: user.lastname,
+            email: user.email,
+        };
 
-  if (user.id != null) {
-    await updateUser(userUpdate, user.id);
-    if (!isMountedRef.current) return;
-    alert("Dados atualizados!");
-  }
-};
+        if (user.id != null) {
+            await updateUser(userUpdate, user.id);
+            if (!isMountedRef.current) return;
+            alert("Dados atualizados!");
+        }
+        setOpenModal(false);
+    };
 
-const handleSaveCreate = async (user: User) => {
-  const validation = registerSchema.safeParse({
-    name: user.name,
-    lastname: user.lastname,
-    cpf: user.cpf,
-    email: user.email,
-    phone: user.phone,
-    password: user.password,
-  });
+    const handleSaveCreate = async (user: User) => {
+        const validation = registerSchema.safeParse({
+            name: user.name,
+            lastname: user.lastname,
+            cpf: user.cpf,
+            email: user.email,
+            phone: user.phone,
+            password: user.password,
+        });
 
-  if (!validation.success) {
-    // usa flatten para mapear diretamente por campo
-    setErrors(validation.error.flatten().fieldErrors);
-    return;
-  }
+        if (!validation.success) {
+            // usa flatten para mapear diretamente por campo
+            setErrors(validation.error.flatten().fieldErrors);
+            return;
+        }
 
-  setErrors({});
-  const userCreatePayload: RegisterUserData = {
-    name: user.name,
-    cpf: user.cpf,
-    password: user.password,
-    phone: user.phone,
-    lastname: user.lastname,
-    email: user.email,
-  };
+        setErrors({});
+        const userCreatePayload: RegisterUserData = {
+            name: user.name,
+            cpf: user.cpf,
+            password: user.password,
+            phone: user.phone,
+            lastname: user.lastname,
+            email: user.email,
+        };
 
-  await registerUser(userCreatePayload);
-  if (!isMountedRef.current) return;
-  alert("Usuário criado com sucesso!");
-  setOpenModal(false);
-};
+        await registerUser(userCreatePayload);
+        if (!isMountedRef.current) return;
+        alert("Usuário criado com sucesso!");
+        setOpenModal(false);
+    };
 
     const columns: GridColDef<User>[] = [
         
@@ -226,9 +227,7 @@ const handleSaveCreate = async (user: User) => {
         
     return (
     <>
-        <header>
-            <div onClick={() => router.push("../home")} style={{cursor: "pointer"}} className="logo">UrbanMove</div>
-        </header>
+        <HeaderPageAdmin />
         <main>
             <section className="hero-section">
                 <h1 className="hero-title">Área do Administrador</h1>
@@ -385,6 +384,7 @@ const handleSaveCreate = async (user: User) => {
                 )};
             </div>
         </Modal>
+        <FooterPage />
     </>
 );
 }

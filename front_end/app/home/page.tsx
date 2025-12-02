@@ -10,6 +10,8 @@ import { FooterPage } from '@/components/FooterPage';
 
 import { HeaderPageClients } from "@/components/headerPageClient";
 import { HeaderPageAdmin } from "@/components/headerPageAdmin";
+import { AdminCard } from '@/components/adminCard';
+import { FileText, Car, Users } from 'lucide-react';
 
 
 export default function HomePage() {
@@ -25,11 +27,9 @@ export default function HomePage() {
     });
     const [userType, setUserType] = useState<string | null>(null);
     const [savedName, setSavedName] = useState("");
-    const [clientType, setClientType] = useState<string | null>(null);
 
     const router = useRouter();
-   
-    // Atualiza valores conforme digitação
+
     const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setUser((prevUser) => ({
@@ -72,23 +72,6 @@ export default function HomePage() {
         fetchUserData();
     }, []);
 
-    const handleClient = (type: string) => {
-    setClientType(type);
-    localStorage.setItem("clientType", type);
-
-    if (clientType === "ai-agent") {
-        router.push("/admin/ai-agent");
-    }
-
-    if (clientType === "cars") {
-        router.push("/admin/manage-cars");
-    }
-
-    if (clientType === "clients") {
-        router.push("/admin/manage-clients");
-    }
-};
-
     return(
         <>
         
@@ -103,24 +86,25 @@ export default function HomePage() {
                     <section>
                         <div className="features-section">
                             <div className="grid-admin">
-                                    <div className="feature-card-admin">
-                                        <h3>Contratos</h3>
-                                        <button type="button" style={{cursor: "pointer"}} onClick={() => router.push("/admin/manage-contracts")}>Gerenciar</button>
-                                    </div>
-                                    <div className="feature-card-admin">
-                                        <h3>Carros</h3>
-                                        <button type="button" style={{cursor: "pointer"}} onClick={() => router.push("/admin/manage-cars")}>Gerenciar</button>
-                                    </div>
-                                </div>
-                                <div className="grid-admin">
-                                    <div className="feature-card-admin">
-                                        <h3>Clientes</h3>
-                                        <button type="button" style={{cursor: "pointer"}} onClick={() => router.push("/admin/manage-clients")}>Gerenciar</button>
-                                    </div>
-                                    <div className="feature-card-admin">
-                                        <h3>Assistente 24hrs</h3>
-                                        <button type="button" style={{cursor: "pointer"}} onClick={() => router.push("/admin/ai-agent")}>Gerenciar</button>
-                                    </div>     
+                                
+                                <AdminCard 
+                                title="Contratos" 
+                                icon={<FileText className="text-white" size={48} />}
+                                onClick={() => router.push('admin/manage-contracts')}
+                                />
+
+                                <AdminCard 
+                                title="Carros" 
+                                icon={<Car className="text-white" size={48} />}
+                                onClick={() => router.push('admin/manage-cars')}
+                                />
+
+                                <AdminCard 
+                                title="Clientes" 
+                                icon={<Users className="text-white" size={48} />}
+                                onClick={() => router.push('admin/manage-clients')}
+                                />
+
                             </div>
                         </div>
                     </section>

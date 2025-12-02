@@ -10,6 +10,8 @@ import { IconButton } from "@mui/material";
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
+import { HeaderPageAdmin } from "@/components/headerPageAdmin";
+import { FooterPage } from '@/components/FooterPage';
 
 import "./style.css";
 import "../../home/style.css"
@@ -192,9 +194,7 @@ export default function ManageCarsPage() {
         
     return (
     <>
-        <header>
-            <div onClick={() => router.push("../home")} style={{cursor: "pointer"}} className="logo">UrbanMove</div>
-        </header>
+        <HeaderPageAdmin />
         <main>
             <section className="hero-section">
                 <h1 className="hero-title">Área do Administrador</h1>
@@ -339,6 +339,7 @@ export default function ManageCarsPage() {
                 )}
             </div>
         </Modal>
+        <FooterPage />
     </>
 );
 }
