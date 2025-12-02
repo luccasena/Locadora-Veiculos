@@ -11,12 +11,23 @@ const axiosInstance = axios.create({
 // Interceptor para requisições
 axiosInstance.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
+    const auth = localStorage.getItem("auth");
+
+    if (auth) {
+      const token = JSON.parse(auth)?.token;
+
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+    }
+
     return config;
   },
   (error: AxiosError) => {
     return Promise.reject(error);
   }
 );
+
 
 // Interceptor para respostas
 axiosInstance.interceptors.response.use(

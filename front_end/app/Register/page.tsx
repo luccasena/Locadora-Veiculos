@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { registerSchema } from "../../schemas/validations";
 import type { ZodIssue } from "zod";
-import { RegisterUser } from "../../services/userService";
+import { registerUser } from "../../services/userService";
 import axios from "axios";
 import "./style.css";
 import type { RegisterUserData } from "@/types/user/RegisterUser";
@@ -14,12 +14,12 @@ const REDIRECT_DELAY = 2000;
 export default function Register() {
   const router = useRouter();
   const [formData, setFormData] = useState<RegisterUserData>({
-    cpf: "",
-    email: "",
     name: "",
-    lastname: "",
-    phone: "",
+    cpf: "",
     password: "",
+    phone: "",
+    lastname: "",
+    email: "",
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [msgSucesso, setMsgSucesso] = useState("");
@@ -56,7 +56,7 @@ export default function Register() {
       setMsgSucesso("");
 
       try {
-        const response = await RegisterUser(formData);
+        const response = await registerUser(formData);
         if (
           response &&
           response.data &&
