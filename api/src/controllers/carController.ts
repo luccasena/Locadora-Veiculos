@@ -25,16 +25,19 @@ const carsController = {
         const is_client = await IsClient(cookies,req);
         if (is_client){
             res.status(400).json({ message: "Voce nao tem permissao para acessar essa pagina" });
+            return;
         }
         const carData: CarData = req.body;
         carSchema.parse(carData)
         const newCar: Car = await carsService.createCar(carData);
         res.status(201).json(newCar);
+        return;
     },
 
     async getCars(req: Request, res: Response): Promise<void>{
         const cars: Car[] = await carsService.getCar();
         res.status(200).json(cars);
+        return;
     },
     async getCarsId(req: Request, res: Response): Promise<void>{
         const id: number = parseInt(req.params.id,10);
@@ -45,6 +48,7 @@ const carsController = {
             return;
         }
         res.status(200).json(car);
+        return;
     },
 
     async update(req: Request, res: Response): Promise<void>{
@@ -55,6 +59,7 @@ const carsController = {
         const is_client = await IsClient(req.cookies['sb-access-token'],req);
         if (is_client){
             res.status(400).json({ message: "Voce nao tem permissao para acessar essa pagina" });
+            return;
         }
         const id : number = parseInt(req.params.id, 10);
         const carData: Partial<CarData> = req.body;
@@ -67,6 +72,7 @@ const carsController = {
 
         const updatedCar = await carsService.updateCar(id, carData );
         res.status(200).json({ message: "Carro atualizado com sucesso!", car: updatedCar });
+        return;
     },
 
     async deleteCar(req: Request, res: Response): Promise<void>{
@@ -77,6 +83,7 @@ const carsController = {
         const is_client = await IsClient(req.cookies['sb-access-token'],req);
         if (is_client){
             res.status(400).json({ message: "Voce nao tem permissao para acessar essa pagina" });
+            return;
         }
         const id: number = parseInt(req.params.id, 10);
 
@@ -88,6 +95,7 @@ const carsController = {
 
         await carsService.deleteCar(id);
         res.status(200).json({ message: "Carro excluído com sucesso!" });
+        return;
     },
 }
 export  default carsController;

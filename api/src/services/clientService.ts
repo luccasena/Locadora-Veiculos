@@ -57,14 +57,48 @@ const clientService = {
     },
 
     async UpdateClient(id:number,data:clientBodyData):Promise<Client>{
-
         const body: clientBodyData = data;
+
+        const currentClient = await prisma.client.findUnique({
+            where: { id: id }
+        });
+
+        if (!currentClient) {
+            throw new Error('Cliente não encontrado');
+        }
+
+        const { data: users } = await supabase.auth.admin.listUsers();
+        const supabaseUser = users?.users.find(u => u.email === currentClient.email);
+
+        if (supabaseUser) {
+            const supabaseUpdateData: any = {};
+            
+            if (body.email && body.email !== currentClient.email) {
+                supabaseUpdateData.email = body.email;
+            }
+            
+            if (body.password) {
+                supabaseUpdateData.password = body.password;
+            }
+
+            if (Object.keys(supabaseUpdateData).length > 0) {
+                const { error: authError } = await supabase.auth.admin.updateUserById(
+                    supabaseUser.id,
+                    supabaseUpdateData
+                );
+
+                if (authError) {
+                    throw new Error(`Erro ao atualizar usuário no Supabase: ${authError.message}`);
+                }
+            }
+        }
 
         const updatedClient = await prisma.client.update({
             where: { id: id },
             data: body,
         });
-        return updatedClient
+        
+        return updatedClient;
     },
 }
 
