@@ -13,7 +13,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import "./style.css";
 import "../../home/style.css"
 
-import { User } from "../../../types/user/User_TEMP";
+import { User } from "../../../types/user/User";
 import { registerSchema } from "../../../schemas/validations";
 import { RegisterUserData } from "../../../types/user/RegisterUser";
 import { UserUpdate } from "../../../types/user/UserUpdate";
