@@ -87,13 +87,13 @@ export default function ManageContractsPage() {;
                 const contractsWithDetails: ContractAdminView[] = [];
                 for (const contract of response) {
 
-                    const carResponse = await getCarById(contract.idCar);
-                    const userResponse = await getUserById(contract.idClient);
+                    const carData = await getCarById(contract.idCar);
+                    const userData = await getUserById(contract.idClient);
                 
                     contractsWithDetails.push({
                         ...contract,
-                        Car: `${carResponse.data.carName} ${carResponse.data.carBrand}`,
-                        Client: `ID: ${userResponse.data.id} - ${userResponse.data.name} ${userResponse.data.lastname}`
+                        Car: `${carData.carName} ${carData.carBrand}`,
+                        Client: `ID: ${userData.id} - ${userData.name} ${userData.lastname}`
                     });
                 }
                 

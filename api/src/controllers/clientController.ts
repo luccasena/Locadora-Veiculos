@@ -44,13 +44,9 @@ const clientController = {
             res.status(401).json({ message: "Usuário não autenticado" });
             return;
         }
-        const is_client = await IsClient(req.cookies['sb-access-token'],req);
-        if (!req.cookies['sb-access-token']){
-            res.status(401).json({ message: "Usuário não autenticado" });
-            return;
-        }
-        if (is_client){
-            res.status(400).json({ message: "Voce nao tem permissao para acessar essa pagina" });
+        const is_admin = await IsAdmin(req.cookies['sb-access-token'],req);
+        if (!is_admin){
+            res.status(403).json({ message: "Apenas administradores podem visualizar todos os clientes" });
             return;
         }
         const client = await clientService.getAllClients();
@@ -77,9 +73,9 @@ const clientController = {
             res.status(401).json({ message: "Usuário não autenticado" });
             return;
         }
-        const is_client = await IsClient(req.cookies['sb-access-token'],req);
-        if (is_client){
-            res.status(400).json({ message: "Voce nao tem permissao para acessar essa pagina" });
+        const is_admin = await IsAdmin(req.cookies['sb-access-token'],req);
+        if (!is_admin){
+            res.status(403).json({ message: "Apenas administradores podem deletar clientes" });
             return;
         }
         const  id:number = parseInt(req.params.id);

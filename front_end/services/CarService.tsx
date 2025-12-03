@@ -9,35 +9,35 @@ const API_URL = ENV.NEXT_PUBLIC_API_URL;
 
 export const createCar = async (car: RegisterCarData) => {
   const response = await axiosInstance.post(`${API_URL}carros/`, car);
-  return response;
+  return response.data;
 }
 
 export const updateCar = async (car: CarUpdate, id: number) => {
   console.log("Updating Car with ID:", id, "and data:", car);
   const response = await axiosInstance.put(`${API_URL}carros/${id}/`, car);
-  return response;
+  return response.data;
 }
 
 export const getAllCars  = async () => {
-  const response = await axiosInstance.get(`${API_URL}carros/`, 
+  const response = await axiosInstance.get(`${API_URL}carros/`,
     { withCredentials: true }
   );
-  return response;
+  return response.data;
 }
 
 export const getCarById  = async (id: number) => {
-  const response = await axiosInstance.get(`${API_URL}carros/${id}/`, 
+  const response = await axiosInstance.get(`${API_URL}carros/${id}/`,
     { withCredentials: true }
   );
-  return response;
+  return response.data;
 }
 
 export const deleteCar = async (id: number) => {
   const response = await axiosInstance.delete(`${API_URL}carros/${id}/`);
-  return response;
+  return response.data;
 };
 
 export const RentCar = async (rent: { StartDate: string; EndDate: string; idClient: number; idCar: number }) => {
   const response = await axiosInstance.post(`${API_URL}contratos/`, rent);
-  return response;
+  return response.data;
 };

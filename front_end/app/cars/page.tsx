@@ -66,10 +66,10 @@ export default function CarsPage() {
         try {
           setLoading(true);
           setError("");
-          const data = await getAllCars();
+          const carsData = await getAllCars();
 
-          setCars(data.data as Car[]);
-          setFilteredCars(data.data as Car[]);
+          setCars(carsData as Car[]);
+          setFilteredCars(carsData as Car[]);
         } catch (err) {
           console.error("Erro ao buscar carros:", err);
           setError("Erro ao carregar carros. Tente novamente mais tarde.");
@@ -142,9 +142,21 @@ export default function CarsPage() {
       alert("Erro: ID do carro inválido. Recarregue a página e tente novamente.");
       return;
     }
-    
+
+    // Validar se as datas são válidas
     const startDate = new Date(`${rentalDate}T00:00:00Z`);
     const endDate   = new Date(`${returnDate}T00:00:00Z`);
+
+    if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
+      alert("Datas inválidas. Por favor, selecione datas válidas.");
+      return;
+    }
+
+    // Verificar se a data de início é anterior à data de fim
+    if (startDate >= endDate) {
+      alert("A data de início deve ser anterior à data de fim.");
+      return;
+    }
 
     const rentData = {
       StartDate: startDate.toISOString(),

@@ -38,10 +38,10 @@ export default function ManageClientsPage() {
 
     const refetchUsers = async () => {
         try {
-            const res = await getUsers();
-            if (isMountedRef.current) setUsers(res.data);
-        } catch (e) {
-            console.error(e);
+            const data = await getUsers();
+            if (isMountedRef.current) setUsers(data);
+        } catch (e: any) {
+            console.error("Erro ao buscar usuários:", e);
         }
     };
 
@@ -226,6 +226,7 @@ export default function ManageClientsPage() {
     ];
  
     useEffect(() => {
+        console.log("useEffect chamado - fazendo refetchUsers");
         refetchUsers();
         return () => { isMountedRef.current = false; };
     }, []);
@@ -237,15 +238,6 @@ export default function ManageClientsPage() {
         };
     }, []);
 
-    useEffect(() => {
-        getUsers()
-            .then((res) => {
-            if (isMountedRef.current) {
-                setUsers(res.data);
-            }
-            })
-            .catch(console.error);
-    }, []);
         
     return (
     <div className="home-scope">
