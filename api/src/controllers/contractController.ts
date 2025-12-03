@@ -51,10 +51,11 @@ const contractController = {
 
     async createContract(req: Request, res: Response): Promise<void>{
 
+        if (!IsAuthenticated(req)){
+            res.status(401).json({ message: "Usuário não autenticado" });
+            return;
+        }
         contractSchema.parse(req.body)
-
-        console.log(req.body)
-
         const {  StartDate, EndDate, idClient, idCar } = req.body;
 
         if( !StartDate || !EndDate || !idClient || !idCar){

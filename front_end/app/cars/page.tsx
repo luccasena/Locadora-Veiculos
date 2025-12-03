@@ -135,6 +135,10 @@ export default function CarsPage() {
       alert("Usuário não identificado. Por favor, faça o login novamente.");
       return;
     }
+    if (!selectedCar.id || selectedCar.id <= 0) {
+      alert("Erro: ID do carro inválido. Recarregue a página e tente novamente.");
+      return;
+    }
     
     const startISO = new Date(`${rentalDate}T00:00:00Z`).toISOString();
     const endISO   = new Date(`${returnDate}T00:00:00Z`).toISOString();
@@ -147,14 +151,24 @@ export default function CarsPage() {
     };
 
     try {
-      await RentCar(rentData);
+      console.log("Tentando alugar carro com dados:", rentData);
+      const response = await RentCar(rentData);
+      console.log("Resposta do servidor:", response);
       alert(`Carro ${selectedCar.carName} alugado com sucesso!`);
       handleClose();
       setRentalDate("");
       setReturnDate("");
-    } catch (err) {
+    } catch (err: any) {
       console.error("Erro ao alugar o carro:", err);
-      alert("Falha ao alugar o carro. Tente novamente.");
+      console.error("Dados enviados:", rentData);
+
+      if (err.response?.data?.error?.code === 'P2003') {
+        alert(`Erro: O carro selecionado não existe no sistema. ID do carro: ${selectedCar.id}`);
+      } else if (err.response?.data?.message) {
+        alert(`Erro: ${err.response.data.message}`);
+      } else {
+        alert("Falha ao alugar o carro. Verifique os dados e tente novamente.");
+      }
     }
   };
 

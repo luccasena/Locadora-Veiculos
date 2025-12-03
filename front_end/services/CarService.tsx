@@ -37,7 +37,7 @@ export const deleteCar = async (id: number) => {
   return response;
 };
 
-export const RentCar = async (rent: Rent) => {
-  const response = await axios.post(`${API_URL}contratos/`, rent);
+export const RentCar = async (rent: { StartDate: string; EndDate: string; idClient: number; idCar: number }) => {
+  const response = await axiosInstance.post(`${API_URL}contratos/`, rent);
   return response;
 };
