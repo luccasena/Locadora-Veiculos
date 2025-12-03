@@ -81,11 +81,14 @@ export default function CarsPage() {
 
     // Buscar dados do usuário do localStorage
     const storedUser = localStorage.getItem("user");
-    if (storedUser) {
+    const userType = localStorage.getItem("userType");
+    if (storedUser && userType === "cliente") {
       const user = JSON.parse(storedUser);
       if (user && user.id) {
         setUserId(user.id);
       }
+    } else if (userType === "administrador") {
+      setUserId(null);
     }
   }, []);
 
@@ -267,9 +270,19 @@ export default function CarsPage() {
                   </div>
                 </div>
 
-                <Button className="btn-rent" onClick={() => handleOpen(car)}>
-                  Alugar
-                </Button>
+                {userType === "cliente" ? (
+                  <Button className="btn-rent" onClick={() => handleOpen(car)}>
+                    Alugar
+                  </Button>
+                ) : userType === "administrador" ? (
+                  <div className="admin-notice">
+                    <span className="admin-text">Área exclusiva para clientes</span>
+                  </div>
+                ) : (
+                  <Button className="btn-rent" disabled>
+                    Faça login para alugar
+                  </Button>
+                )}
               </div>
             ))}
           </section>

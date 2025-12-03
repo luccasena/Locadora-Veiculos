@@ -3,7 +3,7 @@ import contractService from "../services/contractService";
 import { Contract } from "../generated/prisma";
 import { contractSchema } from "./zod-validation/schemaValidate"
 import { supabase } from "../supabase";
-import { IsClient,ReturnUserByCookie,IsAuthenticated} from '../utils/cookies';
+import { IsClient,ReturnUserByCookie,IsAuthenticated,IsAdmin} from '../utils/cookies';
 
 const contractController = {
     async getContracts(req: Request, res: Response): Promise<void>{
@@ -11,9 +11,9 @@ const contractController = {
             res.status(401).json({ message: "Usuário não autenticado" });
             return;
         }
-        const is_client = await IsClient(req.cookies['sb-access-token'],req);
-        if (is_client){
-            res.status(400).json({ message: "Voce nao tem permissao para acessar essa pagina" });
+        const is_admin = await IsAdmin(req.cookies['sb-access-token'],req);
+        if (!is_admin){
+            res.status(403).json({ message: "Apenas administradores podem visualizar todos os contratos" });
             return;
         }
         const contracts: Contract[] = await contractService.getContracts();
@@ -26,9 +26,9 @@ const contractController = {
             res.status(401).json({ message: "Usuário não autenticado" });
             return;
         }
-        const is_client = await IsClient(req.cookies['sb-access-token'],req);
-        if (is_client){
-            res.status(400).json({ message: "Voce nao tem permissao para acessar essa pagina" });
+        const is_admin = await IsAdmin(req.cookies['sb-access-token'],req);
+        if (!is_admin){
+            res.status(403).json({ message: "Apenas administradores podem visualizar contratos" });
             return;
         }
         const id: number = parseInt(req.params.id);
@@ -80,9 +80,9 @@ const contractController = {
             res.status(401).json({ message: "Usuário não autenticado" });
             return;
         }
-        const is_client = await IsClient(req.cookies['sb-access-token'],req);
-        if (is_client){
-            res.status(400).json({ message: "Voce nao tem permissao para acessar essa pagina" });
+        const is_admin = await IsAdmin(req.cookies['sb-access-token'],req);
+        if (!is_admin){
+            res.status(403).json({ message: "Apenas administradores podem deletar contratos" });
             return;
         }
         const id: number = parseInt(req.params.id);
@@ -109,9 +109,9 @@ const contractController = {
             res.status(401).json({ message: "Usuário não autenticado" });
             return;
         }
-        const is_client = await IsClient(req.cookies['sb-access-token'],req);
-        if (is_client){
-            res.status(400).json({ message: "Voce nao tem permissao para acessar essa pagina" });
+        const is_admin = await IsAdmin(req.cookies['sb-access-token'],req);
+        if (!is_admin){
+            res.status(403).json({ message: "Apenas administradores podem atualizar contratos" });
             return;
         }
 
