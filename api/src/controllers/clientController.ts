@@ -58,7 +58,6 @@ const clientController = {
         return;
     },
 
-
     async CreateClient(req:Request, res:Response):Promise<void>{
         const body: clientBodyData = req.body;
         clientSchema.parse(body)
@@ -68,8 +67,7 @@ const clientController = {
             return;
 
         }catch(error){
-            res.status(400).json({ message: "Algo deu errado durante a criacao do cliente"});
-            return;
+            res.status(400).json({ message: `Algo deu errado durante a criacao do cliente ${error}`});
         }
     },
 
@@ -93,11 +91,11 @@ const clientController = {
         }
 
         try{
-            const deletedClient = await clientService.DeleteClient(id);
+            await clientService.DeleteClient(id);
             res.status(200).json({ message: "Usuário excluído!" })
             return;
         }catch(error){
-            res.status(400).json({ message: "Algo deu errado!"})
+            res.status(400).json({ message: `Algo deu errado! ${error}`});
             return
         }
     },

@@ -1,3 +1,5 @@
+
+
 export interface UserUpdate {
   cpf: string;
   email: string;
@@ -6,3 +8,4 @@ export interface UserUpdate {
   phone: string;
   password: string;
 }
+

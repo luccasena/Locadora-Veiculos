@@ -1,6 +1,6 @@
 
 
-header{
+.home-scope header{
     padding: 4rem 2%;
     display: flex;
     justify-content: space-around;
@@ -8,7 +8,7 @@ header{
     background-color: black;
 }
 
-header .logo{
+.home-scope header .logo{
     font-size: 3rem;
     color: #fff;
     font-weight: 700;
@@ -16,17 +16,17 @@ header .logo{
     letter-spacing: 1px;
 }
 
-ul{
+.home-scope ul{
     list-style: none;
 }
 
-ul li{
+.home-scope ul li{
     display: inline-block;
     margin-left: 2rem;
     font-size: 2rem;
 }
 
-ul li a{
+.home-scope ul li a{
     color: #fff;
     text-decoration: none;
     text-transform: uppercase;
@@ -35,7 +35,7 @@ ul li a{
     display: inline-block;
 }
 
-ul li a:hover{
+.home-scope ul li a:hover{
     transform: scale(1.05);
     background-color: #fff;
     color: black;
@@ -46,31 +46,31 @@ ul li a:hover{
 /* ---- SECTION ---- */
 
 
-section{
+.home-scope section{
     padding: 6rem 2%;
     text-align: center;
     height: 30rem;
 }
 
-.hero-title{
+.home-scope .hero-title{
     font-size: 7rem;
     margin-bottom: 2rem;
 }
 
-.hero-subtitle {
+.home-scope .hero-subtitle {
     font-size: 3rem;
     margin-bottom: 4rem;
 }
 
- .especialidades{
+.home-scope .especialidades{
     padding: 120px 4%;
 }
 
- .especialidades .flex{
+.home-scope .especialidades .flex{
     gap: 60px;
 }
 
-.especialidades .especialidades-box{
+.home-scope.especialidades .especialidades-box{
     color: whitesmoke;
     padding: 40px;
     margin-top: 20px;
@@ -78,13 +78,13 @@ section{
     transition: .2s;
 }
 
-.especialidades .especialidades-box:hover{
+.home-scope .especialidades .especialidades-box:hover{
     transform: scale(1.05);
     box-shadow: 0px 0px 8px yellow;
 }
 
 
-.especialidades .especialidades-box h3{
+.home-scope .especialidades .especialidades-box h3{
     font-size: 28px;
     margin: 15px 0;
 }
@@ -92,23 +92,23 @@ section{
 
 /* --- SEÇÃO DE INFORMAÇÕES --- */
 
-.features-section {
+.home-scope .features-section {
     padding: 6rem 2%;
     background-color: #ffffff;
     color: #000000;
     text-align: center;
 }
 
-.features-section h2 {
+.home-scope .features-section h2 {
     font-size: 4rem;
     margin-bottom: 3rem;
     text-transform: uppercase;
     letter-spacing: 2px;
 }
 
-/* --- FORMULÁRIO DO USUÁRIO --- */
+/* --- HOME DO CLIENTE --- */
 
-.user-form {
+.home-scope .user-form {
     width: 60%;
     max-width: 600px;
     margin: 0 auto;
@@ -122,7 +122,7 @@ section{
 }
 
 /* Label estilizado */
-.user-form label {
+.home-scope .user-form label {
     font-size: 2rem;
     font-weight: 600;
     text-align: left;
@@ -130,7 +130,7 @@ section{
 }
 
 /* Inputs */
-.user-form input {
+.home-scope .user-form input {
     padding: 1.2rem;
     font-size: 1.8rem;
     border-radius: 12px;
@@ -142,14 +142,14 @@ section{
 }
 
 /* Hover e foco dos inputs */
-.user-form input:focus {
+.home-scope .user-form input:focus {
     border-color: rgb(255, 255, 255);
     outline: none;
     box-shadow: 0px 0px 8px rgb(255, 255, 255);
 }
 
 /* Botão salvar */
-.user-form button {
+.home-scope .user-form button {
     padding: 1.4rem;
     font-size: 2rem;
     border-radius: 12px;
@@ -162,8 +162,42 @@ section{
 }
 
 /* Hover do botão */
-.user-form button:hover {
+.home-scope .user-form button:hover {
     transform: scale(1.05);
     box-shadow: 0px 0px 10px rgb(255, 255, 255);
 }
 
+/* HOME DO ADMIN */
+
+.home-scope.feature-card-admin{
+    background-color: #000000;
+    color: #ffffff;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.1);
+    transition: .3s;
+    width: 30%;
+    height: 15rem;
+}
+
+.home-scope.feature-card-admin h3{
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    margin-top: 0;
+}
+
+.home-scope.grid-admin{
+    display: flex; 
+    justify-content: space-around;
+    gap: 2rem;
+    margin-top: 4rem;
+}
+
+.home-scope .feature-card-admin:hover button{
+    transform: scale(1.05);
+    box-shadow: 0px 0px 6px rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+    background-color: rgb(255, 255, 255);
+    width: max-content;
+    
+}
