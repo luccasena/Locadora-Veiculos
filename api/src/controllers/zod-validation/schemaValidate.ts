@@ -28,8 +28,8 @@ export const carSchema = z.object({
 
 export const contractSchema = z.object({
   id: z.number().int().positive().optional(),
-  StartDate: z.string().datetime(),
-  EndDate: z.string().datetime(),
+  StartDate: z.union([z.string().datetime(), z.string()]),
+  EndDate: z.union([z.string().datetime(), z.string()]),
   idCar: z.number().int().positive(),
   idClient: z.number().int().positive(),
 });
