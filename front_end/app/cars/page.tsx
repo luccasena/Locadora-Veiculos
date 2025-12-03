@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState, useCallback } from "react";
 import { getAllCars } from "../../services/CarService";
-import { RentCar } from "@/services/CarService"; // <-- verifique o path
+import { RentCar } from "@/services/CarService"; 
 import { Car } from "@/types/car/Car";
 import { HeaderPageClients } from "@/components/headerPageClient";
 import { HeaderPageAdmin } from "@/components/headerPageAdmin";

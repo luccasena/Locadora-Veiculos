@@ -3,7 +3,7 @@ import React, { useCallback, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { registerSchema } from "../../schemas/validations";
-import { set, type ZodIssue } from "zod";
+import type { ZodIssue } from "zod";
 import { registerUser } from "../../services/userService";
 import axios from "axios";
 import "./style.css";
@@ -65,7 +65,7 @@ export default function Register() {
 
           localStorage.setItem("auth", "true");
           localStorage.setItem("user", JSON.stringify(response.data.cliente));
-          localStorage.setItem("userType", "cliente");
+          localStorage.setItem("userType", response.data.type);
 
           setMsgSucesso(response.data.message || "cadastrado com sucesso!");
           setTimeout(() => router.push("/Home"), REDIRECT_DELAY);
