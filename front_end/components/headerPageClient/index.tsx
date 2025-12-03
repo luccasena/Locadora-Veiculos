@@ -8,9 +8,9 @@ export function HeaderPageClients() {
             <div className="logo">UrbanMove</div>
             <nav className="nav-menu">
                 <ul>
-                    <li style={{cursor: "pointer"}}><a onClick={() => router.push("/Home")}>Home</a></li>
-                    <li style={{cursor: "pointer"}}><a onClick={() => router.push("/Contratos")}>Contratos</a></li>
-                    <li style={{cursor: "pointer"}}><a onClick={() => router.push("/Cars")}>Visualizar carros</a></li>
+                    <li style={{cursor: "pointer"}}><a onClick={() => router.push("/home")}>Home</a></li>
+                    <li style={{cursor: "pointer"}}><a onClick={() => router.push("/contratos")}>Contratos</a></li>
+                    <li style={{cursor: "pointer"}}><a onClick={() => router.push("/cars")}>Visualizar carros</a></li>
                 </ul>
             </nav>
         </header>
