@@ -68,7 +68,7 @@ export default function Register() {
           localStorage.setItem("userType", response.data.type);
 
           setMsgSucesso(response.data.message || "cadastrado com sucesso!");
-          setTimeout(() => router.push("/Home"), REDIRECT_DELAY);
+          setTimeout(() => router.push("/home"), REDIRECT_DELAY);
         } else {
           setMsgErro(response?.data?.message || "Erro ao cadastrar usuário");
         }
