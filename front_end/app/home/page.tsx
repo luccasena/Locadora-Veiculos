@@ -87,19 +87,19 @@ export default function HomePage() {
                                 <AdminCard 
                                 title="Contratos" 
                                 icon={<FileText className="text-white" size={48} />}
-                                onClick={() => router.push('Admin/manage-contracts')}
+                                onClick={() => router.push('admin/manage-contracts')}
                                 />
 
                                 <AdminCard 
                                 title="Carros" 
                                 icon={<Car className="text-white" size={48} />}
-                                onClick={() => router.push('Admin/manage-cars')}
+                                onClick={() => router.push('admin/manage-cars')}
                                 />
 
                                 <AdminCard 
                                 title="Clientes" 
                                 icon={<Users className="text-white" size={48} />}
-                                onClick={() => router.push('Admin/manage-clients')}
+                                onClick={() => router.push('admin/manage-clients')}
                                 />
 
                             </div>
