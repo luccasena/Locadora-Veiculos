@@ -72,7 +72,7 @@ const LoginUser = () => {
 
         if (localStorage.getItem("auth") === "true") {
           setTimeout(() => {
-            router.push("/Home");
+            router.push("/home");
           }, REDIRECT_DELAY);
         }
       } catch (error) {
