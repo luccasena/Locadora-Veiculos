@@ -1,5 +1,5 @@
 import "./globals.css";
-import LoginUser from "./Login";
+import LoginUser from "./login";
 
 export default function Login() {
   return (
