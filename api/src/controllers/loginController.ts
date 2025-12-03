@@ -31,18 +31,18 @@ const loginControllers = {
 
             res.cookie("sb-access-token", loginResult.token, {
                 httpOnly: true,
-                secure: false,
-                sameSite: "strict",
+                secure: true, 
+                sameSite: "none", 
                 path: "/",
                 maxAge: maxAgeAccess * 1000 
             });
-
+            
             res.cookie("sb-refresh-token", loginResult.refresh_token, {
                 httpOnly: true,
-                secure: false,
-                sameSite: "strict",
+                secure: true,
+                sameSite: "none",
                 path: "/",
-                maxAge: 60 * 60 * 24 * 7 * 1000 
+                maxAge: ...
             });
 
             console.log(res.cookie)
