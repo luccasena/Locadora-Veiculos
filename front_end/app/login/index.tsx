@@ -58,7 +58,7 @@ const LoginUser = () => {
 
         const usuario = await loginUser(login);
 
-        localStorage.setItem("auth", "true");
+        localStorage.setItem("auth", JSON.stringify({ loggedIn: true }));
         localStorage.setItem("user", JSON.stringify(usuario.data.user));
         localStorage.setItem("userType", usuario.data.type);
 

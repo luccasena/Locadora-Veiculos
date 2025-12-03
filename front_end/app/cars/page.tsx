@@ -144,8 +144,8 @@ export default function CarsPage() {
     const endDate   = new Date(`${returnDate}T00:00:00Z`);
 
     const rentData = {
-      StartDate: startDate,
-      EndDate: endDate,
+      StartDate: startDate.toISOString(),
+      EndDate: endDate.toISOString(),
       idClient: userId,
       idCar: selectedCar.id,
     };
