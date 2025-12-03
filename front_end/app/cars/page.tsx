@@ -136,12 +136,12 @@ export default function CarsPage() {
       return;
     }
     
-    const startISO = new Date(`${rentalDate}T00:00:00Z`).toISOString();
-    const endISO   = new Date(`${returnDate}T00:00:00Z`).toISOString();
+    const startDate = new Date(`${rentalDate}T00:00:00Z`);
+    const endDate   = new Date(`${returnDate}T00:00:00Z`);
 
     const rentData = {
-      StartDate: startISO,
-      EndDate: endISO,
+      StartDate: startDate,
+      EndDate: endDate,
       idClient: userId,
       idCar: selectedCar.id,
     };

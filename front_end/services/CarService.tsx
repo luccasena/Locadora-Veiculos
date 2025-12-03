@@ -1,7 +1,7 @@
 import axios from "axios";
 import { ENV } from "../config/env";
 import { RegisterCarData } from "../types/car/RegisterCarData";
-import { Car } from "@/types/car/Car";
+import { Rent } from "@/types/Rent";
 import { CarUpdate } from "@/types/car/CarUpdate";
 import axiosInstance from "@/config/axios";
 
