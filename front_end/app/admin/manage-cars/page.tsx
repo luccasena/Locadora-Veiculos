@@ -39,8 +39,8 @@ export default function ManageCarsPage() {
 
     const refetchCars = async () => {
         try {
-            const carsData = await getAllCars();
-            if (isMountedRef.current) setCars(carsData);
+            const res = await getAllCars();
+            if (isMountedRef.current) setCars(res.data);
         } catch (e) {
             console.error(e);
         }

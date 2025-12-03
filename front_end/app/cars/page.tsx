@@ -66,10 +66,10 @@ export default function CarsPage() {
         try {
           setLoading(true);
           setError("");
-          const carsData = await getAllCars();
+          const data = await getAllCars();
 
-          setCars(carsData as Car[]);
-          setFilteredCars(carsData as Car[]);
+          setCars(data.data as Car[]);
+          setFilteredCars(data.data as Car[]);
         } catch (err) {
           console.error("Erro ao buscar carros:", err);
           setError("Erro ao carregar carros. Tente novamente mais tarde.");

@@ -83,17 +83,18 @@ export default function ManageContractsPage() {;
     
         async function fetchContracts() {
             try {
-                const response: Contract[] = await getAllContracts();
+                const res = await getAllContracts();
+                const response: Contract[] = res.data;
                 const contractsWithDetails: ContractAdminView[] = [];
                 for (const contract of response) {
 
-                    const carData = await getCarById(contract.idCar);
-                    const userData = await getUserById(contract.idClient);
+                    const carResponse = await getCarById(contract.idCar);
+                    const userResponse = await getUserById(contract.idClient);
                 
                     contractsWithDetails.push({
                         ...contract,
-                        Car: `${carData.carName} ${carData.carBrand}`,
-                        Client: `ID: ${userData.id} - ${userData.name} ${userData.lastname}`
+                        Car: `${carResponse.data.carName} ${carResponse.data.carBrand}`,
+                        Client: `ID: ${userResponse.data.id} - ${userResponse.data.name} ${userResponse.data.lastname}`
                     });
                 }
                 

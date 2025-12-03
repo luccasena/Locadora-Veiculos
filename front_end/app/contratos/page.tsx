@@ -27,22 +27,24 @@ export default function ContractsPage() {
 
                  if (userTypeLocal === "administrador") {
                      // Admin vê todos os contratos
-                     response = await getAllContracts();
+                     const res = await getAllContracts();
+                     response = res.data;
                  } else {
                      // Cliente vê apenas seus contratos
-                     response = await getContractsUser();
+                     const res = await getContractsUser();
+                     response = res.data;
                  }
 
                  const contractsWithDetails: ContractAdminView[] = [];
                  for (const contract of response) {
 
-                     const carData = await getCarById(contract.idCar);
-                     const userData = await getUserById(contract.idClient);
+                     const carResponse = await getCarById(contract.idCar);
+                     const userResponse = await getUserById(contract.idClient);
 
                      contractsWithDetails.push({
                          ...contract,
-                         Car: `${carData.carName} ${carData.carBrand}`,
-                         Client: `ID: ${userData.id} - ${userData.name} ${userData.lastname}`
+                         Car: `${carResponse.data.carName} ${carResponse.data.carBrand}`,
+                         Client: `ID: ${userResponse.data.id} - ${userResponse.data.name} ${userResponse.data.lastname}`
                      });
                  }
 

@@ -38,8 +38,8 @@ export default function ManageClientsPage() {
 
     const refetchUsers = async () => {
         try {
-            const data = await getUsers();
-            if (isMountedRef.current) setUsers(data);
+            const res = await getUsers();
+            if (isMountedRef.current) setUsers(res.data);
         } catch (e: any) {
             console.error("Erro ao buscar usuários:", e);
         }
