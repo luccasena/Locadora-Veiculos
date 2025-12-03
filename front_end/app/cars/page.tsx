@@ -135,8 +135,7 @@ export default function CarsPage() {
       alert("Usuário não identificado. Por favor, faça o login novamente.");
       return;
     }
-
-    // normaliza para ISO 8601 com hora e timezone (Z)
+    
     const startISO = new Date(`${rentalDate}T00:00:00Z`).toISOString();
     const endISO   = new Date(`${returnDate}T00:00:00Z`).toISOString();
 
