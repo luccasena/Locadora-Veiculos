@@ -85,8 +85,6 @@ const LoginUser = () => {
     [formData, router]
   );
 
-  console.log("Form Data:", formData);
-
   return (
     <main className="login-page">
       <div className="form-card">

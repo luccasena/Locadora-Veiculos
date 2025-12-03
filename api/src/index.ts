@@ -22,7 +22,7 @@ const port = 4647;
 
 app.use(
   cors({
-    origin: [ "https://locadora-veiculos-1.onrender.com", "http://localhost:3000" ],
+    origin: [ "https://locadora-veiculos-rgph.onrender.com", "http://localhost:3000" ],
     credentials: true,
   })
 );
