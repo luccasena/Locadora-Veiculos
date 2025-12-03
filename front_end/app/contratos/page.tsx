@@ -42,6 +42,7 @@ export default function ContractsPage() {
              }
              setLoading(false);
          }
+         
          fetchContracts();
         }, []);
     return (

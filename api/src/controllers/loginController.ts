@@ -7,6 +7,8 @@ import { IsAuthenticated } from "../utils/cookies";
 const loginControllers = {
     async login(req: Request, res: Response): Promise<void>{  
         loginSchema.parse(req.body);
+        console.log("Request body:", req.body);
+
         const body: loginBodyData = req.body;
         
         const loginResult = await loginServices.Login(body);

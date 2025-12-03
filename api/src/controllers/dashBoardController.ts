@@ -6,13 +6,16 @@ import { ReturnUserByCookie, IsAuthenticated, IsClientByUser} from '../utils/coo
 const dashBoardControllers = {
 
    async getDashboardData(req: Request, res: Response): Promise<void>{
+
         if (!IsAuthenticated(req)){
             res.status(401).json({ message: "Usuário não autenticado" });
             return;
         }
-        const user = await ReturnUserByCookie(req.cookies['sb-access-token']);
-        if(await IsClientByUser(user)){
-            const dashboardData: Contract[] = await dashBoardService.getDashBoardForClient(user.email);
+
+        const is_user = await ReturnUserByCookie(req.cookies['sb-access-token']);
+
+        if(await IsClientByUser(is_user)){
+            const dashboardData: Contract[] = await dashBoardService.getDashBoardForClient(is_user.email);
             res.status(200).json(dashboardData);
             return;
         }
