@@ -1,9 +1,11 @@
 "use client";
 import React, { useEffect, useState, useCallback } from "react";
 import { getAllCars } from "../../services/CarService";
+import { RentCar } from "@/services/CarService"; // <-- verifique o path
 import { Car } from "@/types/car/Car";
 import { HeaderPageClients } from "@/components/headerPageClient";
 import { HeaderPageAdmin } from "@/components/headerPageAdmin";
+import { Box, Button, Modal, TextField, Typography } from "@mui/material";
 
 import "./style.css";
 
@@ -26,14 +28,37 @@ export default function CarsPage() {
   const [filteredCars, setFilteredCars] = useState<Car[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+
+  // Filtros
   const [filters, setFilters] = useState({
     brand: "",
     category: "",
     maxPrice: "",
   });
+
+  // Datas do aluguel
   const [rentalDate, setRentalDate] = useState("");
   const [returnDate, setReturnDate] = useState("");
+
+  // Usuário logado
   const [userId, setUserId] = useState<number | null>(null);
+
+  // Estado do modal e carro selecionado
+  const [open, setOpen] = useState(false);
+  const [selectedCar, setSelectedCar] = useState<Car | null>(null);
+
+  // Data mínima (hoje) para o input de data
+  const today = new Date().toISOString().slice(0, 10);
+
+  // Handlers do modal
+  const handleOpen = (car: Car) => {
+    setSelectedCar(car);
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+    setSelectedCar(null);
+  };
 
   useEffect(() => {
     setUserType(localStorage.getItem("userType"));
@@ -106,50 +131,42 @@ export default function CarsPage() {
       alert("Por favor, selecione as datas de aluguel e entrega.");
       return;
     }
-
     if (!userId) {
       alert("Usuário não identificado. Por favor, faça o login novamente.");
-      // Opcional: redirecionar para a página de login
       return;
     }
 
+    // normaliza para ISO 8601 com hora e timezone (Z)
+    const startISO = new Date(`${rentalDate}T00:00:00Z`).toISOString();
+    const endISO   = new Date(`${returnDate}T00:00:00Z`).toISOString();
+
     const rentData = {
-      startDate: new Date(rentalDate),
-      endDate: new Date(returnDate),
+      StartDate: startISO,
+      EndDate: endISO,
       idClient: userId,
       idCar: selectedCar.id,
     };
 
     try {
       await RentCar(rentData);
-
       alert(`Carro ${selectedCar.carName} alugado com sucesso!`);
-      handleClose(); // Fecha o modal
-      // Opcional: Limpar os campos de data
+      handleClose();
       setRentalDate("");
       setReturnDate("");
     } catch (err) {
-      console.log(rentData);
       console.error("Erro ao alugar o carro:", err);
       alert("Falha ao alugar o carro. Tente novamente.");
     }
   };
-  //modal
 
   return (
-    <div>
+    <>
+      {userType === "administrador" ? <HeaderPageAdmin /> : <HeaderPageClients/>}
       <div className="cars-container">
         <header className="cars-header">
           <h1>Carros Disponíveis</h1>
           <p>Escolha o veículo perfeito para seu próximo passeio</p>
         </header>
-    <>
-    {userType === "administrador" ? <HeaderPageAdmin /> : <HeaderPageClients/>}
-    <div className="cars-container">
-      <header className="cars-header">
-        <h1>Carros Disponíveis</h1>
-        <p>Escolha o veículo perfeito para seu próximo passeio</p>
-      </header>
 
         {error && <div className="alert alert-error">{error}</div>}
 
@@ -168,90 +185,6 @@ export default function CarsPage() {
                 onChange={handleFilterChange}
                 className="filter-input"
               />
-      <section className="filters-section">
-        <h2>Filtros</h2>
-        <div className="filters-grid">
-          <div className="filter-group">
-            <label htmlFor="brand">Marca</label>
-            <input
-              id="brand"
-              type="text"
-              name="brand"
-              placeholder="Ex: Toyota, Ford..."
-              value={filters.brand}
-              onChange={handleFilterChange}
-              className="filter-input"
-            />
-          </div>
-
-          <div className="filter-group">
-            <label htmlFor="category">Categoria</label>
-            <input
-              id="category"
-              type="text"
-              name="category"
-              placeholder="Ex: Sedan, SUV..."
-              value={filters.category}
-              onChange={handleFilterChange}
-              className="filter-input"
-            />
-          </div>
-
-          <div className="filter-group">
-            <label htmlFor="maxPrice">Preço Máximo</label>
-            <input
-              id="maxPrice"
-              type="number"
-              name="maxPrice"
-              placeholder="Ex: 100000"
-              value={filters.maxPrice}
-              onChange={handleFilterChange}
-              className="filter-input"
-            />
-          </div>
-
-          <button className="btn-clear-filters" onClick={handleClearFilters}>
-            Limpar Filtros
-          </button>
-        </div>
-      </section>
-
-      {/* Loading State */}
-      {loading && <div className="loading">Carregando carros...</div>}
-
-      {/* Cars Grid */}
-      {!loading && filteredCars.length > 0 && (
-        <section className="cars-grid">
-          {filteredCars.map((car) => (
-            <div key={car.id} className="car-card">
-              <div className="car-header">
-                <h3 className="car-title">
-                  {car.carBrand} {car.carName}
-                </h3>
-                <span className="car-year">{car.Year}</span>
-              </div>
-
-              <div className="car-info">
-                <div className="info-item">
-                  <span className="label">Categoria:</span>
-                  <span className="value">{car.carCategory}</span>
-                </div>
-                <div className="info-item">
-                  <span className="label">Combustível:</span>
-                  <span className="value">{car.fuelType}</span>
-                </div>
-                <div className="info-item">
-                  <span className="label">Preço:</span>
-                  <span className="value price">
-                    R${" "}
-                    {car.Price.toLocaleString("pt-BR", {
-                      minimumFractionDigits: 2,
-                    })}
-                  </span>
-                </div>
-              </div>
-
-              <button className="btn-rent">Alugar Agora</button>
             </div>
 
             <div className="filter-group">
@@ -329,7 +262,7 @@ export default function CarsPage() {
           </section>
         )}
 
-        {/* No Results  */}
+        {/* No Results */}
         {!loading && filteredCars.length === 0 && (
           <div className="no-results">
             <p>Nenhum carro encontrado com os filtros aplicados.</p>
@@ -340,14 +273,11 @@ export default function CarsPage() {
         )}
 
         {/* Empty State */}
-        {!loading &&
-          cars.length === 0 &&
-          filteredCars.length === 0 &&
-          !error && (
-            <div className="empty-state">
-              <p>Nenhum carro disponível no momento.</p>
-            </div>
-          )}
+        {!loading && cars.length === 0 && filteredCars.length === 0 && !error && (
+          <div className="empty-state">
+            <p>Nenhum carro disponível no momento.</p>
+          </div>
+        )}
       </div>
       <div>
         <Modal
@@ -410,10 +340,10 @@ export default function CarsPage() {
             >
               Confirmar Aluguel
             </Button>
+
           </Box>
         </Modal>
       </div>
-    </div>
     </>
   );
 }

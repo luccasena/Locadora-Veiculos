@@ -48,17 +48,13 @@ const contractController = {
         return;
 
     },
+
     async createContract(req: Request, res: Response): Promise<void>{
-        if (!IsAuthenticated(req)){
-            res.status(401).json({ message: "Usuário não autenticado" });
-            return;
-        }
-        const is_client = await IsClient(req.cookies['sb-access-token'],req);
-        if (is_client){
-            res.status(400).json({ message: "Voce nao tem permissao para acessar essa pagina" });
-            return;
-        }
+
         contractSchema.parse(req.body)
+
+        console.log(req.body)
+
         const {  StartDate, EndDate, idClient, idCar } = req.body;
 
         if( !StartDate || !EndDate || !idClient || !idCar){

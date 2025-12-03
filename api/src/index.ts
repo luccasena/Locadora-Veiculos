@@ -18,7 +18,7 @@ const file = readFileSync("swagger.json", "utf8");
 const swaggerDocument = YAML.parse(file);
 
 const app = express();
-const port = 8080;
+const port = 8181;
 
 app.use(
   cors({
