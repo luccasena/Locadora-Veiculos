@@ -42,7 +42,7 @@ const loginControllers = {
                 secure: true,
                 sameSite: "none",
                 path: "/",
-                maxAge: ...
+                maxAge: 60 * 60 * 24 * 30 * 1000
             });
 
             console.log(res.cookie)
