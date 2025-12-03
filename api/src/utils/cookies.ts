@@ -1,60 +1,77 @@
-import prisma from "../db/prisma"
-import { Request, Response } from 'express';
-import clientService, { clientBodyData } from "../services/clientService"
-import { supabase } from "../supabase";     
-import { tr } from "zod/v4/locales";
-    
-async function IsAdmin(cookie:string,req:Request): Promise<boolean>{
-    const cookie_user = await supabase.auth.getUser(cookie)
-    if (cookie_user){
-        const user = await prisma.admin.findUnique({ where: { email: cookie_user.data.user?.email } })
-        if(user){
-            return true;
-        }
+import prisma from "../db/prisma";
+import { Request } from 'express';
+import { supabase } from "../supabase";
+
+async function getSupabaseUser(cookie: string) {
+    if (!cookie) return null;
+
+    const { data, error } = await supabase.auth.getUser(cookie);
+
+    if (error || !data.user || !data.user.email) {
+        return null;
+    }
+    return data.user;
+}
+
+async function IsAdmin(cookie: string, req: Request): Promise<boolean> {
+    const user = await getSupabaseUser(cookie);
+
+    // Se o usuário não existe ou token é inválido, retorna false
+    if (!user || !user.email) return false;
+
+    const admin = await prisma.admin.findUnique({
+        where: { email: user.email }
+    });
+
+    return !!admin;
+}
+
+async function IsClient(cookie: string, req: Request): Promise<boolean> {
+    const user = await getSupabaseUser(cookie);
+
+    if (!user || !user.email) return false;
+
+    const client = await prisma.client.findUnique({
+        where: { email: user.email }
+    });
+
+    return !!client;
+}
+
+async function IsClientByUser(user: any): Promise<boolean> {
+    if (user && user.email) {
+        const foundUser = await prisma.client.findUnique({
+            where: { email: user.email }
+        });
+        return !!foundUser;
     }
     return false;
 }
 
-async function IsClient(cookie:string,req:Request): Promise<boolean>{
-    const cookie_user = await supabase.auth.getUser(cookie)
-    if (cookie_user){
-        const user = await prisma.client.findUnique({ where: { email: cookie_user.data.user?.email } })
-        if(user){
-            return true;
-        }
-    }
-    return false;
-}
-async function IsClientByUser(user:any): Promise<boolean>{
-    if (user){
-        const foundUser = await prisma.client.findUnique({ where: { email: user.email } })
-        if(foundUser){
-            return true;
-        }
-    }
-    return false;
-}
+async function ReturnUserByCookie(cookie: string): Promise<any> {
+    const user = await getSupabaseUser(cookie);
 
-async function ReturnUserByCookie(cookie:string): Promise<any>{
-    const cookie_user = await supabase.auth.getUser(cookie)
-    if (cookie_user){
-        const admin = await prisma.admin.findUnique({ where: { email: cookie_user.data.user?.email } })
-        if (admin){
-            return admin;
-        }
-        const user = await prisma.client.findUnique({ where: { email: cookie_user.data.user?.email } })
-        return user;
+    if (!user || !user.email) return null;
+
+    // Tenta achar na tabela de Admin
+    const admin = await prisma.admin.findUnique({
+        where: { email: user.email }
+    });
+
+    if (admin) {
+        return admin;
     }
-    return null;
+
+    // Se não for admin, tenta na tabela de Cliente
+    const client = await prisma.client.findUnique({
+        where: { email: user.email }
+    });
+
+    return client;
 }
 
 function IsAuthenticated(request: Request): boolean {
-    if(request.cookies['sb-access-token']){
-        return true;
-    }
-    return false;
+    return !!request.cookies['sb-access-token'];
 }
 
-
-
-export { IsClient, ReturnUserByCookie, IsAdmin ,IsAuthenticated, IsClientByUser};
+export { IsClient, ReturnUserByCookie, IsAdmin, IsAuthenticated, IsClientByUser };
