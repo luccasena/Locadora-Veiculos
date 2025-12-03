@@ -1,4 +1,4 @@
 export const ENV = {
-    NEXT_PUBLIC_API_URL:    "http://localhost:91915/",
-    NEXT_PUBLIC_API_URL_AI: "http://localhost:8082/ai-route/",
+    NEXT_PUBLIC_API_URL:    process.env.NEXT_PUBLIC_API_URL!,
+    NEXT_PUBLIC_API_URL_AI: process.env.NEXT_PUBLIC_API_URL_AI!,
 };
