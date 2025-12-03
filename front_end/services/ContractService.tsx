@@ -17,5 +17,4 @@ export const getAllContracts = async (): Promise<Contract[]> => {
 export const deleteContract = async (id: number): Promise<void> => {
     const res = await axiosInstance.delete(`${API_URL}/contratos/${id}/`);
     return res.data;
-
-}
+};
