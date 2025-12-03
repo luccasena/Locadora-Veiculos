@@ -12,6 +12,7 @@ import CloseIcon from '@mui/icons-material/Close';
 
 import "./style.css";
 import "../../home/style.css"
+ 
 
 import { User } from "../../../types/user/User";
 import { registerSchema } from "../../../schemas/validations";
