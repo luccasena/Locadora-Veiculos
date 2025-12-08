@@ -49,28 +49,6 @@ Disciplina: **Tópicos Especiais em TI – TypeScript Fullstack (2025.02)**
 
 - Versão do NodeJS: *v22.20.0 (LTS)*
 
-
-### 1. Instalação do Typescript:
 ```bash
-npm install -g typescript ts-node
-```
-### 2. Instalação do Express:
-```bash
-npm install express
-```
-### 3. Instalação das Dependências de Dev:
-```bash
-npm install --save-dev typescript @types/express @types/node ts-node nodemon
-```
-### 4. Instalação do Prisma:
-```bash
-npm install prisma
-```
-### 5. Instalação do Swagger (Documentações):
-```bash
-npm install swagger-ui-express
-```
-### 5. Instalação do Zod (Validações):
-```bash
-npm install zod
+npm install
 ```
