@@ -7,16 +7,13 @@ import { queryDocuments } from "../../rag/queryVectorStore";
 export const aiService = {
 
     async responseAi(airequest: AiRequest, res: Response) : Promise<Response> {
-
-        console.log("Received AI request:", airequest);
-
-        console.log("AI Request Prompt:", airequest.prompt);
+        
         const relatedDocs = await queryDocuments(airequest.prompt);
         const context = JSON.stringify(relatedDocs);
 
         try {
             const text = await generateText({
-                model: google("gemini-2.5-pro"),
+                model: google("gemini-2.5-flash"),
                 prompt: `
                     Você é um atendente virtual da locadora de veículos, UrbanMove.
                     Seu propósito é responder de forma clara, natural e objetiva usando o contexto abaixo.
@@ -36,7 +33,6 @@ export const aiService = {
 
                     Pergunta:
                     ${airequest.prompt}`,
-                
             });
 
             return res.json({ response: text.output });
