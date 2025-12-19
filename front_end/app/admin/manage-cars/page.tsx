@@ -16,8 +16,7 @@ import { carSchema } from "@/schemas/validations";
 import { HeaderPageAdmin } from "@/components/headerPageAdmin";
 import { FooterPage } from '@/components/FooterPage';
 
-import "./style.css";
-import "../../home/style.css"
+import styles from"./style.module.css";
 
 import { Car } from "@/types/car/Car";
 import { CarUpdate } from "../../../types/car/CarUpdate";
@@ -226,11 +225,11 @@ export default function ManageCarsPage() {
     <div className="home-scope">
         <HeaderPageAdmin />
         <main>
-            <section className="hero-section">
-                <h1 className="hero-title">Área do Administrador</h1>
-                <p  className="hero-subtitle">Gerenciando Carros.</p>
+            <section className={styles["hero-section"]}>
+                <h1 className={styles["hero-title"]}>Área do Administrador</h1>
+                <p  className={styles["hero-subtitle"]}>Gerenciando Carros.</p>
             </section>
-            <section className="features-section" style={{
+            <section className={styles["features-section"]} style={{
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
@@ -289,43 +288,43 @@ export default function ManageCarsPage() {
             open={openModal}
             onClose={() => setOpenModal(false)}
         >
-            <div className="modal-overlay">
+            <div className={styles["modal-overlay"]}>
                 {modalType === "edit" && selectedRow && (
-                    <div className="modal-container">
+                    <div className={styles["modal-container"]}>
                         <IconButton
                             aria-label="close"
                             onClick={() => setOpenModal(false)}
-                            className="modal-close-btn"
+                            className={styles["modal-close-btn"]}
                         >
                             <CloseIcon />
                         </IconButton>
                         <h2>Editando Carro: {selectedRow.carName} {selectedRow.carBrand}</h2>
                         <h3>Informações da conta</h3>
 
-                        <div className="form-edit-car-admin">
+                        <div className={styles["form-edit-car-admin"]}>
                             <label>Nome do Carro</label>
                             <input name="carName" value={carEdit?.carName || ""} onChange={handleChange} />
-                            {carErrors.carName && <p className="error-text">{carErrors.carName.join(", ")}</p>}
+                            {carErrors.carName && <p className={styles["error-text"]}>{carErrors.carName.join(", ")}</p>}
 
                             <label>Marca</label>
                             <input name="carBrand" value={carEdit?.carBrand || ""} onChange={handleChange} />
-                            {carErrors.carBrand && <p className="error-text">{carErrors.carBrand.join(", ")}</p>}
+                            {carErrors.carBrand && <p className={styles["error-text"]}>{carErrors.carBrand.join(", ")}</p>}
 
                             <label>Categoria</label>
                             <input name="carCategory" value={carEdit?.carCategory || ""} onChange={handleChange} />
-                            {carErrors.carCategory && <p className="error-text">{carErrors.carCategory.join(", ")}</p>}
+                            {carErrors.carCategory && <p className={styles["error-text"]}>{carErrors.carCategory.join(", ")}</p>}
 
                             <label>Ano</label>
                             <input type="number" name="Year" value={carEdit?.Year ?? ""} onChange={handleChange} />
-                            {carErrors.Year && <p className="error-text">{carErrors.Year.join(", ")}</p>}
+                            {carErrors.Year && <p className={styles["error-text"]}>{carErrors.Year.join(", ")}</p>}
 
                             <label>Preço Diária (R$)</label>
                             <input type="number" name="Price" value={carEdit?.Price ?? ""} onChange={handleChange} />
-                            {carErrors.Price && <p className="error-text">{carErrors.Price.join(", ")}</p>}
+                            {carErrors.Price && <p className={styles["error-text"]}>{carErrors.Price.join(", ")}</p>}
 
                             <label>Combustível</label>
                             <input name="fuelType" value={carEdit?.fuelType || ""} onChange={handleChange} />
-                            {carErrors.fuelType && <p className="error-text">{carErrors.fuelType.join(", ")}</p>}
+                            {carErrors.fuelType && <p className={styles["error-text"]}>{carErrors.fuelType.join(", ")}</p>}
 
                             <button onClick={() => carEdit && handleSaveUpdate(carEdit)}>
                                 Salvar alterações
@@ -335,42 +334,42 @@ export default function ManageCarsPage() {
                     </div>
                 )}
                 {modalType === "create" && (
-                    <div className="modal-container">
+                    <div className={styles["modal-container"]}>
 
                         <IconButton
                             aria-label="close"
                             onClick={() => setOpenModal(false)}
-                            className="modal-close-btn"
+                            className={styles["modal-close-btn"]}
                         >
                             <CloseIcon />
                         </IconButton>
 
                         <h2>Criando Carro: </h2>
 
-                        <div className="form-edit-car-admin">
+                        <div className={styles["form-edit-car-admin"]}>
                             <label>Nome do Carro</label>
                             <input name="carName" value={carCreate?.carName || ""} onChange={handleChange} />
-                            {carErrors.carName && <p className="error-text">{carErrors.carName.join(", ")}</p>}
+                            {carErrors.carName && <p className={styles["error-text"]}>{carErrors.carName.join(", ")}</p>}
 
                             <label>Marca</label>
                             <input name="carBrand" value={carCreate?.carBrand || ""} onChange={handleChange} />
-                            {carErrors.carBrand && <p className="error-text">{carErrors.carBrand.join(", ")}</p>}
+                            {carErrors.carBrand && <p className={styles["error-text"]}>{carErrors.carBrand.join(", ")}</p>}
 
                             <label>Categoria</label>
                             <input name="carCategory" value={carCreate?.carCategory || ""} onChange={handleChange} />
-                            {carErrors.carCategory && <p className="error-text">{carErrors.carCategory.join(", ")}</p>}
+                            {carErrors.carCategory && <p className={styles["error-text"]}>{carErrors.carCategory.join(", ")}</p>}
 
                             <label>Ano</label>
                             <input type="number" name="Year" value={carCreate?.Year ?? ""} onChange={handleChange} />
-                            {carErrors.Year && <p className="error-text">{carErrors.Year.join(", ")}</p>}
+                            {carErrors.Year && <p className={styles["error-text"]}>{carErrors.Year.join(", ")}</p>}
 
                             <label>Preço Diária (R$)</label>
                             <input type="number" name="Price" value={carCreate?.Price ?? ""} onChange={handleChange} />
-                            {carErrors.Price && <p className="error-text">{carErrors.Price.join(", ")}</p>}
+                            {carErrors.Price && <p className={styles["error-text"]}>{carErrors.Price.join(", ")}</p>}
 
                             <label>Combustível</label>
                             <input name="fuelType" value={carCreate?.fuelType || ""} onChange={handleChange} />
-                            {carErrors.fuelType && <p className="error-text">{carErrors.fuelType.join(", ")}</p>}
+                            {carErrors.fuelType && <p className={styles["error-text"]}>{carErrors.fuelType.join(", ")}</p>}
 
                             <button onClick={() => carCreate && handleSaveCreate(carCreate)}>
                                 Criar Carro

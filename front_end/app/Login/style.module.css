@@ -162,6 +162,18 @@
   color: black;
 }
 
+.btn-back-lp{
+  display: flex;
+  padding-top: 20px;
+  padding-left: 20px;
+  color: #1b1b1b;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+  sans-serif;
+  align-items: center;
+  text-align: center;
+
+}
+
 /* Loading/desabilitado */
 .btn-login:disabled {
   opacity: 0.6;
@@ -187,6 +199,10 @@
 
   .btn-login {
     width: 160px;
+    font-size: 1.25rem;
+  }
+
+  .btn-back-lp{
     font-size: 1.25rem;
   }
 }
@@ -219,4 +235,10 @@
     width: 170px;
     font-size: 1.3rem;
   }
+
+  .btn-back-lp{
+    font-size: 1.3rem;
+  }
 }
+
+

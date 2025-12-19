@@ -34,14 +34,29 @@ Disciplina: **Tópicos Especiais em TI – TypeScript Fullstack (2025.02)**
 ## 📚 Tecnologias
 
 1. Backend: Node.js, Express, TypeScript, PostgreSQL, Prisma
-2. Frontend: HTML, CSS, Javascript
+2. Frontend: HTML, CSS, TypeScript
 
 ---
 
-## 🚀 Entregáveis
+## 🖥️ Imagens da Aplicação
 
-1. API documentada (Swagger).
-2. Banco de dados estruturado com PostgreSQL.
+### 1. Landing Page:
+
+- Modo Claro:
+
+<img src="img/Landing-Page-White.png" alt=""></img>
+
+- Modo Escuro:
+
+<img src="img/Landing-Page-Black.png" alt=""></img>
+
+## 2. Login:
+
+<img src="img/Login.png" alt=""></img>
+
+## 3. Cadastro:
+
+<img src="img/Cadastro.png" alt=""></img>
 
 ---
 

@@ -7,7 +7,7 @@ import { HeaderPageClients } from "@/components/headerPageClient";
 import { HeaderPageAdmin } from "@/components/headerPageAdmin";
 import { Box, Button, Modal, TextField, Typography } from "@mui/material";
 
-import "./style.css";
+import styles from "./style.module.css";
 
 const style = {
   position: "absolute",
@@ -178,19 +178,19 @@ export default function CarsPage() {
   return (
     <>
       {userType === "administrador" ? <HeaderPageAdmin /> : <HeaderPageClients/>}
-      <div className="cars-container">
-        <header className="cars-header">
+      <div className={styles["cars-container"]}>
+        <header className={styles["cars-header"]}>
           <h1>Carros Disponíveis</h1>
           <p>Escolha o veículo perfeito para seu próximo passeio</p>
         </header>
 
-        {error && <div className="alert alert-error">{error}</div>}
+        {error && <div className={`${styles.alert} ${styles["alert-error"]}`}>{error}</div>}
 
         {/* Filters Section */}
-        <section className="filters-section">
+        <section className={styles["filters-section"]}>
           <h2>Filtros</h2>
-          <div className="filters-grid">
-            <div className="filter-group">
+          <div className={styles["filters-grid"]}>
+            <div className={styles["filter-group"]}>
               <label htmlFor="brand">Marca</label>
               <input
                 id="brand"
@@ -199,11 +199,11 @@ export default function CarsPage() {
                 placeholder="Ex: Toyota, Ford..."
                 value={filters.brand}
                 onChange={handleFilterChange}
-                className="filter-input"
+                className={styles["filter-input"]}
               />
             </div>
 
-            <div className="filter-group">
+            <div className={styles["filter-group"]}>
               <label htmlFor="category">Categoria</label>
               <input
                 id="category"
@@ -212,11 +212,11 @@ export default function CarsPage() {
                 placeholder="Ex: Sedan, SUV..."
                 value={filters.category}
                 onChange={handleFilterChange}
-                className="filter-input"
+                className={styles["filter-input"]}
               />
             </div>
 
-            <div className="filter-group">
+            <div className={styles["filter-group"]}>
               <label htmlFor="maxPrice">Preço Máximo</label>
               <input
                 id="maxPrice"
@@ -225,43 +225,42 @@ export default function CarsPage() {
                 placeholder="Ex: 100000"
                 value={filters.maxPrice}
                 onChange={handleFilterChange}
-                className="filter-input"
+                className={styles["filter-input"]}
               />
             </div>
 
-            <button className="btn-clear-filters" onClick={handleClearFilters}>
+            <button className={styles["btn-clear-filters"]} onClick={handleClearFilters}>
               Limpar Filtros
             </button>
           </div>
         </section>
 
         {/* Loading State */}
-        {loading && <div className="loading">Carregando carros...</div>}
+        {loading && <div className={styles["loading"]}>Carregando carros...</div>}
 
         {/* Cars Grid */}
         {!loading && filteredCars.length > 0 && (
-          <section className="cars-grid">
+          <section className={styles["cars-grid"]}>
             {filteredCars.map((car) => (
-              <div key={car.id} className="car-card">
-                <div className="car-header">
-                  <h3 className="car-title">
+              <div key={car.id} className={styles["car-card"]}>
+                <div className={styles["car-header"]}>
+                  <h3 className={styles["car-title"]}>
                     {car.carBrand} {car.carName}
                   </h3>
-                  <span className="car-year">{car.Year}</span>
+                  <span className={styles["car-year"]}>{car.Year}</span>
                 </div>
-
-                <div className="car-info">
-                  <div className="info-item">
-                    <span className="label">Categoria:</span>
-                    <span className="value">{car.carCategory}</span>
+                <div className={styles["car-info"]}>
+                  <div className={styles["info-item"]}>
+                    <span className={styles["label"]}>Categoria:</span>
+                    <span className={styles["value"]}>{car.carCategory}</span>
                   </div>
-                  <div className="info-item">
-                    <span className="label">Combustível:</span>
-                    <span className="value">{car.fuelType}</span>
+                  <div className={styles["info-item"]}>
+                    <span className={styles["label"]}>Combustível:</span>
+                    <span className={styles["value"]}>{car.fuelType}</span>
                   </div>
-                  <div className="info-item">
-                    <span className="label">Preço:</span>
-                    <span className="value price">
+                  <div className={styles["info-item"]}>
+                    <span className={styles["label"]}>Preço:</span>
+                    <span className={styles["value"] + " " + styles["price"]}>
                       R${" "}
                       {car.Price.toLocaleString("pt-BR", {
                         minimumFractionDigits: 2,
@@ -271,15 +270,15 @@ export default function CarsPage() {
                 </div>
 
                 {userType === "cliente" ? (
-                  <Button className="btn-rent" onClick={() => handleOpen(car)}>
+                  <Button className={styles["btn-rent"]} onClick={() => handleOpen(car)}>
                     Alugar
                   </Button>
                 ) : userType === "administrador" ? (
-                  <div className="admin-notice">
-                    <span className="admin-text">Área exclusiva para clientes</span>
+                  <div className={styles["admin-notice"]}>
+                    <span className={styles["admin-text"]}>Área exclusiva para clientes</span>
                   </div>
                 ) : (
-                  <Button className="btn-rent" disabled>
+                  <Button className={styles["btn-rent"]} disabled>
                     Faça login para alugar
                   </Button>
                 )}
@@ -290,9 +289,9 @@ export default function CarsPage() {
 
         {/* No Results */}
         {!loading && filteredCars.length === 0 && (
-          <div className="no-results">
+          <div className={styles["no-results"]}>
             <p>Nenhum carro encontrado com os filtros aplicados.</p>
-            <button className="btn-link" onClick={handleClearFilters}>
+            <button className={styles["btn-link"]} onClick={handleClearFilters}>
               Limpar filtros e tentar novamente
             </button>
           </div>
@@ -300,7 +299,7 @@ export default function CarsPage() {
 
         {/* Empty State */}
         {!loading && cars.length === 0 && filteredCars.length === 0 && !error && (
-          <div className="empty-state">
+          <div className={styles["empty-state"]}>
             <p>Nenhum carro disponível no momento.</p>
           </div>
         )}

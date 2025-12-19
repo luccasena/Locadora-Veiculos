@@ -1,4 +1,7 @@
 
+.home-scope {
+    background-color: white;
+}
 
 .home-scope header{
     padding: 4rem 2%;
@@ -54,11 +57,13 @@
 
 .home-scope .hero-title{
     font-size: 7rem;
+    color: #000000;
     margin-bottom: 2rem;
 }
 
 .home-scope .hero-subtitle {
     font-size: 3rem;
+    color: #000000;
     margin-bottom: 4rem;
 }
 

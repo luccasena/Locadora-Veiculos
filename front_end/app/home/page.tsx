@@ -1,7 +1,7 @@
 "use client";
 import { useRouter } from 'next/navigation';
 import {  useEffect, useState } from "react";
-import "./style.css";
+import styles from "./style.module.css";
 
 import { FooterPage } from '@/components/FooterPage';
 import { HeaderPageClients } from "@/components/headerPageClient";
@@ -70,36 +70,36 @@ export default function HomePage() {
     }, []);
 
     return(
-        <div className='home-scope'>
+        <div className={styles["home-scope"]}>
         
             {userType === "administrador" && (
             <>
                 <HeaderPageAdmin />
                 <main>
-                    <section className="hero-section">
-                        <h1 className="hero-title">Área do Administrador</h1>
-                        <p  className="hero-subtitle">Gerencie usuários, veículos e contratos aqui.</p>
+                    <section className={styles["hero-section"]}>
+                        <h1 className={styles["hero-title"]}>Área do Administrador</h1>
+                        <p  className={styles["hero-subtitle"]}>Gerencie usuários, veículos e contratos aqui.</p>
                     </section>
                     <section>
-                        <div className="features-section">
-                            <div className="grid-admin">
+                        <div className={styles["features-section"]}>
+                            <div className={styles["grid-admin"]}>
                                 
                                 <AdminCard 
                                 title="Contratos" 
-                                icon={<FileText className="text-white" size={48} />}
-                                onClick={() => router.push('admin/manage-contracts')}
+                                icon={<FileText className={styles["text-white"]} size={48} />}
+                                onClick={() => router.push('Admin/manage-contracts')}
                                 />
 
                                 <AdminCard 
                                 title="Carros" 
-                                icon={<Car className="text-white" size={48} />}
-                                onClick={() => router.push('admin/manage-cars')}
+                                icon={<Car className={styles["text-white"]} size={48} />}
+                                onClick={() => router.push('Admin/manage-cars')}
                                 />
 
                                 <AdminCard 
                                 title="Clientes" 
-                                icon={<Users className="text-white" size={48} />}
-                                onClick={() => router.push('admin/manage-clients')}
+                                icon={<Users className={styles["text-white"]} size={48} />}
+                                onClick={() => router.push('Admin/manage-clients')}
                                 />
 
                             </div>
@@ -114,15 +114,15 @@ export default function HomePage() {
                 <HeaderPageClients />
 
                 <main>
-                    <section className="hero-section">
-                        <h1 className="hero-title">Bem-vindo à UrbanMove, {savedName}! </h1>
-                        <p className="hero-subtitle">Sua locadora de veículos confiável e acessível.</p>
+                    <section className={styles["hero-section"]}>
+                        <h1 className={styles["hero-title"]}>Bem-vindo à UrbanMove, {savedName}! </h1>
+                        <p className={styles["hero-subtitle"]}>Sua locadora de veículos confiável e acessível.</p>
                     </section>
-                    <section className="features-section">
-                        <div className="feature-card"></div>
-                            <section className="features-section">
+                    <section className={styles["features-section"]}>
+                        <div className={styles["feature-card"]}></div>
+                            <section className={styles["features-section"]}>
                                 <h2>Informações da conta</h2>
-                                <div className="user-form">
+                                <div className={styles["user-form"]}>
                                     <label>Nome</label>
                                         <input name="name" value={user.name} onChange={handleChange} />
                                     <label>Sobrenome</label>

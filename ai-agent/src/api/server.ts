@@ -8,7 +8,7 @@ import ragRoute from "./routes/ragRoute";
 const app = express();
 
 app.use(cors({
-    origin: [ "http://localhost:3000", "https://locadora-veiculos-rgph.onrender.com" ],
+    origin: [ "http://localhost:3000", "https://locadora-veiculos-rgph.onrender.com/" ],
     credentials: true
 }));
 

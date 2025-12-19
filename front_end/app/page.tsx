@@ -1,10 +1,11 @@
-import "./globals.css";
-import LoginUser from "./login";
+import LandingPage from "./LandingPage/page"; 
+import ChatWidget from "@/components/chatwidget";
 
-export default function Login() {
+export default function Landing() {
   return (
     <>
-      <LoginUser />
+      <LandingPage />
+      <ChatWidget/>
     </>
   );
 }

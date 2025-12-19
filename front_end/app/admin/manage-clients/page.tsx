@@ -10,9 +10,7 @@ import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
 
-import "./style.css";
-import "../../home/style.css"
- 
+import "./style.module.css";;
 
 import { User } from "../../../types/user/User";
 import { registerSchema } from "../../../schemas/validations";

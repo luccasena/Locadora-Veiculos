@@ -11,7 +11,6 @@ import { getUserById } from "@/services/userService";
 import { Delete } from "@mui/icons-material";
 import { IconButton } from "@mui/material";
 
-import "./style.css";
 import "../../home/style.css"
 
 import { Contract, ContractAdminView } from "../../../types/Contract";
