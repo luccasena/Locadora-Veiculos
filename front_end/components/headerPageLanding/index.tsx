@@ -13,17 +13,14 @@ interface HeaderPageLandingProps {
 
 export const HeaderPageLanding = ({theme, toggleTheme, isMenuOpen, setIsMenuOpen}: HeaderPageLandingProps) =>{
     const router = useRouter();
+
+    const headerClasses = `${styles["home-scope"]} ${theme === 'dark' ? styles.dark : ''}`;
+    
     return(
-        <header className={styles[`home-scope ${theme}`]}>
+        <header className={headerClasses}>
             <div className={styles["logo"]}>UrbanMove</div>
 
-            <nav className={styles["desktop-nav"]}>
-                <ul>
-                    <li><a>Início</a></li>
-                    <li><a>Frota</a></li>
-                    <li><a>Sobre</a></li>
-                </ul>
-            </nav>
+
 
             <div className={styles["actions"]}>
                 <button onClick={toggleTheme} className={styles["icon-btn"]} aria-label="Alternar Tema">

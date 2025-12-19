@@ -22,6 +22,14 @@ const style = {
   color: "#fff", // Cor do texto padrão para branco
 };
 
+const MOCK_CARS_DATA: Car[] = [
+    { id: 1, carName: "Corolla", carBrand: "Toyota", carCategory: "Sedan", fuelType: "Híbrido", Year: 2023, Price: 250.00 },
+    { id: 2, carName: "Civic", carBrand: "Honda", carCategory: "Sedan", fuelType: "Gasolina", Year: 2022, Price: 230.00 },
+    { id: 3, carName: "Compass", carBrand: "Jeep", carCategory: "SUV", fuelType: "Flex", Year: 2024, Price: 350.00 },
+    { id: 4, carName: "Mobi", carBrand: "Fiat", carCategory: "Hatch", fuelType: "Flex", Year: 2021, Price: 90.00 },
+    { id: 5, carName: "Mustang", carBrand: "Ford", carCategory: "Esportivo", fuelType: "Gasolina", Year: 2020, Price: 850.00 },
+];
+
 export default function CarsPage() {
   const [userType, setUserType] = useState<string | null>(null);
   const [cars, setCars] = useState<Car[]>([]);
@@ -66,10 +74,10 @@ export default function CarsPage() {
         try {
           setLoading(true);
           setError("");
-          const data = await getAllCars();
+          // const data = await getAllCars();
 
-          setCars(data.data as Car[]);
-          setFilteredCars(data.data as Car[]);
+          setCars(MOCK_CARS_DATA);
+          setFilteredCars(MOCK_CARS_DATA);
         } catch (err) {
           console.error("Erro ao buscar carros:", err);
           setError("Erro ao carregar carros. Tente novamente mais tarde.");
@@ -176,7 +184,7 @@ export default function CarsPage() {
   };
 
   return (
-    <>
+    <div className={styles["home-scope"]}>
       {userType === "administrador" ? <HeaderPageAdmin /> : <HeaderPageClients/>}
       <div className={styles["cars-container"]}>
         <header className={styles["cars-header"]}>
@@ -369,6 +377,6 @@ export default function CarsPage() {
           </Box>
         </Modal>
       </div>
-    </>
+    </div>
   );
 }

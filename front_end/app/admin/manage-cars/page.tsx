@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState, useRef, useCallback } from "react";
 
-import { getAllCars } from "../../../services/CarService";
+import { getAllCars } from "@/services/CarService";
 
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { Box } from "@mui/material";
@@ -16,14 +16,14 @@ import { carSchema } from "@/schemas/validations";
 import { HeaderPageAdmin } from "@/components/headerPageAdmin";
 import { FooterPage } from '@/components/FooterPage';
 
-import styles from"./style.module.css";
+import styles from"@/app/Home/style.module.css"
 
 import { Car } from "@/types/car/Car";
-import { CarUpdate } from "../../../types/car/CarUpdate";
-import { RegisterCarData } from "../../../types/car/RegisterCarData";
-import { updateCar } from "../../../services/CarService";
-import { deleteCar } from "../../../services/CarService";
-import { createCar } from "../../../services/CarService";
+import { CarUpdate } from "@/types/car/CarUpdate";
+import { RegisterCarData } from "@/types/car/RegisterCarData";
+import { updateCar } from "@/services/CarService";
+import { deleteCar } from "@/services/CarService";
+import { createCar } from "@/services/CarService";
 
 export default function ManageCarsPage() {
     const isMountedRef  = useRef(true);
@@ -38,8 +38,13 @@ export default function ManageCarsPage() {
 
     const refetchCars = async () => {
         try {
-            const res = await getAllCars();
-            if (isMountedRef.current) setCars(res.data);
+            if (isMountedRef.current) getAllCars()
+            .then((res) => {
+            if (isMountedRef.current) {
+                setCars(res.data);
+            }
+            })
+            .catch(console.error);
         } catch (e) {
             console.error(e);
         }
@@ -211,18 +216,19 @@ export default function ManageCarsPage() {
         return () => { isMountedRef.current = false; };
     }, []);
  
-    useEffect(() => {
+    useEffect(() => {    
         getAllCars()
-            .then((res) => {
-            if (isMountedRef.current) {
-                setCars(res.data);
-            }
-            })
-            .catch(console.error);
+        .then((res) => {
+        if (isMountedRef.current) {
+            setCars(res.data);
+        }
+        })
+        .catch(console.error);
+
     }, []);
         
     return (
-    <div className="home-scope">
+    <div className={styles["home-scope"]}>
         <HeaderPageAdmin />
         <main>
             <section className={styles["hero-section"]}>

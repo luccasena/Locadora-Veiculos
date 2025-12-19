@@ -6,7 +6,7 @@ export function FooterPage() {
       <div className="line-foteer">
         <div className="flex">
           <div className="direitos-footer">
-            <p>© 2023 - Todos os direitos reservados</p>
+            <p>© 2025 - Todos os direitos reservados</p>
           </div>
           <div className="logo-footer">
             <h2>URBANMOVE</h2>

@@ -52,16 +52,30 @@ const LoginUser = () => {
       setMsgSucesso("");
 
       try {
+        /*
         const login: LoginRequest = {
           email: formData.email,
           password: formData.senha,
         };
 
         const usuario = await loginUser(login);
+        */
 
+        if (formData.email == "admin@gmail.com" && formData.senha == "admin123") {
+          setMsgSucesso(`Bem-vindo(a) Administrador!`);
+          localStorage.setItem("userType", "administrador");
+
+        }else if (formData.email == "user@gmail.com" && formData.senha == "user123") {
+          setMsgSucesso(`Bem-vindo(a), Usuário Teste!`);
+          localStorage.setItem("userType", "cliente");
+        }
+        localStorage.setItem("auth", "true");
+
+        /*
         localStorage.setItem("auth", "true");
         localStorage.setItem("user", JSON.stringify(usuario.data.user));
         localStorage.setItem("userType", usuario.data.type);
+        
 
         if (usuario.data.type === "administrador") {
           setMsgSucesso(`Bem-vindo(a) Administrador!`);
@@ -70,6 +84,7 @@ const LoginUser = () => {
           setMsgSucesso(`Bem-vindo(a), ${usuario.data.user.name}!`);
           localStorage.setItem("userType", "cliente");
         }
+        */
 
         if (localStorage.getItem("auth") === "true") {
           setTimeout(() => {

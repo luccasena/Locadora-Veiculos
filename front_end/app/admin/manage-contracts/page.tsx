@@ -1,5 +1,4 @@
 "use client";
-import { useRouter } from "next/navigation";
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { Box } from "@mui/material";
 import Modal from '@mui/material/Modal';
@@ -11,7 +10,7 @@ import { getUserById } from "@/services/userService";
 import { Delete } from "@mui/icons-material";
 import { IconButton } from "@mui/material";
 
-import "../../home/style.css"
+import styles from"@/app/Home/style.module.css"
 
 import { Contract, ContractAdminView } from "../../../types/Contract";
 import { HeaderPageAdmin } from "@/components/headerPageAdmin";
@@ -79,7 +78,7 @@ export default function ManageContractsPage() {;
     ];
 
     useEffect(() => {           
-    
+        
         async function fetchContracts() {
             try {
                 const response: Contract[] = await getAllContracts();
@@ -104,19 +103,76 @@ export default function ManageContractsPage() {;
                 console.error("Erro ao buscar contratos:", error);
             }
         }
-        fetchContracts();
+
+        async function fetchContractsMoc() {
+    try {
+        // Simula um delay de rede de 1 segundo (opcional, bom para testar loading)
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+
+        // Dados Mockados já no formato final de ContractAdminView
+        const mockContracts: any[] = [ // Troque 'any' por 'ContractAdminView' se tiver a tipagem importada
+            {
+                id: 1,
+                idCar: 101,
+                idClient: 50,
+                startDate: "2023-11-01",
+                endDate: "2023-11-05",
+                value: 1200.00,
+                status: "ACTIVE",
+                // Campos calculados simulados:
+                Car: "Toyota Corolla",
+                Client: "ID: 50 - João Silva"
+            },
+            {
+                id: 2,
+                idCar: 102,
+                idClient: 51,
+                startDate: "2023-11-10",
+                endDate: "2023-11-12",
+                value: 850.50,
+                status: "COMPLETED",
+                // Campos calculados simulados:
+                Car: "Honda Civic",
+                Client: "ID: 51 - Maria Souza"
+            },
+            {
+                id: 3,
+                idCar: 105,
+                idClient: 52,
+                startDate: "2023-12-01",
+                endDate: "2023-12-10",
+                value: 2500.00,
+                status: "PENDING",
+                // Campos calculados simulados:
+                Car: "Fiat Pulse",
+                Client: "ID: 52 - Carlos Pereira"
+            }
+        ];
+
+        // Atualiza o estado se o componente ainda estiver montado
+        if (isMountedRef.current) {
+            setContracts(mockContracts);
+        }
+
+    } catch (error) {
+        console.error("Erro ao buscar contratos (Mock):", error);
+    }
+}
+
+        // fetchContracts();
+        fetchContractsMoc();
 
     }, []);
         
     return (
-    <div className="home-scope">
+    <div className={styles["home-scope"]}>
         <HeaderPageAdmin />
         <main>
-            <section className="hero-section">
-                <h1 className="hero-title">Área do Administrador</h1>
-                <p  className="hero-subtitle">Gerenciando Contratos.</p>
+            <section className={styles["hero-section"]}>
+                <h1 className={styles["hero-title"]}>Área do Administrador</h1>
+                <p  className={styles["hero-subtitle"]}>Gerenciando Contratos.</p>
             </section>
-            <section className="features-section" style={{
+            <section className={styles["features-section"]} style={{
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
@@ -171,20 +227,20 @@ export default function ManageContractsPage() {;
             open={openModal}
             onClose={() => setOpenModal(false)}
         >
-            <div className="modal-overlay">
+            <div className={styles["modal-overlay"]}>
                 {modalType === "delete" && selectedRow && (
-                    <div className="modal-content">
+                    <div className={styles["modal-content"]}>
                         <h2>Deletar Contrato</h2>
                         <p>Tem certeza que deseja deletar o contrato {selectedRow.id}?</p>
-                        <div className="modal-actions">
+                        <div className={styles["modal-actions"]}>
                             <button 
-                                className="btn-cancel"
+                                className={styles["btn-cancel"]}
                                 onClick={() => setOpenModal(false)}
                             >
                                 Cancelar
                             </button>
                             <button 
-                                className="btn-delete"
+                                className={styles["btn-delete"]}
                                 onClick={() => handleDelete(selectedRow.id)}
                             >
                                 Deletar

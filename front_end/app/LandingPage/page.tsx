@@ -31,7 +31,7 @@ export default function LandingPage() {
     ];;
     
     return (
-        <div className={styles[`home-scope ${theme}`]}>
+        <div className={`${styles["home-scope"]} ${theme === 'dark' ? styles.dark : ''}`}>
         <HeaderPageLanding
             theme={theme}
             toggleTheme={toggleTheme}
@@ -59,7 +59,7 @@ export default function LandingPage() {
                 <p className={styles["section-label"]}>Marcas Premium Disponíveis</p>
                 <div className={styles["carousel-track"]}>
                     {brands.map((brand, index) => (
-                        <div className={styles["brand-logo"]} key={index}>
+                        <div key={index}>
                             <img src={brand.logo} alt={brand.name} className={styles["brand-logo"]}/>
                         </div>
                     ))}

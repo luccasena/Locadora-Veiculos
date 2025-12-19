@@ -15,20 +15,19 @@ import { UserUpdate } from "@/types/user/UserUpdate";
 export default function HomePage() {
 
     const [user, setUser] =  useState({
-        id: null,
-        name: "",
-        lastname: "", 
-        cpf: "",
-        email: "",
-        phone: "",
-        password: ""
+        id: 1,
+        name: "Usuario",
+        lastname: "Teste", 
+        cpf: "123.456.789-00",
+        email: "user@gmail.com",
+        phone: "83 99999-9999",
+        password: "user123"
     });
     const [userType, setUserType] = useState<string | null>(null);
-    const [savedName, setSavedName] = useState("");
+    const [savedName, setSavedName] = useState("Usuario Teste");
 
     const router = useRouter();
-   
-    // Atualiza valores conforme digitação
+
     const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setUser((prevUser) => ({
@@ -57,14 +56,17 @@ export default function HomePage() {
 
     useEffect(() => {
         const fetchUserData = async () => {
-            const storedUser = localStorage.getItem("user");
+
+            // const storedUser = localStorage.getItem("user");
             const type = localStorage.getItem("userType");
 
             setUserType(type);
+            /*
             if (storedUser) {
                 setUser(JSON.parse(storedUser));
                 setSavedName(JSON.parse(storedUser).name); 
             }
+            */
         };
         fetchUserData();
     }, []);
@@ -82,7 +84,12 @@ export default function HomePage() {
                     </section>
                     <section>
                         <div className={styles["features-section"]}>
-                            <div className={styles["grid-admin"]}>
+                            <div style={{
+                                        display: "flex", 
+                                        justifyContent: "space-around",
+                                        gap: "2rem",
+                                        marginTop: "4rem",
+                                    }}>
                                 
                                 <AdminCard 
                                 title="Contratos" 

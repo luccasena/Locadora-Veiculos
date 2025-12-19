@@ -2,7 +2,7 @@
 
 
 
-.home-scope .logo {
+.logo {
     font-size: 2.5rem; 
     color: var(--accent-color);
     font-weight: 800; 
@@ -12,16 +12,16 @@
 }
 
 @media(min-width: 1024px) {
-    .home-scope .logo { font-size: 3rem; }
+    .logo { font-size: 3rem; }
 }
 
-.home-scope .desktop-nav ul li {
+.desktop-nav ul li {
     display: inline-block;
     margin-left: 2rem;
     font-size: 1rem; 
 }
 
-.home-scope .desktop-nav ul li a {
+.desktop-nav ul li a {
     color: var(--text-color);
     text-decoration: none;
     text-transform: uppercase;
@@ -33,19 +33,19 @@
     letter-spacing: 0.5px;
 }
 
-.home-scope .desktop-nav ul li a:hover {
+.desktop-nav ul li a:hover {
     transform: scale(1.05);
     background-color: var(--accent-color);
     color: var(--bg-color);
 }
 
-.home-scope .actions {
+.actions {
     display: flex;
     align-items: center;
     gap: 1.5rem;
 }
 
-.home-scope .btn-login {
+.btn-login {
     padding: 0.8rem 1.5rem;
     font-size: 0.9rem; 
     border-radius: 8px;
@@ -59,7 +59,7 @@
     letter-spacing: 1px;
 }
 
-.home-scope .btn-login {
+.btn-login {
     background: transparent;
     color: var(--text-color);
     border: 1px solid var(--text-color);
@@ -69,21 +69,21 @@
     background: rgba(255,255,255,0.1);
 }
 
-.home-scope .mobile-menu-btn {
+.mobile-menu-btn {
     background: none;
     border: none;
     color: var(--text-color);
     z-index: 1001; 
 }
 
-.home-scope .mobile-nav ul {
+.mobile-nav ul {
     text-align: center;
     display: flex;
     flex-direction: column;
     gap: 2rem;
 }
 
-.home-scope .mobile-nav ul li a {
+.mobile-nav ul li a {
     font-size: 2rem;
     color: var(--text-color);
     text-decoration: none;
@@ -92,11 +92,24 @@
     letter-spacing: 1px;
 }
 
-.home-scope .auth-buttons {
+.auth-buttons {
     display: none;
 }
 
 @media(min-width: 768px) {
-    .home-scope .auth-buttons { display: flex; gap: 1rem; }
-    .home-scope .mobile-menu-btn { display: none; }
+    .auth-buttons { display: flex; gap: 1rem; }
+    .mobile-menu-btn { display: none; }
+}
+
+.icon-btn {
+    background: none;
+    border: none;
+    color: var(--text-color);
+    cursor: pointer;
+    transition: transform 0.3s;
+    padding: 5px;
+}
+
+.icon-btn:hover {
+    transform: rotate(15deg);
 }

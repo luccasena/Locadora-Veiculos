@@ -9,7 +9,6 @@ import { getCarById } from "../../services/CarService";
 import { getUserById } from "../../services/userService";
 import { ContractAdminView } from "../../types/Contract";
 
-
 export default function ContractsPage() {
     const [contracts, setContracts] = useState<ContractAdminView[]>([]);
     const [loading, setLoading] = useState(true);
@@ -46,7 +45,7 @@ export default function ContractsPage() {
      }, []);
 
     return (
-      <>
+      <div className={styles["home-scope"]}>
         <HeaderPageClients />
         <main>
           <h1 className={styles.h1contratos}>Contratos de Carros</h1>
@@ -74,6 +73,6 @@ export default function ContractsPage() {
         </main>
 
         <FooterPage />
-      </>
+      </div>
     );
 }

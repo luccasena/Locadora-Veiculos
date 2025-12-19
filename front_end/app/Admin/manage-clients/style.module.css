@@ -1,3 +1,54 @@
+.home-scope {
+    background-color: white;
+}
+
+/* ---- SECTION ---- */
+
+.home-scope .hero-section {
+    padding: 10rem 5% 6rem;
+    text-align: center;
+    min-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.home-scope section{
+    padding: 6rem 2%;
+    text-align: center;
+    height: 30rem;
+}
+
+.hero-section .hero-title{
+    font-size: 7rem;
+    color: #000000;
+    margin-bottom: 2rem;
+}
+
+.hero-section .hero-subtitle {
+    font-size: 3rem;
+    color: #000000;
+    margin-bottom: 4rem;
+}
+
+
+/* --- SEÇÃO DE INFORMAÇÕES --- */
+
+.hero-section .features-section {
+    padding: 6rem 2%;
+    background-color: #ffffff;
+    color: #000000;
+    text-align: center;
+}
+
+.hero-section .features-section h2 {
+    font-size: 4rem;
+    margin-bottom: 3rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
 /* Fundo escurecido */
 .modal-overlay {
     position: fixed;

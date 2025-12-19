@@ -1,5 +1,25 @@
 /* ===== CARS PAGE ===== */
 
+.home-scope {
+    background-color: white;
+}
+
+.home-scope header{
+    padding: 4rem 2%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: black;
+}
+
+.home-scope header .logo{
+    font-size: 3rem;
+    color: #fff;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
 /* Mobile first */
 .cars-container {
   min-height: 100vh;
@@ -16,14 +36,14 @@
 }
 
 /* Header */
-.cars-header {
+.home-scope .cars-header {
   background-color: #ffffff;
   text-align: center;
   margin-bottom: 3rem;
   padding: 2rem 0;
 }
 
-.cars-header h1 {
+.home-scope .cars-header h1 {
   font-size: 2.2rem;
   color: #000;
   margin: 0 0 0.5rem 0;
@@ -32,7 +52,7 @@
   letter-spacing: 1px;
 }
 
-.cars-header p {
+.home-scope .cars-header p {
   color: #666;
   font-size: 1rem;
   margin: 0;

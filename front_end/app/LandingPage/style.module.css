@@ -5,7 +5,7 @@
     --bg-color: #ffffff;
     --text-color: #1a1a1a;
     --accent-color: #000000;
-    --secondary-bg: #ffffff;
+    --secondary-bg: #f6f6f6;
     --hover-color: #333;
     --highlight: #ffee00; 
 }
@@ -14,7 +14,7 @@
     --bg-color: #000000;
     --text-color: #ffffff;
     --accent-color: #ffffff;
-    --secondary-bg: #000000;
+    --secondary-bg: #1f1e1e;
     --hover-color: #000000;
 }
 
@@ -268,7 +268,7 @@
 .carousel-track {
     display: flex;
     width: calc(200px * 12); 
-    animation: scroll linear infinite;
+    animation: scroll 40s infinite;
 }
 
 .brand-logo {
@@ -289,6 +289,16 @@
     filter: grayscale(0%) brightness(100%);
     opacity: 1;
     transform: scale(1.1);
+}
+
+.section-label {
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    font-size: 0.8rem;
+    margin-bottom: 2rem;
+    opacity: 0.6;
+    font-weight: 600;
 }
 
 @keyframes scroll {
