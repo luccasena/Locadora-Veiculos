@@ -6,8 +6,9 @@ import { registerSchema } from "../../schemas/validations";
 import type { ZodIssue } from "zod";
 import { registerUser } from "../../services/userService";
 import axios from "axios";
-import "./style.css";
+import styles from "./style.module.css";
 import type { RegisterUserData } from "@/types/user/RegisterUser";
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 
 const REDIRECT_DELAY = 2000;
 
@@ -68,7 +69,7 @@ export default function Register() {
           localStorage.setItem("userType", response.data.type);
 
           setMsgSucesso(response.data.message || "cadastrado com sucesso!");
-          setTimeout(() => router.push("/home"), REDIRECT_DELAY);
+          setTimeout(() => router.push("/Home"), REDIRECT_DELAY);
         } else {
           setMsgErro(response?.data?.message || "Erro ao cadastrar usuário");
         }
@@ -89,104 +90,109 @@ export default function Register() {
   );
 
   return (
-    <main className="login-page">
-      <div className="form-card">
-        <h2 className="title-login">preencha suas informações</h2>
+    <>
+    <Link href="/" className={styles["btn-back-lp"]}>
+      <ArrowBackIosIcon/> Voltar para Home
+    </Link>
+    
+    <main className={styles["login-page"]}>
+      <div className={styles["form-card"]}>
+        <h2 className={styles["title-login"]}>preencha suas informações</h2>
 
-        {msgSucesso && <div className="alert alert-success">{msgSucesso}</div>}
-        {msgErro && <div className="alert alert-error">{msgErro}</div>}
-
+        {msgSucesso && <div className={styles["alert"] + " " + styles["alert-success"]}>{msgSucesso}</div>}
+        {msgErro && <div className={styles["alert"] + " " + styles["alert-error"]}>{msgErro}</div>}
         <form onSubmit={handleSubmit} noValidate>
-          <div className="input-group">
+          <div className={styles["input-group"]}>
             <input
               name="cpf"
               type="text"
               placeholder="CPF"
-              className="input-field"
+              className={styles["input-field"]}
               value={formData.cpf}
               onChange={handleInputChange}
               disabled={isLoading}
             />
-            {errors.cpf && <span className="error-text">{errors.cpf}</span>}
+            {errors.cpf && <span className={styles["error-text"]}>{errors.cpf}</span>}
           </div>
 
-          <div className="input-group">
+          <div className={styles["input-group"]}>
             <input
               name="email"
               type="email"
               placeholder="Email"
-              className="input-field"
+              className={styles["input-field"]}
               value={formData.email}
               onChange={handleInputChange}
               disabled={isLoading}
             />
-            {errors.email && <span className="error-text">{errors.email}</span>}
+            {errors.email && <span className={styles["error-text"]}>{errors.email}</span>}
           </div>
 
-          <div className="input-group">
+          <div className={styles["input-group"]}>
             <input
               name="name"
               type="text"
               placeholder="Nome"
-              className="input-field"
+              className={styles["input-field"]}
               value={formData.name}
               onChange={handleInputChange}
               disabled={isLoading}
             />
-            {errors.name && <span className="error-text">{errors.name}</span>}
+            {errors.name && <span className={styles["error-text"]}>{errors.name}</span>}
           </div>
 
-          <div className="input-group">
+          <div className={styles["input-group"]}>
             <input
               name="lastname"
               type="text"
               placeholder="Sobrenome (opcional)"
-              className="input-field"
+              className={styles["input-field"]}
               value={formData.lastname}
               onChange={handleInputChange}
               disabled={isLoading}
             />
           </div>
 
-          <div className="input-group">
+          <div className={styles["input-group"]}>
             <input
               name="phone"
               type="text"
               placeholder="Telefone"
-              className="input-field"
+              className={styles["input-field"]}
               value={formData.phone}
               onChange={handleInputChange}
               disabled={isLoading}
             />
-            {errors.phone && <span className="error-text">{errors.phone}</span>}
+            {errors.phone && <span className={styles["error-text"]}>{errors.phone}</span>}
           </div>
 
-          <div className="input-group">
+          <div className={styles["input-group"]}>
             <input
               name="password"
               type="password"
               placeholder="Senha"
-              className="input-field"
+              className={styles["input-field"]}
               value={formData.password}
               onChange={handleInputChange}
               disabled={isLoading}
             />
             {errors.password && (
-              <span className="error-text">{errors.password}</span>
+              <span className={styles["error-text"]}>{errors.password}</span>
             )}
           </div>
 
-          <div className="box-btn">
-            <button type="submit" className="btn-login" disabled={isLoading}>
+          <div className={styles["box-btn"]}>
+            <button type="submit" className={styles["btn-login"]} disabled={isLoading}>
               {isLoading ? "Cadastrando..." : "Cadastrar"}
             </button>
 
-            <Link href="/" className="btn-login btn-secondary">
+            <Link href="/Login" className={styles["btn-login"] + " " + styles["btn-secondary"]}>
               Fazer login
             </Link>
           </div>
         </form>
       </div>
     </main>
+    </>
   );
 }

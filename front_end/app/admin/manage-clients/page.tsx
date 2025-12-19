@@ -10,14 +10,12 @@ import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
 
-import "./style.css";
-import "../../home/style.css"
- 
+import styles from"@/app/Home/style.module.css"
 
-import { User } from "../../../types/user/User";
-import { registerSchema } from "../../../schemas/validations";
-import { RegisterUserData } from "../../../types/user/RegisterUser";
-import { UserUpdate } from "../../../types/user/UserUpdate";
+import { User } from "@/types/user/User";
+import { registerSchema } from "@/schemas/validations";
+import { RegisterUserData } from "@/types/user/RegisterUser";
+import { UserUpdate } from "@/types/user/UserUpdate";
 import { getUsers } from "@/services/userService";
 import { registerUser }  from '@/services/userService';
 import { updateUser } from '@/services/userService';
@@ -81,7 +79,7 @@ export default function ManageClientsPage() {
             setOpenModal(false);
         }
     }
-};
+    };
 
     const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -104,7 +102,7 @@ export default function ManageClientsPage() {
             [name]: value,
             };
             });
-        }}  
+    }}  
 
     const handleSaveUpdate = async (user: User) => {
         const result = registerSchema.safeParse({
@@ -248,14 +246,14 @@ export default function ManageClientsPage() {
     }, []);
         
     return (
-    <div className="home-scope">
+    <div className={styles["home-scope"]}>
         <HeaderPageAdmin />
         <main>
-            <section className="hero-section">
-                <h1 className="hero-title">Área do Administrador</h1>
-                <p  className="hero-subtitle">Gerenciando Clientes.</p>
+            <section className={styles["hero-section"]}>
+                <h1 className={styles["hero-title"]}>Área do Administrador</h1>
+                <p  className={styles["hero-subtitle"]}>Gerenciando Clientes.</p>
             </section>
-            <section className="features-section" style={{
+            <section className={styles["features-section"]} style={{
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
@@ -313,9 +311,9 @@ export default function ManageClientsPage() {
             open={openModal}
             onClose={() => setOpenModal(false)}
         >
-            <div className="modal-overlay">
+            <div className={styles["modal-overlay"]}>
                 {modalType === "edit" && selectedRow && (
-                    <div className="modal-container">
+                    <div className={styles["modal-container"]}>
 
                         <IconButton
                             aria-label="close"
@@ -329,31 +327,28 @@ export default function ManageClientsPage() {
                         
                         <h3>Informações da conta</h3>
 
-                        <div className="form-edit-user-admin">
+                        <div className={styles["form-edit-user-admin"]}>
                             <label>Nome</label>
                             <input name="name" value={userEdit?.name || ""} onChange={handleChange}></input> 
-                            {errors.name && <p className="error-text">{errors.name.join(", ")}</p>}
+                            {errors.name && <p className={styles["error-text"]}>{errors.name.join(", ")}</p>}
 
                             <label>Sobrenome</label>
                             <input name="lastname" value={userEdit?.lastname || ""} onChange={handleChange}></input>
-                            {errors.lastname && <p className="error-text">{errors.lastname.join(", ")}</p>}
-
+                            {errors.lastname && <p className={styles["error-text"]}>{errors.lastname.join(", ")}</p>}
                             <label>CPF</label>
                             <input name="cpf" value={userEdit?.cpf || ""} onChange={handleChange}></input> 
-                            {errors.cpf && <p className="error-text">{errors.cpf.join(", ")}</p>}
+                            {errors.cpf && <p className={styles["error-text"]}>{errors.cpf.join(", ")}</p>}
 
                             <label>Email</label>
                             <input name="email" value={userEdit?.email || ""} onChange={handleChange}></input> 
-                            {errors.email && <p className="error-text">{errors.email.join(", ")}</p>}
-
+                            {errors.email && <p className={styles["error-text"]}>{errors.email.join(", ")}</p>}
                             <label>Telefone</label>
                             <input name="phone" value={userEdit?.phone || ""} onChange={handleChange}></input> 
-                            {errors.phone && <p className="error-text">{errors.phone.join(", ")}</p>}
+                            {errors.phone && <p className={styles["error-text"]}>{errors.phone.join(", ")}</p>}
 
                             <label>Senha</label>
                             <input type="password" name="password" value={userEdit?.password || ""} onChange={handleChange}></input> 
-                            {errors.password && <p className="error-text">{errors.password.join(", ")}</p>}
-
+                            {errors.password && <p className={styles["error-text"]}>{errors.password.join(", ")}</p>}
                             <button onClick={() => userEdit && handleSaveUpdate(userEdit)}>
                                 Salvar alterações
                             </button>
@@ -362,41 +357,39 @@ export default function ManageClientsPage() {
                     </div>
                 )}
                 {modalType === "create" && (
-                    <div className="modal-container">
+                    <div className={styles["modal-container"]}>
                         <IconButton
                             aria-label="close"
                             onClick={() => setOpenModal(false)}
-                            className="modal-close-btn"
+                            className={styles["modal-close-btn"]}
                         >
                             <CloseIcon />
                         </IconButton>
 
                         <h2>Criando Usuário</h2>
 
-                        <div className="form-edit-user-admin">
+                        <div className={styles["form-edit-user-admin"]}>
                           <label>Nome</label>
                           <input name="name" value={userCreate?.name || ""} onChange={handleChange} />
-                          {errors.name && <p className="error-text">{errors.name.join(", ")}</p>}
+                          {errors.name && <p className={styles["error-text"]}>{errors.name.join(", ")}</p>}
 
                           <label>Sobrenome</label>
                           <input name="lastname" value={userCreate?.lastname || ""} onChange={handleChange} />
-                          {errors.lastname && <p className="error-text">{errors.lastname.join(", ")}</p>}
-
+                          {errors.lastname && <p className={styles["error-text"]}>{errors.lastname.join(", ")}</p>}
                           <label>CPF</label>
                           <input name="cpf" value={userCreate?.cpf || ""} onChange={handleChange} />
-                          {errors.cpf && <p className="error-text">{errors.cpf.join(", ")}</p>}
+                          {errors.cpf && <p className={styles["error-text"]}>{errors.cpf.join(", ")}</p>}
 
                           <label>Email</label>
                           <input name="email" value={userCreate?.email || ""} onChange={handleChange} />
-                          {errors.email && <p className="error-text">{errors.email.join(", ")}</p>}
-
+                          {errors.email && <p className={styles["error-text"]}>{errors.email.join(", ")}</p>}
                           <label>Telefone</label>
                           <input name="phone" value={userCreate?.phone || ""} onChange={handleChange} />
-                          {errors.phone && <p className="error-text">{errors.phone.join(", ")}</p>}
+                          {errors.phone && <p className={styles["error-text"]}>{errors.phone.join(", ")}</p>}
 
                           <label>Senha</label>
                           <input type="password" name="password" value={userCreate?.password || ""} onChange={handleChange} />
-                          {errors.password && <p className="error-text">{errors.password.join(", ")}</p>}
+                          {errors.password && <p className={styles["error-text"]}>{errors.password.join(", ")}</p>}
 
                           <button onClick={() => userCreate && handleSaveCreate(userCreate)}>
                             Salvar alterações

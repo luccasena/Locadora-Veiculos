@@ -1,7 +1,7 @@
 "use client";
 import { useRouter } from 'next/navigation';
 import {  useEffect, useState } from "react";
-import "./style.css";
+import styles from "./style.module.css";
 
 import { FooterPage } from '@/components/FooterPage';
 import { HeaderPageClients } from "@/components/headerPageClient";
@@ -15,20 +15,19 @@ import { UserUpdate } from "@/types/user/UserUpdate";
 export default function HomePage() {
 
     const [user, setUser] =  useState({
-        id: null,
-        name: "",
-        lastname: "", 
-        cpf: "",
-        email: "",
-        phone: "",
-        password: ""
+        id: 1,
+        name: "Usuario",
+        lastname: "Teste", 
+        cpf: "123.456.789-00",
+        email: "user@gmail.com",
+        phone: "83 99999-9999",
+        password: "user123"
     });
     const [userType, setUserType] = useState<string | null>(null);
-    const [savedName, setSavedName] = useState("");
+    const [savedName, setSavedName] = useState("Usuario Teste");
 
     const router = useRouter();
-   
-    // Atualiza valores conforme digitação
+
     const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setUser((prevUser) => ({
@@ -57,49 +56,57 @@ export default function HomePage() {
 
     useEffect(() => {
         const fetchUserData = async () => {
-            const storedUser = localStorage.getItem("user");
+
+            // const storedUser = localStorage.getItem("user");
             const type = localStorage.getItem("userType");
 
             setUserType(type);
+            /*
             if (storedUser) {
                 setUser(JSON.parse(storedUser));
                 setSavedName(JSON.parse(storedUser).name); 
             }
+            */
         };
         fetchUserData();
     }, []);
 
     return(
-        <div className='home-scope'>
+        <div className={styles["home-scope"]}>
         
             {userType === "administrador" && (
             <>
                 <HeaderPageAdmin />
                 <main>
-                    <section className="hero-section">
-                        <h1 className="hero-title">Área do Administrador</h1>
-                        <p  className="hero-subtitle">Gerencie usuários, veículos e contratos aqui.</p>
+                    <section className={styles["hero-section"]}>
+                        <h1 className={styles["hero-title"]}>Área do Administrador</h1>
+                        <p  className={styles["hero-subtitle"]}>Gerencie usuários, veículos e contratos aqui.</p>
                     </section>
                     <section>
-                        <div className="features-section">
-                            <div className="grid-admin">
+                        <div className={styles["features-section"]}>
+                            <div style={{
+                                        display: "flex", 
+                                        justifyContent: "space-around",
+                                        gap: "2rem",
+                                        marginTop: "4rem",
+                                    }}>
                                 
                                 <AdminCard 
                                 title="Contratos" 
-                                icon={<FileText className="text-white" size={48} />}
-                                onClick={() => router.push('admin/manage-contracts')}
+                                icon={<FileText className={styles["text-white"]} size={48} />}
+                                onClick={() => router.push('Admin/manage-contracts')}
                                 />
 
                                 <AdminCard 
                                 title="Carros" 
-                                icon={<Car className="text-white" size={48} />}
-                                onClick={() => router.push('admin/manage-cars')}
+                                icon={<Car className={styles["text-white"]} size={48} />}
+                                onClick={() => router.push('Admin/manage-cars')}
                                 />
 
                                 <AdminCard 
                                 title="Clientes" 
-                                icon={<Users className="text-white" size={48} />}
-                                onClick={() => router.push('admin/manage-clients')}
+                                icon={<Users className={styles["text-white"]} size={48} />}
+                                onClick={() => router.push('Admin/manage-clients')}
                                 />
 
                             </div>
@@ -114,15 +121,15 @@ export default function HomePage() {
                 <HeaderPageClients />
 
                 <main>
-                    <section className="hero-section">
-                        <h1 className="hero-title">Bem-vindo à UrbanMove, {savedName}! </h1>
-                        <p className="hero-subtitle">Sua locadora de veículos confiável e acessível.</p>
+                    <section className={styles["hero-section"]}>
+                        <h1 className={styles["hero-title"]}>Bem-vindo à UrbanMove, {savedName}! </h1>
+                        <p className={styles["hero-subtitle"]}>Sua locadora de veículos confiável e acessível.</p>
                     </section>
-                    <section className="features-section">
-                        <div className="feature-card"></div>
-                            <section className="features-section">
+                    <section className={styles["features-section"]}>
+                        <div className={styles["feature-card"]}></div>
+                            <section className={styles["features-section"]}>
                                 <h2>Informações da conta</h2>
-                                <div className="user-form">
+                                <div className={styles["user-form"]}>
                                     <label>Nome</label>
                                         <input name="name" value={user.name} onChange={handleChange} />
                                     <label>Sobrenome</label>

@@ -1,3 +1,23 @@
+.home-scope {
+    background-color: white;
+}
+
+.home-scope header{
+    padding: 4rem 2%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: black;
+}
+
+.home-scope header .logo{
+    font-size: 3rem;
+    color: #fff;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
 .h1contratos{
     text-align: center;
     padding: 3rem 1.2rem;

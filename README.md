@@ -6,10 +6,10 @@ Disciplina: **Tópicos Especiais em TI – TypeScript Fullstack (2025.02)**
 
 ## 👤 Integrantes do Projeto
 
- - [Leonardo Lucas de Brito Silva](https://github.com/leonardolucasbs)
- - [Lucca de Sena Barbosa](https://github.com/luccasena)
- - [Maximus Feitoza Lira Cunha](https://github.com/MaxFeitoza)
- - [Cauã Augusto Machado de Negreiros](https://github.com/cauaaugustow)
+ - [Leonardo Lucas de Brito Silva](https://github.com/leonardolucasbs) - Front-end
+ - [Lucca de Sena Barbosa](https://github.com/luccasena) - AI Engineer
+ - [Maximus Feitoza Lira Cunha](https://github.com/MaxFeitoza) - Back-end
+ - [Cauã Augusto Machado de Negreiros](https://github.com/cauaaugustow) - Front-end
 
 ---
 
@@ -28,27 +28,76 @@ Disciplina: **Tópicos Especiais em TI – TypeScript Fullstack (2025.02)**
 2. Gerenciamento de clientes (dados pessoais, CNH, histórico de locações).
 3. Controle de reservas (datas, veículo alugado, valores, status).
 4. Relatórios básicos (veículos disponíveis, locações em andamento, histórico de aluguéis).
+5. Assistente 24hrs que  prestar suporte aos clientes da locadora. 
 
 ---
 
 ## 📚 Tecnologias
 
 1. Backend: Node.js, Express, TypeScript, PostgreSQL, Prisma
-2. Frontend: HTML, CSS, Javascript
+2. Frontend: HTML, CSS, TypeScript
 
 ---
 
-## 🚀 Entregáveis
+## 🖥️ Imagens da Aplicação
 
-1. API documentada (Swagger).
-2. Banco de dados estruturado com PostgreSQL.
+### 1. Landing Page:
+
+- Modo Escuro:
+
+<img src="img/Landing-Page-Black.png" alt=""></img>
+
+- Modo Claro:
+
+<img src="img/Landing-Page-White.png" alt=""></img>
+
+1.1 Assistente 24hrs:
+
+<img src="img/Assistente.png" alt=""></img>
+
+## 2. Login:
+
+<img src="img/Login.png" alt=""></img>
+
+## 3. Cadastro:
+
+<img src="img/Registro.png" alt=""></img>
+
+## 4. Home:
+
+- Cliente da Locadora:
+
+<img src="img/Home-Usuario.png" alt=""></img>
+
+- Administrador:
+
+<img src="img/Home-Admin.png" alt=""></img>
+
+## 5. Visualizando Carros:
+
+<img src="img/Carros-Locadora.png" alt=""></img>
+
+## 6. Gerência:
+
+- Carros:
+
+<img src="img/Gerencia-Carros.png" alt=""></img>
+
+- Clientes:
+
+<img src="img/Gerencia-Clientes.png" alt=""></img>
+
+- Contratos:
+
+<img src="img/Gerencia-Contratos.png" alt=""></img>
+
+## 7. Assistente 24hrs:
+
 
 ---
 
-## ⚙ Instalação de Dependências
+## ⚙ Informações sobre Dependências
 
 - Versão do NodeJS: *v22.20.0 (LTS)*
 
-```bash
-npm install
-```
+

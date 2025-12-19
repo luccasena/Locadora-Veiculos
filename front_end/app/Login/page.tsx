@@ -4,9 +4,10 @@ import type { ZodIssue } from "zod";
 import React, { useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { loginUser } from "@/services/userService";
-import "./style.css";
+import styles from "./style.module.css";
 import Link from "next/link";
 import { LoginRequest } from "@/types/user/LoginRequest";
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 
 const REDIRECT_DELAY = 2000;
 const LoginUser = () => {
@@ -51,16 +52,30 @@ const LoginUser = () => {
       setMsgSucesso("");
 
       try {
+        /*
         const login: LoginRequest = {
           email: formData.email,
           password: formData.senha,
         };
 
         const usuario = await loginUser(login);
+        */
 
+        if (formData.email == "admin@gmail.com" && formData.senha == "admin123") {
+          setMsgSucesso(`Bem-vindo(a) Administrador!`);
+          localStorage.setItem("userType", "administrador");
+
+        }else if (formData.email == "user@gmail.com" && formData.senha == "user123") {
+          setMsgSucesso(`Bem-vindo(a), Usuário Teste!`);
+          localStorage.setItem("userType", "cliente");
+        }
+        localStorage.setItem("auth", "true");
+
+        /*
         localStorage.setItem("auth", "true");
         localStorage.setItem("user", JSON.stringify(usuario.data.user));
         localStorage.setItem("userType", usuario.data.type);
+        
 
         if (usuario.data.type === "administrador") {
           setMsgSucesso(`Bem-vindo(a) Administrador!`);
@@ -69,10 +84,11 @@ const LoginUser = () => {
           setMsgSucesso(`Bem-vindo(a), ${usuario.data.user.name}!`);
           localStorage.setItem("userType", "cliente");
         }
+        */
 
         if (localStorage.getItem("auth") === "true") {
           setTimeout(() => {
-            router.push("/home");
+            router.push("/Home");
           }, REDIRECT_DELAY);
         }
       } catch (error) {
@@ -86,53 +102,61 @@ const LoginUser = () => {
   );
 
   return (
-    <main className="login-page">
-      <div className="form-card">
-        <h2 className="title-login">Login</h2>
+    <>
+    
+    <Link href="/" className={styles["btn-back-lp"]}>
+      <ArrowBackIosIcon/> Voltar para Home
+    </Link>
+    
+    <main className={styles["login-page"]}>
+      <div className={styles["form-card"]}>
+        <h2 className={styles["title-login"]}>Login</h2>
 
-        {msgSucesso && <div className="alert alert-success">{msgSucesso}</div>}
+        {msgSucesso && <div className={styles["alert"] + " " + styles["alert-success"]}>{msgSucesso}</div>}
 
-        {msgErro && <div className="alert alert-error">{msgErro}</div>}
+        {msgErro && <div className={styles["alert"] + " " + styles["alert-error"]}>{msgErro}</div>}
 
         <form onSubmit={handleSubmit} noValidate>
-          <div className="input-group">
+          <div className={styles["input-group"]}>
             <input
               type="email"
               name="email"
-              className="input-field"
+              className={styles["input-field"]}
               placeholder="Email"
               value={formData.email}
               onChange={handleInputChange}
               disabled={isLoading}
             />
-            {errors.email && <span className="error-text">{errors.email}</span>}
+            {errors.email && <span className={styles["error-text"]}>{errors.email}</span>}
           </div>
 
-          <div className="input-group">
+          <div className={styles["input-group"]}>
             <input
               type="password"
               name="senha"
-              className="input-field"
+              className={styles["input-field"]}
               placeholder="Senha"
               value={formData.senha}
               onChange={handleInputChange}
               disabled={isLoading}
             />
-            {errors.senha && <span className="error-text">{errors.senha}</span>}
+            {errors.senha && <span className={styles["error-text"]}>{errors.senha}</span>}
           </div>
 
-          <div className="box-btn">
-            <button type="submit" className="btn-login" disabled={isLoading}>
+          <div className={styles["box-btn"]}>
+            <button type="submit" className={styles["btn-login"]} disabled={isLoading}>
               {isLoading ? "Carregando..." : "Entrar"}
             </button>
 
-            <Link href="/Register" className="btn-login btn-secondary">
+            <Link href="/Register" className={styles["btn-login"] + " " + styles["btn-secondary"]}>
               Cadastrar
             </Link>
           </div>
         </form>
       </div>
     </main>
+    </>
   );
 };
+
 export default LoginUser;

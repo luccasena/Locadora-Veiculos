@@ -1,9 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import "./style.css";
 import { aiResponse } from "@/services/Aiservice";
 import { Airequest } from "@/types/AIrequest";
+import HeadsetMicTwoToneIcon from '@mui/icons-material/HeadsetMicTwoTone';
+
 
 interface Message {
   role: "user" | "bot";
@@ -34,24 +36,25 @@ export default function ChatWidget() {
 
     const res = await aiResponse(airequest);
 
-    console.log("AI Response:", res.data.response);
-
     const botMessage: Message = { role: "bot", content: res.data.response };
     setMessages(prev => [...prev, botMessage]);  
 
     setIsLoading(false);
+
   };
 
   useEffect(() => {
     const botMessage: Message = { role: "bot", content: "Olá! Sou o atendente virtual da UrbanMove. Como posso ajudar você hoje?" };
     setMessages(prev => [...prev, botMessage]);  
+
     
 }, []);
 
   return (
     <>
-        <button onClick={() => setOpen(!open)} className="botao-chat-flutuante">
-          💬
+        <button 
+        onClick={() => setOpen(!open)} className="botao-chat-flutuante">
+          <HeadsetMicTwoToneIcon />
         </button>
 
         {open && (

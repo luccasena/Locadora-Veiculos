@@ -1,3 +1,54 @@
+.home-scope {
+    background-color: white;
+}
+
+/* ---- SECTION ---- */
+
+.home-scope .hero-section {
+    padding: 10rem 5% 6rem;
+    text-align: center;
+    min-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.home-scope section{
+    padding: 6rem 2%;
+    text-align: center;
+    height: 30rem;
+}
+
+.hero-section .hero-title{
+    font-size: 7rem;
+    color: #000000;
+    margin-bottom: 2rem;
+}
+
+.hero-section .hero-subtitle {
+    font-size: 3rem;
+    color: #000000;
+    margin-bottom: 4rem;
+}
+
+
+/* --- SEÇÃO DE INFORMAÇÕES --- */
+
+.hero-section .features-section {
+    padding: 6rem 2%;
+    background-color: #ffffff;
+    color: #000000;
+    text-align: center;
+}
+
+.hero-section .features-section h2 {
+    font-size: 4rem;
+    margin-bottom: 3rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
 /* Fundo escurecido */
 .modal-overlay {
     position: fixed;
@@ -37,7 +88,7 @@
 }
 
 /* Labels */
-.form-edit-car-admin label {
+.form-edit-user-admin label {
   margin-top: 10px;
   font-weight: 600;
   display: block;
@@ -45,7 +96,7 @@
 }
 
 /* Inputs */
-.form-edit-car-admin input {
+.form-edit-user-admin input {
   width: 100%;
   padding: 10px;
   border-radius: 8px;
@@ -55,13 +106,13 @@
   transition: 0.2s;
 }
 
-.form-edit-car-admin input:focus {
+.form-edit-user-admin input:focus {
   border-color: #1976d2;
   outline: none;
 }
 
 /* Botão salvar */
-.form-edit-car-admin button {
+.form-edit-user-admin button {
   margin-top: 20px;
   width: 100%;
   padding: 12px;
@@ -74,7 +125,7 @@
   transition: 0.2s;
 }
 
-.form-edit-car-admin button:hover {
+.form-edit-user-admin button:hover {
   background: #1259a7;
 }
 
@@ -84,8 +135,9 @@
   to { opacity: 1; transform: scale(1); }
 }
 
-.error-text{
-  color: red;
-  font-size: 0.9rem;
-  margin-top: 5px;
+.error-text {
+    color: red;
+    font-size: 13px;
+    margin-top: 5px;
+    margin-bottom: 10px;
 }
