@@ -91,9 +91,6 @@ Disciplina: **Tópicos Especiais em TI – TypeScript Fullstack (2025.02)**
 
 <img src="img/Gerencia-Contratos.png" alt=""></img>
 
-## 7. Assistente 24hrs:
-
-
 ---
 
 ## ⚙ Informações sobre Dependências
